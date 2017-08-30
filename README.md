@@ -50,7 +50,8 @@ The ranking of the teams will be based on the [G score](https://en.wikipedia.org
 
 The G score depends on the false discovery rate (FDR), which is the percentage of false positive markers (or regions) in the submitted list, and of the power, which is the percentage of markers (or regions) involved in adaptation, which are found in the submitted list. Two G scores will be computed for each submission; one marker-based score evaluates whether submitted markers are correct and one region-based score evaluates whether submitted markers falls in correct 100 bp regions.
 
-The mathematical definition of the $G$ score is
+The mathematical definition of the G score is
+
 ![equation](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7B%5Cmathrm%7B%281-FDR%29%7D%20%5Ccdot%20%5Cmathrm%7Bpower%7D%7D.)
 
 For the 1st dataset, $G$ scores will be publicly available (public leaderboard). Participants should use the 1st dataset for training. **The final ranking of the teams will be based on the 2nd dataset for which $G$ scores are not public.** Prizes will be provided to the best team according to the marker-based score and to the best team according to the region-best score.
