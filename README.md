@@ -54,4 +54,4 @@ The mathematical definition of the G score is
 
 ![equation](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7B%5Cmathrm%7B%281-FDR%29%7D%20%5Ccdot%20%5Cmathrm%7Bpower%7D%7D.)
 
-For the 1st dataset, $G$ scores will be publicly available (public leaderboard). Participants should use the 1st dataset for training. **The final ranking of the teams will be based on the 2nd dataset for which $G$ scores are not public.** Prizes will be provided to the best team according to the marker-based score and to the best team according to the region-best score.
+For the 1st dataset, G scores will be publicly available (public leaderboard). Participants should use the 1st dataset for training. **The final ranking of the teams will be based on the 2nd dataset for which $G$ scores are not public.** Prizes will be provided to the best team according to the marker-based score and to the best team according to the region-best score.
