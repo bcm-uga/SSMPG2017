@@ -36,7 +36,7 @@ install.packages("rehh")
 
 ### Install BAYPASS, hapFLK, SelEstim, SweeD
 
-**TO COMPLETE** by B Servin, R Vitalis, and P Pavlidis.
+**TO COMPLETE** by M Gautier, B Servin, R Vitalis, and P Pavlidis.
 
 ##  2. Download datasets
 
