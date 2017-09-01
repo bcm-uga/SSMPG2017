@@ -37,10 +37,32 @@ biocLite("qvalue")
 install.packages("rehh")
 
 ```
+### Install BAYPASS
 
-### Install BAYPASS, hapFLK, SelEstim, SweeD
+Download the archive from http://www1.montpellier.inra.fr/CBGP/software/baypass/ or directly via the following command run on a terminal:
+```
+wget http://www1.montpellier.inra.fr/CBGP/software/baypass/files/baypass_2.1.tar.gz
+```
+Extract the archive, *e.g.*, from a terminal:
+```
+tar -zxvf baypass_2.1.tar.gz
+```
+The source files are to be found in the *src* subdirectory. BayPass is coded in Fortran90 and can therefore be compiled for any system supporting a Fortran90 compiler using the provided Makefile. This Makefile is designed to work with either the free compiler *gfortran* (if not already installed in your system, binaries are available at https://gcc.gnu.org/wiki/GFortranBinaries and are easy to install for most Windows, Mac and Linux OS versions) or the commercial *ifort* intel Fortran compiler. 
+BayPass also uses OpenMP (http://openmp.org/wp/) to implement multithreading, which allows parallel calculation on computer systems that have multiple CPUs or CPUs with multiple cores. Users thus have to make sure that the corresponding libraries are installed (which is usually the case, on Linux OS or following compiler installation previously described). The following instructions run within the *src* subdirectory allows to compile the code and to produce a binary:
+* using the *gfortran* free compiler (the command should automatically produce an executable called *g_baypass*):
+```
+make clean all FC=gfortran
+```
+* using the *ifort* intel Fortran compiler (the command should automatically produce an executable called *i_baypass*):
+```
+make clean all FC=ifort 
+```
+> Note: Under Linux (or MacOS), before the first use, make sure to give appropriate execution rights to the program. For instance you may run:
+>```chmod +x baypass```
 
-**TO COMPLETE** by M Gautier, B Servin, R Vitalis, and P Pavlidis.
+### Install hapFLK, SelEstim, SweeD
+
+**TO COMPLETE** by B Servin, R Vitalis, and P Pavlidis.
 
 ##  2. Download datasets
 
