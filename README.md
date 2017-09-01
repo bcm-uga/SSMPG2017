@@ -13,10 +13,14 @@ To install R packages that are useful for the data challenge, copy and paste in 
 #Install R packages for SSMPG 2017
 
 #Package to install packages from github
-require(devtools)
+install.packages("devtools")
 
 #Package to run LFMM
 devtools::install_github("bcm-uga/LEA")
+devtools::install_github("bcm-uga/lfmm")
+
+# Additional package 'cate' 
+install.packages("cate")
 
 #Package to run OutFLANK
 devtools::install_github("whitlock/OutFLANK")
