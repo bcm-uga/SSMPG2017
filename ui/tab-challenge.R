@@ -24,7 +24,9 @@ tabPanel("Challenge",
                    '.csv',
                    '.txt'
                  )
-               )
+               ),
+               actionButton(inputId = "submit",
+                            label = "Submit")
            )
            
          ),
