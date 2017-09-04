@@ -11,21 +11,13 @@ body <- dashboardBody(
       )
       
     ),
-    
     theme = shinythemes::shinytheme("cerulean"),
     tabItems(
-      tabItem("challenge-1",
+      tabItem("challenge",
               fluidPage(
                 theme = shinythemes::shinytheme("flatly"),
                 title = " ",
-                source(file.path("ui", "tab-challenge-1.R"), local = TRUE)$value
-              )
-      ),
-      tabItem("challenge-2",
-              fluidPage(
-                theme = shinythemes::shinytheme("flatly"),
-                title = " ",
-                source(file.path("ui", "tab-challenge-2.R"), local = TRUE)$value  
+                source(file.path("ui", "tab-challenge.R"), local = TRUE)$value
               )
       ),
       tabItem("vignette",
@@ -41,8 +33,7 @@ body <- dashboardBody(
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
-    menuItem("Challenge 1", tabName = "challenge-1", icon = icon("thumbs-o-up")),
-    menuItem("Challenge 2", tabName = "challenge-2", icon = icon("hand-peace-o")),
+    menuItem("Challenge", tabName = "challenge", icon = icon("trophy"), selected = TRUE),
     menuItem("Vignette", tabName = "vignette", icon = icon("book")), 
     menuItem("Github", icon = icon("github"), href = "https://github.com/bcm-uga/SSMPG2017")
   )  

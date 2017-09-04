@@ -1,13 +1,14 @@
 server <- function(input, output) {
   
-  getData <- reactive({
-    if (!is.null(file <- input$submission$datapath))
+  r.challenge <- reactive({
+    list(N = input$challenge)
+  })
+  
+  r.data <- reactive({
+    if (!is.null(file <- input$subm$datapath))
       parse_file(file)
   })
   
-  getOptions <- reactive(input$checkbox)
-  numero_challenge <- reactive(match(input$challenge, challenges))
-  getKey <- reactive(input$key)
   
   # score
   score <- eventReactive(input$submit, {
@@ -27,12 +28,13 @@ server <- function(input, output) {
     }
   })
   output$score <- renderTable(score())
+  source(file.path("server", "tab-leaderboard.R"), local = TRUE)$value
   
   # leaderboard
-  leaderboard <- eventReactive(input$leaderboard, {
-    structure(update_leaderboard(numero_challenge()),
-              time = lubridate::now())
-  })
-  output$leaderboard <- renderTable(leaderboard())
-  output$time <- renderText(as.character(attr(leaderboard(), "time")))
+  # leaderboard <- eventReactive(input$leaderboard, {
+  #   structure(update_leaderboard(numero_challenge()),
+  #             time = lubridate::now())
+  # })
+  # output$leaderboard <- renderTable(leaderboard())
+  # output$time <- renderText(as.character(attr(leaderboard(), "time")))
 }
