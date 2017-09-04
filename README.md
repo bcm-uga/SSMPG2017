@@ -64,9 +64,31 @@ make clean all FC=ifort
 > Note: Under Linux (or MacOS), before the first use, make sure to give appropriate execution rights to the program. For instance you may run:
 >```chmod +x baypass```
 
-### Install hapFLK, SelEstim, SweeD
+### Install SelEstim
 
-**TO COMPLETE** by B Servin, R Vitalis, and P Pavlidis.
+Download the archive from http://www1.montpellier.inra.fr/CBGP/software/selestim/, or using the following command line from a terminal:
+```
+wget http://www1.montpellier.inra.fr/CBGP/software/selestim/files/SelEstim_1.1.7.zip
+```
+Extract the archive, e.g., from a terminal:
+```
+unzip SelEstim_1.1.7.zip
+```
+The source files are to be found in the src/ subdirectory of that archive. SelEstim is coded using C programming language and can therefore be compiled for any system supported by [gcc](http://gcc.gnu.org/). To do so, Windows users may need to get a [gcc](http://gcc.gnu.org/), e.g. by installing [MinGW](http://www.mingw.org/), [mingw-64](http://mingw-w64.org/doku.php), or [Cygwin](https://sourceware.org/cygwin/). To compile the code and get the selestim binary, use the provided Makefile in the src/ subdirectory:
+```
+make clean all
+```
+> Note: with Linux (or Mac OS), before the first use, make sure to give appropriate execution rights to the program. For instance you may run:
+>```chmod +x selestim```
+
+SelEstim uses [OpenMP](href{http://openmp.org/wp/) to implement multithreading, which allows parallel calculation on on computer systems that have multiple CPUs or CPUs with multiple cores. Make sure that the corresponding libraries are installed, which is typically the case on Linux, Mac OS and Windows (provided the above recommendations for installation of gcc have been followed). 
+> Note: The [gcc](http://gcc.gnu.org/) version included with OS X may generate executable code that results in runtime error (Abort trap: 6) when more than one thread is used. In that case, you first need to install a recent version of [gcc](http://gcc.gnu.org/), following the instructions at http://hpc.sourceforge.net/. Then, you can recompile SelEstim using the following instruction:
+> ```make clean all CC=/usr/local/bin/gcc```
+> (assuming gcc has been installed in the /usr/local/ subdirectory.)
+
+### Install hapFLK and SweeD
+
+**TO COMPLETE** by B Servin and P Pavlidis.
 
 ##  2. Download datasets
 
