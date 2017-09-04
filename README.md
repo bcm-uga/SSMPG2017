@@ -17,8 +17,10 @@ To install R packages that are useful for the data challenge, copy and paste in 
 #Package to install packages from github
 install.packages("devtools")
 
-#Package to run LFMM
+#Packages to run LEA and LFMM
 devtools::install_github("bcm-uga/LEA")
+
+install.packages("RSpectra")
 devtools::install_github("bcm-uga/lfmm")
 
 # Additional package 'cate' 
