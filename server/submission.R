@@ -4,7 +4,7 @@ userModal <- function(failed = 0) {
          input$challenge, 
          'with respect to the',
          paste0(input$dataset, '.'),
-         'If this is correct, please enter your team name and your password.'),
+         'If this is correct, please enter your team name and your password to validate your submission.'),
     
     textInput("username", "Team"),
     textInput("password", "Password"),
@@ -42,14 +42,18 @@ observeEvent(input$ok, {
   } else {
     removeModal()
   }
-  
+  submission <- scan(file)
+  gt <- readRDS("fake.rds")
+  r <- mean(gt %in% submission)
+  p <- mean(submission %in% gt)
+  g <- sqrt(r * p)
   add_submission(user.name = input$username,
                  password = input$password,
                  challenge = as.character(input$challenge),
                  dataset = input$dataset,
-                 fdr = 0,
-                 power = 0,
-                 score = 0)
+                 fdr = 1 - p,
+                 power = r,
+                 score = `if`(is.nan(g), 0, g))
 })
 
 

@@ -1,7 +1,9 @@
 tabPanel(title = strong("Leaderboard"),
          fixedRow(
            column(10, 
-                  plotlyOutput("leaderboard")
+                  plotlyOutput("leaderboard"),
+                  actionButton(inputId = "display",
+                               label = "Display/Update")
            )
          ), value = 2
 )
