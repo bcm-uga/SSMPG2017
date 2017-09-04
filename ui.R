@@ -44,7 +44,7 @@ sidebar <- dashboardSidebar(
     menuItem("Challenge 1", tabName = "challenge-1", icon = icon("thumbs-o-up")),
     menuItem("Challenge 2", tabName = "challenge-2", icon = icon("hand-peace-o")),
     menuItem("Vignette", tabName = "vignette", icon = icon("book")), 
-    menuItem("Github", icon = icon("github"), href = "https://github.com/BioShock38/pcadapt")
+    menuItem("Github", icon = icon("github"), href = "https://github.com/bcm-uga/SSMPG2017")
   )  
 )
 
