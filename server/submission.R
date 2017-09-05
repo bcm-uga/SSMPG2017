@@ -48,6 +48,12 @@ observeEvent(input$submit, {
   showModal(userModal())
 })
 
+# Show modal when button is clicked.
+observeEvent(input$submit_2, {
+  showModal(userModal())
+})
+
+
 
 # Show modal when button is clicked.
 observeEvent(input$gotit, {

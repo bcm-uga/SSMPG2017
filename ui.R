@@ -1,16 +1,9 @@
 header <- dashboardHeader(
-  title = "SSMPG 2017"
+  title = strong("SSMPG 2017")
 )
 
 body <- dashboardBody(
   fluidPage(
-    tagList(
-      tags$head(
-        tags$link(rel = "stylesheet", type = "text/css", href = "style.css"),
-        tags$script(type = "text/javascript", src = "busy.js")
-      )
-      
-    ),
     theme = shinythemes::shinytheme("cerulean"),
     tabItems(
       tabItem("challenge",
@@ -18,6 +11,13 @@ body <- dashboardBody(
                 theme = shinythemes::shinytheme("flatly"),
                 title = " ",
                 source(file.path("ui", "tab-challenge.R"), local = TRUE)$value
+              )
+      ),
+      tabItem("challenge_2",
+              fluidPage(
+                theme = shinythemes::shinytheme("flatly"),
+                title = " ",
+                source(file.path("ui", "tab-challenge-2.R"), local = TRUE)$value
               )
       ),
       tabItem("vignette",
@@ -40,9 +40,10 @@ body <- dashboardBody(
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
-    menuItem("Challenge", tabName = "challenge", icon = icon("trophy"), selected = TRUE),
+    menuItem("Challenge 1", tabName = "challenge", icon = icon("trophy"), selected = TRUE),
+    menuItem("Challenge 2", tabName = "challenge_2", icon = icon("trophy")),
     menuItem("Vignette", tabName = "vignette", icon = icon("book")), 
-    menuItem("Github", icon = icon("github"), href = "https://github.com/bcm-uga/SSMPG2017"),
+    menuItem("GitHub", icon = icon("github"), href = "https://github.com/bcm-uga/SSMPG2017"),
     menuItem("Datasets", tabName = "download", icon = icon("download")),
     div(actionButton(inputId = "users", 
                      label = "Create team", 
