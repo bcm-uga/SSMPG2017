@@ -30,6 +30,13 @@ observeEvent(input$submit, {
   showModal(userModal())
 })
 
+
+# Show modal when button is clicked.
+observeEvent(input$gotit, {
+  removeModal()
+})
+
+
 observeEvent(input$ok, {
   # Check that data object exists and is data frame.
   hash.pwd <- digest::digest(paste0("SSMPG2017", input$password), algo = "md5")
