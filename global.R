@@ -6,10 +6,8 @@ library(shinydashboard)
 library(ggplot2)
 library(dplyr)
 library(plotly)
+library(DT)
 library(RSQLite)
-
-
-parse_file <- function(file) scan(file, what = "")  
 
 add_user <- function() {
   
@@ -26,7 +24,7 @@ add_user <- function() {
   RSQLite::dbDisconnect(db)
 }
 
-add_submission <- function(user.name, password, challenge, dataset, fdr, power, score) {
+add_submission <- function(user.name, password, challenge, dataset, fdr, power, score, methods) {
   
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
   
@@ -45,12 +43,8 @@ add_submission <- function(user.name, password, challenge, dataset, fdr, power, 
                                                          dataset = dataset,
                                                          fdr = fdr,
                                                          power = power,
-                                                         score = score
+                                                         score = score,
+                                                         methods = methods
   ))
   RSQLite::dbDisconnect(db)
 }
-
-
-challenges <- paste("Challenge", 1:2)
-OPTIONS <- c("Local FDR", "Covariables", "Latent factors")
-

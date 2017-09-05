@@ -1,7 +1,10 @@
 tabPanel("Challenge",
-         
          fluidRow(
-           box(width = 6, status = "primary", height = 200,
+           box(title = strong("Challenge"),
+               solidHeader = TRUE,
+               width = 6, 
+               status = "danger", 
+               height = 250,
                selectInput("challenge", "Challenge",
                            choices = c(1, 2),
                            selected = 1),
@@ -10,7 +13,11 @@ tabPanel("Challenge",
                             selected = "Training set")
            ),
            
-           box(width = 6, status = "warning", height = 200,
+           box(title = strong("Submission"),
+               solidHeader = TRUE,
+               width = 6, 
+               status = "warning", 
+               height = 250,
                fileInput(
                  "subm",
                  div("Choose submission file",
@@ -25,15 +32,20 @@ tabPanel("Challenge",
                    '.txt'
                  )
                ),
-               actionButton(inputId = "submit",
-                            label = "Submit")
+               div(actionButton(inputId = "submit",
+                                label = "Submit"), 
+                   align = "center")
            )
            
          ),
          fluidRow(
-           box(width = 12, status = "success",
+           box(title = strong("Leaderboard"),
+               solidHeader = TRUE,
+               width = 12, 
+               status = "success",
                tabsetPanel(
-                 source(file.path("ui", "tab-leaderboard.R"), local = TRUE)$value,
+                 source(file.path("ui", "tab-barchart.R"), local = TRUE)$value,
+                 source(file.path("ui", "tab-table.R"), local = TRUE)$value,
                  id = "conditionedPanels"
                )  
            )

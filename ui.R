@@ -11,7 +11,7 @@ body <- dashboardBody(
       )
       
     ),
-    theme = shinythemes::shinytheme("cerulean"),
+    theme = shinythemes::shinytheme("slate"),
     tabItems(
       tabItem("challenge",
               fluidPage(
@@ -26,6 +26,13 @@ body <- dashboardBody(
                 title = " ",
                 source(file.path("ui", "tab-vignette.R"), local = TRUE)$value  
               )
+      ),
+      tabItem("download",
+              fluidPage(
+                theme = shinythemes::shinytheme("flatly"),
+                title = " ",
+                source(file.path("ui", "tab-download.R"), local = TRUE)$value  
+              )
       )
     )
   )
@@ -35,7 +42,12 @@ sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Challenge", tabName = "challenge", icon = icon("trophy"), selected = TRUE),
     menuItem("Vignette", tabName = "vignette", icon = icon("book")), 
-    menuItem("Github", icon = icon("github"), href = "https://github.com/bcm-uga/SSMPG2017")
+    menuItem("Github", icon = icon("github"), href = "https://github.com/bcm-uga/SSMPG2017"),
+    menuItem("Datasets", tabName = "download", icon = icon("download")),
+    div(actionButton(inputId = "users", 
+                     label = "Create team", 
+                     icon = icon("users")), 
+        align = "center")
   )  
 )
 

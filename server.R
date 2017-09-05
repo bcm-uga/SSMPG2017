@@ -9,11 +9,12 @@ server <- function(input, output) {
       parse_file(file)
   })
 
-  
+  source(file.path("server", "users.R"), local = TRUE)$value
   source(file.path("server", "submission.R"), local = TRUE)$value
   
   # output$score <- renderTable(score())
-  source(file.path("server", "tab-leaderboard.R"), local = TRUE)$value
+  source(file.path("server", "tab-barchart.R"), local = TRUE)$value
+  source(file.path("server", "tab-table.R"), local = TRUE)$value
   
   # leaderboard
   # leaderboard <- eventReactive(input$leaderboard, {
