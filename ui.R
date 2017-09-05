@@ -11,7 +11,7 @@ body <- dashboardBody(
       )
       
     ),
-    theme = shinythemes::shinytheme("slate"),
+    theme = shinythemes::shinytheme("cerulean"),
     tabItems(
       tabItem("challenge",
               fluidPage(
