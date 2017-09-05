@@ -34,4 +34,4 @@ vignettes/*.pdf
 .Rproj.user
 
 # db
-# db.sqlite3
+db.sqlite3
