@@ -44,23 +44,23 @@ observeEvent(input$ok, {
     showModal(userModal(failed = 1))  
   } else if (input$username %in% user.df$name && hash.pwd != user.df$password[user.df$name == input$username]){
     showModal(userModal(failed = 2))  
-  } else if (is.null(file <- input$subm$datapath)){
+  } else if (is.null(input$subm$datapath)){
     showModal(userModal(failed = 3))  
   } else {
     removeModal()
+    submission <- scan(input$subm$datapath)
+    gt <- readRDS("fake.rds")
+    r <- mean(gt %in% submission)
+    p <- mean(submission %in% gt)
+    g <- sqrt(r * p)
+    add_submission(user.name = input$username,
+                   password = input$password,
+                   challenge = as.character(input$challenge),
+                   dataset = input$dataset,
+                   fdr = 1 - p,
+                   power = r,
+                   score = `if`(is.nan(g), 0, g))
   }
-  submission <- scan(file)
-  gt <- readRDS("fake.rds")
-  r <- mean(gt %in% submission)
-  p <- mean(submission %in% gt)
-  g <- sqrt(r * p)
-  add_submission(user.name = input$username,
-                 password = input$password,
-                 challenge = as.character(input$challenge),
-                 dataset = input$dataset,
-                 fdr = 1 - p,
-                 power = r,
-                 score = `if`(is.nan(g), 0, g))
 })
 
 
