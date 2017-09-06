@@ -35,3 +35,7 @@ vignettes/*.pdf
 
 # db
 db.sqlite3
+
+#bonnes pratiques
+README.html
+gitwebsite.Rproj
