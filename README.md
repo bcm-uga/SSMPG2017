@@ -41,6 +41,7 @@ biocLite("qvalue")
 install.packages("rehh")
 
 ```
+
 ### Install BAYPASS
 
 Download the archive from http://www1.montpellier.inra.fr/CBGP/software/baypass/ or directly via the following command run on a terminal:
@@ -64,6 +65,23 @@ make clean all FC=ifort
 > Note: Under Linux (or MacOS), before the first use, make sure to give appropriate execution rights to the program. For instance you may run:
 >```chmod +x baypass```
 
+### Install hapFLK
+
+hapflk is available as a python package. It has been tested to work on Linux and MacOSX. Before installing hapflk, you will need to install [python 2.7](https://www.python.org/downloads/) and [numpy and scipy](https://www.scipy.org/install.html). You also need a C compiler (e.g. gcc) but this should be the case already. Once this is done, hapflk can be installed using pip (copy paste the following in a terminal):
+
+```
+sudo pip install hapflk
+```
+
+In the future, hapflk can be upgraded using :
+
+```
+sudo pip install hapflk --upgrade
+```
+
+Checkout the [hapflk webpage](https://forge-dga.jouy.inra.fr/projects/hapflk/)
+for some documentation and companion scripts.
+
 ### Install SelEstim
 
 Download the archive from http://www1.montpellier.inra.fr/CBGP/software/selestim/, or using the following command line from a terminal:
@@ -86,9 +104,9 @@ SelEstim uses [OpenMP](href{http://openmp.org/wp/) to implement multithreading, 
 > ```make clean all CC=/usr/local/bin/gcc```
 > (assuming gcc has been installed in the /usr/local/ subdirectory.)
 
-### Install hapFLK and SweeD
+### Install SweeD
 
-**TO COMPLETE** by B Servin and P Pavlidis.
+**TO COMPLETE** by P Pavlidis.
 
 ##  2. Download datasets
 
