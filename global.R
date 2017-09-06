@@ -25,17 +25,17 @@ add_user <- function() {
   RSQLite::dbDisconnect(db)
 }
 
-add_submission <- function(user.name, password, challenge, dataset, fdr, power, score, methods) {
+add_submission <- function(user.name, 
+                           password, 
+                           challenge, 
+                           dataset, 
+                           fdr, 
+                           power, 
+                           score, 
+                           methods,
+                           candidates) {
   
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
-  
-  ## test name and pwd
-  password.hash <- digest::digest(paste0("SSMPG2017", password), algo="md5")
-  user.df <- RSQLite::dbReadTable(db, "user")
-  ok <- (nrow(dplyr::filter(user.df, name == user.name, password == password.hash)) > 0)
-  if (!ok) {
-    stop("user.name or password incorrect")
-  }
   
   ## add submission
   dplyr::db_insert_into(db, "submission", tibble::tibble(name = user.name,
@@ -45,7 +45,8 @@ add_submission <- function(user.name, password, challenge, dataset, fdr, power, 
                                                          fdr = fdr,
                                                          power = power,
                                                          score = score,
-                                                         methods = methods
-  ))
+                                                         methods = methods,
+                                                         candidates = candidates)
+                        )
   RSQLite::dbDisconnect(db)
 }

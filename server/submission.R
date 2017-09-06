@@ -15,11 +15,11 @@ userModal <- function(failed = 0) {
                                             "Other" = "Other"),
                                 width = NULL)),
     
-    span('You are about to submit for challenge ',
-         input$challenge, 
-         'with respect to the',
-         paste0(input$dataset, '.'),
-         'If this is correct, please enter your team name and your password to validate your submission.'),
+    span("You are about to submit for challenge",
+         n.challenge(), 
+         "with respect to the",
+         paste0(input$dataset, "."),
+         "If this is correct, please enter your team name and your password to validate your submission."),
     
     textInput("username", "Team", width = NULL),
     passwordInput("password", "Password", width = NULL),
@@ -53,13 +53,10 @@ observeEvent(input$submit_2, {
   showModal(userModal())
 })
 
-
-
 # Show modal when button is clicked.
 observeEvent(input$gotit, {
   removeModal()
 })
-
 
 observeEvent(input$ok, {
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
@@ -70,7 +67,9 @@ observeEvent(input$ok, {
     showModal(userModal(failed = 1))  
   } else if (input$username %in% user.df$name && hash.pwd != user.df$password[user.df$name == input$username]) {
     showModal(userModal(failed = 2))  
-  } else if (is.null(input$subm$datapath)) {
+  } else if (is.null(input$subm$datapath) && (n.challenge() == 1)) {
+    showModal(userModal(failed = 3))  
+  } else if (is.null(input$subm_2$datapath) && (n.challenge() == 2)) {
     showModal(userModal(failed = 3))  
   } else if (length(input$methods) == 0) {
     showModal(userModal(failed = 4))
@@ -78,28 +77,43 @@ observeEvent(input$ok, {
     removeModal()
     
     m <- paste(input$methods, collapse = "; ")
-      
+    
     submission <- scan(input$subm$datapath)
     all.gt <- readRDS("fake.rds")
-    gt <- all.gt[[as.integer(input$challenge)]]
-    r <- mean(gt %in% submission)
-    p <- mean(submission %in% gt)
-    g <- sqrt(r * p)
-    add_submission(user.name = input$username,
-                   password = input$password,
-                   challenge = as.character(input$challenge),
-                   dataset = input$dataset,
-                   fdr = 1 - p,
-                   power = r,
-                   score = `if`(is.nan(g), 0, g),
-                   methods = m)
+    gt <- all.gt[[n.challenge()]]
+    
+    if (n.challenge() == 1) {
+      
+      r <- mean(gt %in% submission)
+      p <- mean(submission %in% gt)
+      g <- sqrt(r * p)
+      add_submission(user.name = input$username,
+                     password = input$password,
+                     challenge = as.character(n.challenge()),
+                     dataset = input$dataset,
+                     fdr = 1 - p,
+                     power = r,
+                     score = `if`(is.nan(g), 0, g),
+                     methods = m,
+                     candidates = paste(submission, collapse = ", "))
+    } else if (n.challenge() == 2) {
+      add_submission(user.name = input$username,
+                     password = input$password,
+                     challenge = as.character(n.challenge()),
+                     dataset = input$dataset,
+                     fdr = 0,
+                     power = 0,
+                     score = 0,
+                     methods = m,
+                     candidates = paste(submission, collapse = ", "))  
+    }
     showModal(modalDialog(
       span(paste("Your entry for challenge", 
-                 input$challenge, 
-                 "has been successfully submitted.")),
+                 n.challenge(), 
+                 "has been successfully submitted.")
+           ),
       easyClose = TRUE,
-      footer = NULL
-    )
+      footer = NULL)
     )
   }
 })

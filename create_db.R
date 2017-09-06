@@ -6,9 +6,9 @@ db.file <- "db.sqlite3"
 db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db.file)
 res <- RSQLite::dbSendQuery(conn = db,
                             "CREATE TABLE user(
-                      name CHARACTER PRIMARY KEY,
-                      password CHARACTER
-                      )")
+                            name CHARACTER PRIMARY KEY,
+                            password CHARACTER)"
+                            )
 RSQLite::dbClearResult(res)
 RSQLite::dbDisconnect(db)
 
@@ -16,15 +16,16 @@ RSQLite::dbDisconnect(db)
 db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db.file)
 res <- RSQLite::dbSendQuery(conn = db,
                             "CREATE TABLE submission(
-                      name CHARACTER,
-                      date CHARACTER,
-                      challenge CHARACTER,
-                      dataset CHARACTER,
-                      fdr FLOAT,
-                      power FLOAT,
-                      score FLOAT,
-                      methods CHARACTER,
-                      FOREIGN KEY (name) REFERENCES user(name)
-                      )")
+                            name CHARACTER,
+                            date CHARACTER,
+                            challenge CHARACTER,
+                            dataset CHARACTER,
+                            fdr FLOAT,
+                            power FLOAT,
+                            score FLOAT,
+                            methods CHARACTER,
+                            candidates CHARACTER,
+                            FOREIGN KEY (name) REFERENCES user(name))"
+                            )
 RSQLite::dbClearResult(res)
 RSQLite::dbDisconnect(db)

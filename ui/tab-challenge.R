@@ -1,18 +1,12 @@
 tabPanel("Challenge",
          fluidRow(
-           box(title = strong("Challenge"),
-               solidHeader = TRUE,
-               width = 6, 
-               status = "danger", 
-               height = 250,
-               selectInput("challenge", "Challenge",
-                           choices = c(1, 2),
-                           selected = 1),
-               radioButtons("dataset", "Dataset",
-                            choices = c("Training set", "Evaluation set"),
-                            selected = "Training set")
-           ),
-           
+           valueBoxOutput("challengeBox"),
+           valueBoxOutput("contestantBox"),
+           conditionalPanel(condition = "input.dataset == 'Training set'",
+                            valueBoxOutput("leaderBox")
+           )
+         ),
+         fluidRow(
            box(title = strong("Submission"),
                solidHeader = TRUE,
                width = 6, 
@@ -33,21 +27,35 @@ tabPanel("Challenge",
                  )
                ),
                div(actionButton(inputId = "submit",
-                                label = "Submit"), 
+                                label = "Submit", 
+                                icon = icon("upload")), 
                    align = "center")
+           ),
+           conditionalPanel(condition = "input.tab == 'challenge'",
+                            box(title = strong("Challenge"),
+                                solidHeader = TRUE,
+                                width = 6, 
+                                status = "danger", 
+                                height = 250,
+                                radioButtons("dataset", "Dataset",
+                                             choices = c("Training set", "Evaluation set"),
+                                             selected = "Training set")
+                            )
            )
            
          ),
          fluidRow(
-           box(title = strong("Leaderboard"),
-               solidHeader = TRUE,
-               width = 12, 
-               status = "success",
-               tabsetPanel(
-                 source(file.path("ui", "tab-barchart.R"), local = TRUE)$value,
-                 source(file.path("ui", "tab-table.R"), local = TRUE)$value,
-                 id = "conditionedPanels"
-               )  
-           )
+           conditionalPanel(condition = "(input.tab == 'challenge') && (input.dataset == 'Training set')",
+             box(title = strong("Leaderboard"),
+                 solidHeader = TRUE,
+                 width = 12, 
+                 status = "success",
+                 tabsetPanel(
+                   source(file.path("ui", "tab-barchart.R"), local = TRUE)$value,
+                   source(file.path("ui", "tab-table.R"), local = TRUE)$value,
+                   id = "conditionedPanels"
+                   )
+                 )
+             )
          )
 )

@@ -19,7 +19,7 @@ observeEvent(input$display, {
     RSQLite::dbDisconnect(db)
     output$barchart <- renderPlotly({
       df <- df %>% 
-        filter(challenge == input$challenge) %>%
+        filter(challenge == n.challenge()) %>%
         mutate(date = as.POSIXct(date)) %>%
         group_by(name) %>%  
         summarise(rank = which.max(date),
@@ -29,7 +29,9 @@ observeEvent(input$display, {
                   Date = date[rank],
                   N = n()) %>%
         arrange(desc(G_score), N, Date) %>%
-        mutate(Date = as.character(Date), rank = NULL)
+        mutate(Date = as.character(Date), 
+               rank = NULL,
+               candidates = NULL)
       df %>%
         plot_ly(x = ~G_score, 
                 y = ~reorder(name, G_score),
@@ -41,7 +43,7 @@ observeEvent(input$display, {
                 text = ~paste("G-Score: ", round(G_score, digits = 2),
                               "<br> Power: ", round(Power, digits = 2),
                               "<br> FDR: ", round(FDR, digits = 2))) %>%
-        layout(title = paste("<b> Challenge", input$challenge, "-", input$dataset, "</b>"),
+        layout(title = paste("<b> Challenge", n.challenge(), "-", input$dataset, "</b>"),
                xaxis = list(title = " ",
                             range = c(0, 1.1)), 
                yaxis = list(title = " ", 

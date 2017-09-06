@@ -1,5 +1,3 @@
 tabPanel("Vignette",
-  fluidRow(
-    includeMarkdown("README.md")
-  )
+  includeMarkdown("README.md")
 )

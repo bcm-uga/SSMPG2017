@@ -5,7 +5,7 @@ observeEvent(input$summary, {
     RSQLite::dbDisconnect(db)
     output$summary <- DT::renderDataTable({
       df %>% 
-        filter(challenge == input$challenge) %>%
+        filter(challenge == n.challenge()) %>%
         mutate(date = as.POSIXct(date)) %>%
         group_by(name) %>%  
         summarise(rank = which.max(date),
@@ -18,6 +18,7 @@ observeEvent(input$summary, {
         arrange(desc(G_score), N, Date) %>%
         mutate(Date = as.character(Date), 
                rank = NULL, 
+               candidates = NULL,
                Power = round(Power, digits = 5),
                FDR = round(FDR, digits = 5),
                G_score = round(G_score, digits = 5)) %>%
