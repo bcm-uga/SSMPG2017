@@ -1,5 +1,5 @@
 header <- dashboardHeader(
-  title = strong("SSMPG 2017")
+  title = "SSMPG 2017"
 )
 
 body <- dashboardBody(

@@ -53,6 +53,8 @@ tabPanel("Challenge",
                  tabsetPanel(
                    source(file.path("ui", "tab-barchart.R"), local = TRUE)$value,
                    source(file.path("ui", "tab-table.R"), local = TRUE)$value,
+                   # source(file.path("ui", "tab-barchart-region.R"), local = TRUE)$value,
+                   # source(file.path("ui", "tab-table-region.R"), local = TRUE)$value,
                    id = "conditionedPanels"
                    )
                  )

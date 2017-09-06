@@ -33,7 +33,7 @@ observeEvent(input$summary, {
                       ) %>%
         formatStyle(
           "Team",
-          color = "lightseagreen")
+          color = "steelblue")
     })
   } else if (input$dataset == "Evaluation set") {
     showModal(typeModal())  
