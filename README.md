@@ -40,6 +40,8 @@ biocLite("qvalue")
 #Package to run rehh
 install.packages("rehh")
 
+#Package to plot population trees
+install.packages("ape")
 ```
 
 ### Install BAYPASS
