@@ -2,7 +2,7 @@ tabPanel("Challenge",
          fluidRow(
            valueBoxOutput("challengeBox"),
            valueBoxOutput("contestantBox"),
-           conditionalPanel(condition = "input.dataset == 'Training set'",
+           conditionalPanel(condition = "input.tab == 'challenge' && input.dataset == 'Training set'",
                             valueBoxOutput("leaderBox")
            )
          ),

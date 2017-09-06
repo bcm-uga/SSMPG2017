@@ -1,6 +1,6 @@
 output$challengeBox <- renderValueBox({
-  valueBox(paste0("#", n.challenge()), 
-           "Challenge", 
+  valueBox(paste0("#", n.challenge()),
+           "Challenge",
            icon = icon("trophy"))
 })
 
@@ -13,7 +13,7 @@ output$contestantBox <- renderValueBox({
     dplyr::pull(name) %>%
     unique() %>%
     length() %>%
-    valueBox("contestants", 
+    valueBox("contestants",
              icon = icon("users"),
              color = "red")
 })
@@ -22,17 +22,17 @@ output$leaderBox <- renderValueBox({
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
   submission.df <- RSQLite::dbReadTable(db, "submission")
   RSQLite::dbDisconnect(db)
-  submission.df %>% 
+  submission.df %>%
     filter(challenge == n.challenge()) %>%
     mutate(date = as.POSIXct(date)) %>%
-    group_by(name) %>%  
+    group_by(name) %>%
     summarise(rank = which.max(date),
               G_score = score[rank],
               Date = date[rank],
               N = n()) %>%
     arrange(desc(G_score), N, Date) %>%
     pull(name) %>%
-    head(n = 1) %>% 
+    head(n = 1) %>%
     valueBox("Current leader",
            icon = icon("heart"),
            color = "olive")

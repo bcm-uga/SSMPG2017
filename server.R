@@ -1,11 +1,12 @@
 server <- function(input, output) {
   n.challenge <- reactive({
+    n <- 0
     if (input$tab == "challenge"){
-      n.challenge <- 1
+      n <- 1
     } else if (input$tab == "challenge_2"){
-      n.challenge <- 2
+      n <- 2
     }
-    return(n.challenge)
+    return(n)
   })
   source(file.path("server", "uiOutput.R"), local = TRUE)$value
   source(file.path("server", "infobox.R"), local = TRUE)$value
