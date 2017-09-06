@@ -1,0 +1,79 @@
+i_baypass -help
+i_baypass -npop 18 -gfile bta.geno -nthreads 4 -pilotlength 500 -burnin 2500 -outprefix ana_core > ana_core.log
+i_baypass -npop 18 -gfile bta.geno -efile trait.dat -nthreads 4 -pilotlength 500 -burnin 2500 -outprefix ana_covis > ana_covis.log
+i_baypass -npop 18 -gfile bta.geno -efile trait.dat -omegafile ana_covis_mat_omega.out -covmcmc  -nthreads 4 -pilotlength 500 -burnin 2500 -outprefix ana_covmcmc >  ana_covmcmc.log
+i_baypass -npop 18 -gfile bta.geno -efile trait.dat -omegafile ana_covis_mat_omega.out -auxmodel -nthreads 4 -pilotlength 500 -burnin 2500 -outprefix ana_covaux >  ana_covaux.log
+i_baypass -npop 18 -gfile bta.geno -efile trait.dat -omegafile ana_covis_mat_omega.out -auxmodel -isingbeta 1.  -nthreads 4 -pilotlength 500 -burnin 2500 -outprefix ana_covaux_isb1 > ana_covaux_isb1.log
+
+########
+###PODS
+#######
+
+##Generate the pods
+R
+source("~/Bureau/CODES/baypass/utils/baypass_utils.R")
+om.bta=as.matrix(read.table("ana_core_mat_omega.out"))
+##heatmap representation of om.bta
+pop.names=as.character(read.table("bta.popname",sep="\t")[,1])
+rownames(om.bta)=colnames(om.bta)=pop.names
+heatmap(cov2cor(om.bta))
+##
+pi.beta.coef=read.table("ana_core_summary_beta_params.out",h=T)$Mean
+geno.data<-geno2YN("bta.geno")
+simu.bta<-simulate.baypass(omega.mat=om.bta,nsnp=10000,sample.size=geno.data$NN,beta.pi=pi.beta.coef,pi.maf=0,suffix="bta.pods")
+
+#Analyze the pod
+i_baypass -npop 18 -gfile G.bta.pods -efile trait.dat -outprefix ana_pod -nthreads 4 -pilotlength 500 -burnin 2500 > ana_pod.log
+i_baypass -npop 18 -gfile G.bta.pods -efile trait.dat -omegafile ana_covis_mat_omega.out -auxmodel -outprefix ana_podaux -nthreads 4 -pilotlength 500 -burnin 2500 > ana_podaux.log
+#
+
+##Calibrate the stats
+R
+xtx.pods=read.table("ana_pod_summary_pi_xtx.out",h=T)$M_XtX
+xtx.threshold=quantile(xtx.pods,probs=c(0.0001,0.001,0.5,0.999,0.9999))
+###Using qvalue package
+xtx.empval=empPvals(stat = xtx,stat0=xtx.pods)
+xtx.qval.2=qvalue(xtx.empval)
+
+res.pods=read.table("ana_pod_summary_betai_reg.out",h=T)
+bfis.pods=res.pods$BF.dB.[res.pods$COVARIABLE==1] #for the first covariable
+bfis.threshold=quantile(bfis.pods,probs=c(0.999,0.9999))
+bfis.empval=empPvals(stat = bfis,stat0=bfis.pods) #With qvalue package
+##
+
+
+#############PLOTs
+source("standardize.xtx.R")
+xtx=read.table("ana_covis_summary_pi_xtx.out",h=T)$M_XtX
+mean(xtx)
+#threshold empiriques
+library(qvalue)
+xtx.std=standardize.xtx(xtx,npop=18)
+xtx.qval=qvalue(xtx.std$xtx.pval.pos)
+summary(xtx.qval)
+thr.FDR10pcent=min(xtx[xtx.qval$qvalue<0.1])
+thr.pval1ppm=min(xtx[xtx.std$xtx.pval.pos<0.001])
+
+###
+xtx.core=read.table("ana_covis_summary_pi_xtx.out",h=T)$M_XtX
+res.covis=read.table("ana_covis_summary_betai_reg.out",h=T)
+bfis=res.covis$BF.dB.[res.covis$COVARIABLE==1] #for the first covariable
+
+mat.layout=cbind(rbind(matrix(1,2,2),matrix(2,2,2)),matrix(4,4,2))
+mat.layout[1,2]=3
+layout(mat.layout)
+hist(xtx,xlab="XtX",main="",breaks=100,cex.lab=1.5,col="green",freq=F)
+curve(dchisq(x,df=18),add=T,col="red")
+hist(xtx.std$xtx.std,xlab="Standardized XtX",main="",breaks=100,cex.lab=1.5,col="green",freq=F)
+curve(dnorm,add=T,col="red")
+plot(xtx,xtx.core,xlab="XtX (ana_core)",ylab="XtX (ana_covis)",main="",
+     cex.lab=1.5,cex.axis=1.5) ; abline(a=0,b=1,lty=2,lwd=2)
+plot(bfis,xtx,ylab="XtX",xlab="BFis (morpho.)",cex.lab=1.5,cex.axis=1.5)
+abline(v=20,lty=3,col="grey10",lwd=1.25)
+abline(v=15,lty=3,col="grey20",lwd=1.25)
+abline(h=thr.FDR10pcent,lty=2,col="red",lwd=1.25)
+text(min(bfis),thr.FDR10pcent+1,"FDR=10%",col="red",pos=4,cex=1.1)
+abline(h=thr.pval1ppm,lty=2,col="blue",lwd=1.25)
+text(min(bfis),thr.pval1ppm+1,"pval<0.1%",col="blue",pos=4,cex=1.1)
+
+###############
