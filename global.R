@@ -8,6 +8,7 @@ library(dbplyr)
 library(DT)
 library(RSQLite)
 library(shinyWidgets)
+library(stringr)
 
 all.gt <- readRDS("anssnp.rds")
 all.gt.reg <- readRDS("ansreg.rds")
