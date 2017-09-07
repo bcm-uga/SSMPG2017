@@ -18,7 +18,7 @@ output$contestantBox <- renderValueBox({
              color = "red")
 })
 
-observeEvent(input$tab, {
+observeEvent(input$display, {
   output$leaderBox <- renderValueBox({
     db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
     submission.df <- RSQLite::dbReadTable(db, "submission")
