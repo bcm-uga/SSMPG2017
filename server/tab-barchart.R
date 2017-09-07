@@ -6,8 +6,8 @@ observeEvent(input$display, {
       RSQLite::dbDisconnect(db)
       df %>% 
         filter(challenge == n.challenge()) %>%
-        mutate(r = sapply(str_split(candidates, ", "), FUN = function(X) {mean(gt() %in% as.integer(X))}),
-               p = sapply(str_split(candidates, ", "), FUN = function(X) {mean(as.integer(X) %in% gt())}),
+        mutate(r = sapply(stringr::str_split(candidates, ", "), FUN = function(X) {mean(gt() %in% as.integer(X))}),
+               p = sapply(stringr::str_split(candidates, ", "), FUN = function(X) {mean(as.integer(X) %in% gt())}),
                g = sqrt(r * p),
                fdr = 1 - p,
                power = r,
