@@ -44,6 +44,8 @@ install.packages("rehh")
 install.packages("ape")
 ```
 
+[Link to tutorial for OutFLANK](http://rpubs.com/lotterhos/outflank)
+
 ### Install BAYPASS
 
 Download the archive from http://www1.montpellier.inra.fr/CBGP/software/baypass/ or directly via the following command run on a terminal:
