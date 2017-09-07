@@ -4,10 +4,15 @@ observeEvent(input$display, {
       db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
       df <- RSQLite::dbReadTable(db, "submission")
       RSQLite::dbDisconnect(db)
-      
       df %>% 
         filter(challenge == n.challenge()) %>%
-        mutate(date = as.POSIXct(date),
+        mutate(r = sapply(str_split(candidates, ", "), FUN = function(X) {mean(gt() %in% as.integer(X))}),
+               p = sapply(str_split(candidates, ", "), FUN = function(X) {mean(as.integer(X) %in% gt())}),
+               g = sqrt(r * p),
+               fdr = 1 - p,
+               power = r,
+               score = sapply(g, FUN = function(X) {`if`(is.nan(X), 0, X)}),
+               date = as.POSIXct(date), 
                candidates = NULL) %>%
         group_by(name) %>%  
         summarise(rank = which.max(date),

@@ -36,6 +36,10 @@ vignettes/*.pdf
 # db
 db.sqlite3
 
-#bonnes pratiques
+# bonnes pratiques
 README.html
 gitwebsite.Rproj
+
+# ans
+anssnp.rds
+ansreg.rds

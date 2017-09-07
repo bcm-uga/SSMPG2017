@@ -46,18 +46,24 @@ tabPanel("Challenge",
          ),
          fluidRow(
            conditionalPanel(condition = "(input.tab == 'challenge') && (input.dataset == 'Training set')",
-             box(title = strong("Leaderboard"),
-                 solidHeader = TRUE,
-                 width = 12, 
-                 status = "success",
-                 tabsetPanel(
-                   source(file.path("ui", "tab-barchart.R"), local = TRUE)$value,
-                   source(file.path("ui", "tab-table.R"), local = TRUE)$value,
-                   # source(file.path("ui", "tab-barchart-region.R"), local = TRUE)$value,
-                   # source(file.path("ui", "tab-table-region.R"), local = TRUE)$value,
-                   id = "conditionedPanels"
-                   )
-                 )
-             )
+                            box(title = strong("Leaderboard"),
+                                solidHeader = TRUE,
+                                width = 12, 
+                                status = "success",
+                                materialSwitch(inputId = "switch", label = "Switch between SNP and regions", status = "primary", right = TRUE),
+                                conditionalPanel(condition = "input.switch == false",
+                                                 tabsetPanel(
+                                                   source(file.path("ui", "tab-barchart.R"), local = TRUE)$value,
+                                                   source(file.path("ui", "tab-table.R"), local = TRUE)$value
+                                                 )
+                                ),
+                                conditionalPanel(condition = "input.switch == true",
+                                                 tabsetPanel(
+                                                   source(file.path("ui", "tab-barchart-region.R"), local = TRUE)$value,
+                                                   source(file.path("ui", "tab-table-region.R"), local = TRUE)$value
+                                                 )
+                                )
+                            )
+           )
          )
 )

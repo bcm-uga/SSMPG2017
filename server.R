@@ -8,6 +8,18 @@ server <- function(input, output) {
     }
     return(n)
   })
+  
+  gt <- reactive({
+    n <- 1
+    if (input$tab == "challenge"){
+      n <- 1
+    } else if (input$tab == "challenge_2"){
+      n <- 2
+    }
+    return(all.gt[[n]])
+  })
+  
+  
   source(file.path("server", "uiOutput.R"), local = TRUE)$value
   source(file.path("server", "infobox.R"), local = TRUE)$value
   source(file.path("server", "users.R"), local = TRUE)$value

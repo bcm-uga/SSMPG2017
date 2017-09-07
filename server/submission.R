@@ -76,42 +76,20 @@ observeEvent(input$ok, {
   } else {
     removeModal()
     
-    m <- paste(input$methods, collapse = "; ")
-    
     submission <- scan(input$subm$datapath)
-    all.gt <- readRDS("fake.rds")
-    gt <- all.gt[[n.challenge()]]
     
-    if (n.challenge() == 1) {
-      
-      r <- mean(gt %in% submission)
-      p <- mean(submission %in% gt)
-      g <- sqrt(r * p)
-      add_submission(user.name = input$username,
-                     password = input$password,
-                     challenge = as.character(n.challenge()),
-                     dataset = input$dataset,
-                     fdr = 1 - p,
-                     power = r,
-                     score = `if`(is.nan(g), 0, g),
-                     methods = m,
-                     candidates = paste(submission, collapse = ", "))
-    } else if (n.challenge() == 2) {
-      add_submission(user.name = input$username,
-                     password = input$password,
-                     challenge = as.character(n.challenge()),
-                     dataset = input$dataset,
-                     fdr = 0,
-                     power = 0,
-                     score = 0,
-                     methods = m,
-                     candidates = paste(submission, collapse = ", "))  
-    }
+    add_submission(user.name = input$username,
+                   password = input$password,
+                   challenge = as.character(n.challenge()),
+                   dataset = input$dataset,
+                   methods = paste(input$methods, collapse = "; "),
+                   candidates = paste(submission, collapse = ", "))
+    
     showModal(modalDialog(
       span(paste("Your entry for challenge", 
                  n.challenge(), 
                  "has been successfully submitted.")
-           ),
+      ),
       easyClose = TRUE,
       footer = NULL)
     )
