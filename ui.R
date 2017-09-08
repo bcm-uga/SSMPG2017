@@ -1,9 +1,11 @@
+library(shinyjs)
+
 header <- dashboardHeader(
   title = "SSMPG 2017"
 )
 
 body <- dashboardBody(
-  useShinyjs(),
+  shinyjs::useShinyjs(),
   uiOutput("ui")
 )
 
