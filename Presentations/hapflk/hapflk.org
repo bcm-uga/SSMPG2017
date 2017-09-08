@@ -1,0 +1,516 @@
+#+OPTIONS: num:nil toc:nil
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_TRANS: none
+#+REVEAL_THEME: beige
+#+REVEAL_PLUGINS: (highlight)
+#+REVEAL_EXTRA_CSS: mystyle.css
+#+OPTIONS: reveal_center:nil timestamp:nil email:t
+#+LaTeX_HEADER: \usepackage{tikz}
+#+PROPERTY: header-args:latex+ :packages '(("" "tikz"))
+#+PROPERTY: header-args:latex+ :imagemagick yes :fit yes
+#+LaTeX_HEADER:  \usetikzlibrary{shapes,arrows}
+#+Title: hapFLK: a gentle introduction
+#+Author: Bertrand Servin
+#+Email: bertrand.servin@inra.fr
+#+DATE: SSMPG Sept. 11-15 2017, Aussois, France
+
+* Resources
+
+- You can access this document as an HTML presentation [[http://htmlpreview.github.io/?https://github.com/BertrandServin/SSMPG2017/blob/master/hapflk.html][here]].  
+- The hapFLK webpage is [[https://forge-dga.jouy.inra.fr/projects/hapflk][here]]
+- The hapflk software is available on [[https://pypi.python.org/pypi/hapflk][Pypi]].
+- Associated papers are:
+  - [[http://www.genetics.org/content/193/3/929.abstract][Fariello et al., 2013, Detecting Signatures of Selection Through Haplotype Differentiation Among Hierarchically Structured Populations. Genetics 193(3):929-941.]]
+  - [[http://www.genetics.org/content/186/1/241.abstract][Bonhomme et al., 2010, Detecting selection in population trees:
+    The Lewontin and Krakauer test extended. Genetics 186(1) 241-262]]
+
+
+* Principle of the (hap)FLK tests
+
+- FLK and hapFLK are tests aimed at detecting selection based on
+  population differentiation
+- The principle is:
+  1. *Model  differences in allele frequencies* betwen a
+     group of populations evolving under drift.
+  2. At a given locus: *Are observed differences with this model ?* = test for selection at this locus.
+  3. Single SNP test: FLK / LD-based test : hapFLK
+
+** Neutral model in a single population
+Consider the trajectory of an allele through time in a population of
+finite size 
+#+BEGIN_SRC R :session principle :exports none
+source('DiffusionWF.R')
+#+END_SRC
+#+header: :width 4 :height 4 :units "in" :res 100  :bg "transparent"
+#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/hapflk/ptraj.png
+    N=200
+    n=100
+
+  X=WFtrajectoires(0.5,N,n)[,1]
+  plot(1:(n+1),X,type='l',
+       ylim=c(0,1),lwd=2,
+       axes=F,
+         ylab='Allele frequency',
+       xlab='t (generations)')
+  axis(1)
+  axis(2)
+  points(0,0.5,pch=19,col=2)
+  text(0,0.6,expression(p[0]),adj=0,col=2)
+  points(n+1,X[n+1],pch=19)
+  text(n+1,X[n+1]+0.1,expression(p),adj=0)
+#+END_SRC
+
+#+RESULTS:
+[[file:practical/hapflk/ptraj.png]]
+
+#+REVEAL: split
+
+If we were to look at many loci starting from the same initial
+frequency $p_0$. 
+#+REVEAL_HTML: <div class="column" style="float:left; width: 40%">
+#+header: :width 4 :height 4 :units "in" :res 100  :bg "transparent"
+#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/hapflk/ptrajmulti.png
+
+  N=1000
+  n=100
+  r=1000
+  p.0=0.5
+
+  X.1000=as.matrix(WFtrajectoires(rep(p.0,r),N,n))
+  par(mar=c(5,4,1,2))
+  matplot(X.1000,type='l',
+          ylim=c(0,1),lwd=2,col=rgb(0,0,0,0.1),
+          axes=F,lty=1,xlim=c(0,n+10),
+          ylab='Allele frequency',
+          xlab='t (generations)')
+    axis(1)
+    axis(2)
+    points(0,p.0,pch=19,col=2)
+    text(0,0.6,expression(p[0]),adj=0,col=2)
+  abline(h=0.5,lwd=2,lty=2,col=2)
+  ss=sqrt((n/(2*N))*p.0*(1-p.0))
+  arrows(n+5,p.0-2*ss,n+5,p.0+2*ss,code=3,col=4,lwd=2,length=0.1)
+  text(n+5,p.0+0.1,'Var(p)',col=4,adj=-0.1,xpd=TRUE)
+#+END_SRC
+
+#+RESULTS:
+[[file:practical/hapflk/ptrajmulti.png]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 60%">
+
+$$E(p) = p_0$$
+
+The variance of the final frequencies depends on:
+- The number of generations (t)
+- The population size (N)
+- The initial allele frequency ($p_0$)
+
+$$Var(p) \approx \frac{t}{2N} p_0(1-p_0)$$
+#+REVEAL_HTML: </div>
+
+** Neutral model in multiple populations
+#+REVEAL_HTML: <div class="column" style="float:right; width: 60%">
+If we had a set of loci with identical $p_0$:
+- we could estimate \(F \approx \frac{t}{2N}\) and
+- characterize the distribution of allele frequencies under Neutral
+  evolution.
+
+
+ *Considering the same locus in a set of populations achieves this.*
+
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
+#+header: :file (by-backend (latex "startree.tikz") (t "practical/hapflk/startree.png"))
+#+begin_src latex :results raw graphics :exports results
+ \begin{tikzpicture}[scale=2]
+        \draw[very thick] (3,7) -- (1,2);
+        \draw[very thick] (3,7) -- (3,2);
+        \draw[very thick] (3,7) -- (5,2);
+        \draw[below] (1,2) node {\Huge 1};
+        \draw[below] (3,2) node {\Huge 2};
+        \draw[below] (5,2) node {\Huge 3};
+        \draw[above] (2,5) node {\Huge $F_1$};
+        \draw[left] (3,4) node {\Huge $F_2$};
+        \draw[above] (4,5) node {\Huge $F_3$};
+        \draw (3,1) node {\Huge $F_1=F_2=F_3=F_{ST}$} ;
+      \end{tikzpicture}
+#+end_src
+
+#+RESULTS:
+[[file:practical/hapflk/startree.png]]
+
+#+REVEAL_HTML: </div>
+
+$F$ characterizes the amount of drift since ancestral split:
+shared across (neutral) loci:  estimated by considering all loci.
+
+*** A more general scenario
+
+- Populations have different sizes
+- Successive splits: some populations share ancestry *after* the
+  ancestral population.
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+header: :file (by-backend (latex "tree.tikz") (t "practical/hapflk/tree.png"))
+#+begin_src latex :results raw graphics :exports results
+  \begin{tikzpicture}[scale=2.0]                                                       
+    % \draw (1,0) grid (5,7);                                                
+    \draw[very thick] (3,7) -- (1,2);                                       
+    \draw[very thick] (2,4.5) -- (3,2);                                     
+    \draw[very thick] (3,7) -- (4.5,3);                                     
+    \draw[ultra thick, red] (2,4.5) -- (3,7);                               
+    \draw[above left,red] (2.5,5.7) node {\Huge $f_{12}$};                        
+    \draw[below] (1,2) node {\Huge 1};                                            
+    \draw[below] (3,2) node {\Huge 2};                                            
+    \draw[below] (4.5,3) node {\huge 3};                                          
+    \draw (3,1) node {\Huge $\mathbf{Var(p_1)}=\mathbf{\textcolor{red}{F_1}}p_0(1\-p_0)$} ;
+    \draw (3,0.5) node {\Huge $\mathbf{Cov(p_1,p_2)}=\mathbf{\textcolor{red}{f_{12}}}p_0(1-p_0)$}  ;
+  \end{tikzpicture} 
+#+end_src
+
+#+RESULTS:
+[[file:practical/hapflk/tree.png]]
+
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+header: :width 4 :height 4 :units "in" :res 100  :bg "transparent"
+#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/hapflk/covptraj.png
+  N=1000
+  n=100
+
+  nsplit=75
+  ## to get constant results in the output
+  set.seed(5)
+
+
+  ## we cheat a little to make a nice graph by putting a small coef. s
+  X3=WFtrajectoires(0.5,N,n,s=-0.02)[-1,1]
+
+  X12=WFtrajectoires(0.5,N,nsplit,s=0.01)[-1,1]
+  X1=c(X12,WFtrajectoires(X12[nsplit],N,n-nsplit,s=-0.02)[-1,1])
+  X2=c(X12,WFtrajectoires(X12[nsplit],N,n-nsplit,s=0.02)[-1,1])
+
+  plot(X3,type='l',
+       ylim=c(0,1),lwd=2,
+       axes=F,
+       ylab='Allele frequency',
+       xlab='t (generations)')
+
+  lines(X1,lwd=2)
+  lines(X2,lwd=2)
+  lines(X12,lwd=2,col='red')
+
+  axis(1)
+  axis(2)
+  ## p0
+  points(0,0.5,pch=19,col=2)
+  text(0,0.6,expression(p[0]),adj=0,col=2)
+
+  points(n,X3[n],pch=19)
+  points(n,X2[n],pch=19)
+  points(n,X1[n],pch=19)
+
+  text(n+5,X3[n],expression(p[3]),adj=0,xpd=T)
+  text(n+5,X2[n],expression(p[2]),adj=0,xpd=T)
+  text(n+5,X1[n],expression(p[1]),adj=0,xpd=T)
+#+END_SRC
+
+#+RESULTS:
+[[file:practical/hapflk/covptraj.png]]
+
+#+REVEAL_HTML: </div>
+
+*** Exploiting Linkage Disequilibrium: hapFLK
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+
+[[file:practical/hapflk/fastphase.png]] 
+#+REVEAL_HTML: </div>
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+- hapFLK uses the  [[https://www.ncbi.nlm.nih.gov/pubmed/16532393][Scheet and Stephens LD model]] .
+- Models local similarity between haplotypes via reduction of
+  dimension: *local haplotype clusters*
+- Definition of clusters change along the chromosome: accounts for the
+  effects of recombination
+#+REVEAL_HTML: </div>
+
+*** the hapFLK test
+- Principle:
+  - Consider clusters as alleles
+  - Estimate haplotype cluster frequencies
+  - Test if differences in allele frequencies fit a neutral model.
+- Advantages of using this LD model:
+  - No need for sliding windows
+  - Can be estimated on unphased genotype data
+  - Admits missing data
+- *The null distribution of hapFLK is not known but can be approximated from the data*
+  
+* Software overview
+  - =hapflk= is a python program that is meant to be used on the command
+    line.
+  - Input files should be in =plink= format. Preferably binary
+    ={bed,bim,fam}= files.
+  - First column (FID column) must indicate the population of origin
+    of an individual
+
+* Practical
+
+For this practical we will analyse data from
+[[http://www.sheephapmap.org/hapmap.php][The SheepHapMap project]]. First download the data:
+#+BEGIN_SRC sh
+  mkdir -p practical/hapflk/data/
+  ## get input files into practical directory 
+  wget -P practical/hapflk/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.fam 
+  wget -P practical/hapflk/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.bim
+  wget -P practical/hapflk/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.bed 
+#+END_SRC
+
+#+RESULTS:
+
+- These data consists in 7 populations from Northern Europe.
+- One of them, the Soay, will be considered as an outgroup.
+** Estimating population history from SNP data calculating FLK
+The first task will be aimed at running hapflk in SNP mode, to:
+- calculate allele frequency
+- estimate genetic distances between populations (Fsts)
+- build a population tree
+- Calculate FLK tests
+This is done by running:
+#+BEGIN_SRC sh :cache yes
+hapflk --bfile practical/hapflk/data/NEU --outgroup=Soay -p practical/hapflk/NEU
+#+END_SRC
+
+Which should take ~ 2 minutes.
+
+#+REVEAL: split
+This leads to the following output files:
+#+BEGIN_SRC sh :exports both :results pp
+ls practical/hapflk/NEU*
+#+END_SRC
+
+#+RESULTS:
+: practical/hapflk/NEU_fij.txt
+: practical/hapflk/NEU.flk
+: practical/hapflk/NEU.frq
+: practical/hapflk/NEU_reynolds.txt
+: practical/hapflk/NEU_tree.txt
+
+Let's look at  the population tree (=NEU_tree.txt=). 
+#+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
+#+HEADER: :width 4 :height 4 :units "in" :res 100
+#+BEGIN_SRC R :results output graphics :file practical/hapflk/kinship.png
+library(ape)
+neu.t=read.tree('practical/hapflk/NEU_tree.txt')
+plot(neu.t,align=T)
+axis(1,line=1.5)
+title(xlab='F')
+#+END_SRC
+
+#+RESULTS:
+[[file:practical/hapflk/kinship.png]]
+Notice that the outgroup (Soay) has been removed.
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
+[[file:practical/hapflk/kinship.png]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL: split
+The kinship file contains the (co)variance matrix of allele
+frequencies estimated with all SNPs.
+#+BEGIN_SRC R :exports results :output code :rownames yes
+  kin=as.matrix(read.table('practical/hapflk/NEU_fij.txt',row.names=1))
+  print(round(kin,digits=3))
+#+END_SRC
+
+#+RESULTS:
+| ScottishTexel    | 0.175 | 0.091 | 0.085 | 0.037 | 0.015 |     0 |
+| NewZealandTexel  | 0.091 | 0.161 | 0.085 | 0.037 | 0.015 |     0 |
+| GermanTexel      | 0.085 | 0.085 | 0.119 | 0.037 | 0.015 |     0 |
+| Galway           | 0.037 | 0.037 | 0.037 | 0.155 | 0.015 |     0 |
+| NewZealandRomney | 0.015 | 0.015 | 0.015 | 0.015 | 0.125 |     0 |
+| IrishSuffolk     |     0 |     0 |     0 |     0 |     0 | 0.159 |
+
+
+#+REVEAL: split
+The =NEU.flk= file contains results of the FLK test.
+
+
+We can check the fit of the model by verifying that the empirical
+distribution of FLK is close to a $\chi^2(5)$ 
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
+#+BEGIN_SRC R :session flk :exports code :results output graphics :file practical/hapflk/flkdist.png
+  flk=read.table('practical/hapflk/NEU.flk',h=T)
+  hist(flk$flk,n=100,f=F)
+  xx=seq(0,50,0.01)
+  lines(xx,dchisq(xx,df=5),lwd=2,col=2)
+#+END_SRC
+
+#+RESULTS:
+[[file:practical/hapflk/flkdist.png]]
+
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
+[[file:practical/hapflk/flkdist.png]]
+#+REVEAL_HTML: </div>
+** Running hapFLK on a (bit of) chromosome
+- hapFLK is a test based on LD patterns.
+- LD patterns are relevant for linked markers
+- So hapFLK needs to be calculated independently for each chromosome :)
+- To reduce computation time, we will practice on a small, non random
+  region of a chromosome
+- We use plink to create our reduced dataset:
+#+BEGIN_SRC sh 
+  plink --sheep --bfile practical/hapflk/data/NEU \
+        --chr 2 --from-kb 100000 --to-kb 140000\
+        --out practical/hapflk/data/mstn --make-bed
+#+END_SRC
+
+*** Launching and hapFLK run
+
+As for FLK, hapFLK must be calculated using a kinship matrix
+*estimated genome-wide*. 
+
+When using the LD model, the kinship *must* be provided.
+
+hapFLK calculations are turned on by setting a number of haplotype
+clusters using the =-K= flag.
+
+#+REVEAL: split
+
+#+BEGIN_SRC sh 
+  hapflk --bfile practical/hapflk/data/mstn \
+         --outgroup=Soay \
+         -p practical/hapflk/mstn \
+         --annot \
+         --kinship practical/hapflk/NEU_fij.txt \
+         -K 15 \
+         --nfit=2 \
+         --ncpu=2 
+#+END_SRC
+
+- *-K 15*: the number of clusters to model LD. This *depends on the
+  data*. Can be estimated using [[http://scheet.org/software.html][=fastPHASE=]] cross-validation
+  proceudre.
+- *--annot*: turn on the production of output files  to
+  annotate the FLK and hapFLK signal. Use when looking at small
+  genomic regions (some files can get big !).
+- *--nfit=2*: this is only used here to reduce computation
+  time. *Don't do this at home* (keep the default unless you know what
+  you are doing).
+- *--ncpu=2*: use more if you can.
+
+*** hapFLK output files
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+BEGIN_SRC sh :exports both :results pp
+ls practical/hapflk/mstn*
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+practical/hapflk/mstn.eig
+practical/hapflk/mstn.flk
+practical/hapflk/mstn.flk.eig
+practical/hapflk/mstn.frq
+practical/hapflk/mstn.hapflk
+practical/hapflk/mstn.hapflk.eig
+practical/hapflk/mstn.kfrq.fit_0.bz2
+practical/hapflk/mstn.kfrq.fit_1.bz2
+practical/hapflk/mstn.rey
+#+end_example
+#+REVEAL_HTML: </div>
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+- =mstn.flk= and =mstn.frq=: same as before. Sometimes useful (not here).
+- =mstn.hapflk=: contains the hapFLK results
+- =mstn.kfrq.fit_{N}.bz2=: frequency of haplotype clusters in
+  populations
+- =mstn.rey=: estimates of local $F_{_ST}$ between populations
+- =mstn.*.eig=: signal decomposition into principal components.
+#+REVEAL_HTML: </div>
+
+*** FLK and hapFLK
+#+HEADER: :width 8 :height 4 :units "in" :res 100
+#+BEGIN_SRC R :session mstn :exports both :results output graphics :file "practical/hapflk/mstn.png"
+    flk=read.table('practical/hapflk/mstn.flk',h=T)
+    hflk=read.table('practical/hapflk/mstn.hapflk',h=T)
+    par(mfrow=c(1,2))
+    plot(flk$pos,-log10(flk$pvalue), main='FLK',
+         xlab='Position', ylab='-log(p-value)', pch=16)
+    plot(hflk$pos,hflk$hapflk,main='hapFLK', type='l', lwd=2,
+         xlab='Position', ylab='hapFLK value')
+#+END_SRC
+
+#+REVEAL: split
+#+RESULTS:
+[[file:practical/hapflk/mstn.png]]
+
+NB: hapFLK results are not p-values. These can be computed *after a
+whole genome scan* using the [[https://forge-dga.jouy.inra.fr/attachments/download/5765/scaling_chi2_hapflk.py][=scaling_chi2_hapflk.py=]] script available 
+on the hapFLK website. 
+
+*** Local cluster plots
+The [[https://forge-dga.jouy.inra.fr/attachments/download/2919/hapflk-clusterplot.R][hapflk-clusterplot.R]] script  produces local cluster plots.
+#+BEGIN_SRC sh
+  ## chmod +x hapflk-clusterplot.R
+  hapflk-clusterplot.R practical/hapflk/mstn.kfrq.fit_0.bz2
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC sh :exports none
+mv practical/hapflk/mstn.kfrq.fit_0.bz2-plot.png practical/hapflk/clusterplot.png
+#+END_SRC
+
+#+RESULTS:
+
+#+ATTR_HTML: :width 40%
+[[file: practical/hapflk/clusterplot.png]]
+
+*** Local population trees
+
+Keep the tree structure but reesimates branch length. Use
+[[https://forge-dga.jouy.inra.fr/attachments/download/3248/local_reynolds.py][=local_reynolds.py=]] and [[https://forge-dga.jouy.inra.fr/attachments/download/3272/local_trees.R][=local_trees.R=]]
+
+#+BEGIN_SRC sh
+  ## chmod +x local_reynolds.py
+  cd practical/hapflk/
+  local_reynolds.py -p mstn
+  ## produces two files
+  ## hapflk_snp_reynolds.txt
+  ## hapflk_hap_reynolds.txt
+
+  ## EDIT the local_trees.R script (available on github)
+  cd ../../
+  R CMD BATCH local_trees.R
+#+END_SRC
+
+#+BEGIN_SRC sh :exports none
+mv practical/hapflk/mstn_LocalSnpTree.png practical/hapflk/localSnpTree.png
+mv practical/hapflk/mstn_LocalHapTree.png practical/hapflk/LocalHapTree.png
+mv practical/hapflk/mstn_WholeGenomeTree.png practical/hapflk/WholeGenomeTree.png
+mv practical/hapflk/mstn_hap_lmtab.csv practical/hapflk/hap_lmtab.csv
+mv practical/hapflk/mstn_snp_lmtab.csv practical/hapflk/snp_lmtab.csv
+#+END_SRC
+
+#+RESULTS:
+
+#+REVEAL: split
+#+ATTR_HTML: :width 50%
+[[file:practical/hapflk/localSnpTree.png]]
+
+* setup :noexport:
+#+name: setup
+#+begin_src emacs-lisp :results silent :exports none
+  (defmacro by-backend (&rest body)
+    `(case (if (boundp 'backend) (org-export-backend-name backend) nil) ,@body))
+#+end_src
+# Local variables:
+# eval: (org-sbe "setup")
+# End:
+
