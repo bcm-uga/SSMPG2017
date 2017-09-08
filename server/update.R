@@ -86,9 +86,5 @@ observeEvent(c(input$update, input$switch), {
     })
     
   }
-  
-  # Reset fileInput
-  submission$x <- NULL
-  reset("subm") 
-  
+
 })

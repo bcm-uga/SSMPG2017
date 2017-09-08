@@ -98,6 +98,11 @@ observeEvent(input$ok, {
       easyClose = TRUE,
       footer = NULL)
     )
+    
+    # Reset fileInput
+    submission$x <- NULL
+    reset("subm") 
+    
   }
 })
 
