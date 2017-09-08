@@ -41,8 +41,11 @@ finite size
 #+BEGIN_SRC R :session principle :exports none
 source('DiffusionWF.R')
 #+END_SRC
+
+#+RESULTS:
+
 #+header: :width 4 :height 4 :units "in" :res 100  :bg "transparent"
-#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/hapflk/ptraj.png
+#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/ptraj.png
     N=200
     n=100
 
@@ -61,7 +64,7 @@ source('DiffusionWF.R')
 #+END_SRC
 
 #+RESULTS:
-[[file:practical/hapflk/ptraj.png]]
+[[file:practical/ptraj.png]]
 
 #+REVEAL: split
 
@@ -69,7 +72,7 @@ If we were to look at many loci starting from the same initial
 frequency $p_0$. 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 40%">
 #+header: :width 4 :height 4 :units "in" :res 100  :bg "transparent"
-#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/hapflk/ptrajmulti.png
+#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/ptrajmulti.png
 
   N=1000
   n=100
@@ -94,7 +97,7 @@ frequency $p_0$.
 #+END_SRC
 
 #+RESULTS:
-[[file:practical/hapflk/ptrajmulti.png]]
+[[file:practical/ptrajmulti.png]]
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 60%">
@@ -122,7 +125,7 @@ If we had a set of loci with identical $p_0$:
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
-#+header: :file (by-backend (latex "startree.tikz") (t "practical/hapflk/startree.png"))
+#+header: :file (by-backend (latex "startree.tikz") (t "practical/startree.png"))
 #+begin_src latex :results raw graphics :exports results
  \begin{tikzpicture}[scale=2]
         \draw[very thick] (3,7) -- (1,2);
@@ -139,7 +142,7 @@ If we had a set of loci with identical $p_0$:
 #+end_src
 
 #+RESULTS:
-[[file:practical/hapflk/startree.png]]
+[[file:practical/startree.png]]
 
 #+REVEAL_HTML: </div>
 
@@ -153,7 +156,7 @@ shared across (neutral) loci:  estimated by considering all loci.
   ancestral population.
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
-#+header: :file (by-backend (latex "tree.tikz") (t "practical/hapflk/tree.png"))
+#+header: :file (by-backend (latex "tree.tikz") (t "practical/tree.png"))
 #+begin_src latex :results raw graphics :exports results
   \begin{tikzpicture}[scale=2.0]                                                       
     % \draw (1,0) grid (5,7);                                                
@@ -171,13 +174,13 @@ shared across (neutral) loci:  estimated by considering all loci.
 #+end_src
 
 #+RESULTS:
-[[file:practical/hapflk/tree.png]]
+[[file:practical/tree.png]]
 
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
 #+header: :width 4 :height 4 :units "in" :res 100  :bg "transparent"
-#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/hapflk/covptraj.png
+#+BEGIN_SRC R :session principle :exports results :results output graphics :file practical/covptraj.png
   N=1000
   n=100
 
@@ -219,7 +222,7 @@ shared across (neutral) loci:  estimated by considering all loci.
 #+END_SRC
 
 #+RESULTS:
-[[file:practical/hapflk/covptraj.png]]
+[[file:practical/covptraj.png]]
 
 #+REVEAL_HTML: </div>
 
@@ -227,7 +230,7 @@ shared across (neutral) loci:  estimated by considering all loci.
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
 
-[[file:practical/hapflk/fastphase.png]] 
+[[file:practical/fastphase.png]] 
 #+REVEAL_HTML: </div>
 #+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
 - hapFLK uses the  [[https://www.ncbi.nlm.nih.gov/pubmed/16532393][Scheet and Stephens LD model]] .
@@ -261,11 +264,11 @@ shared across (neutral) loci:  estimated by considering all loci.
 For this practical we will analyse data from
 [[http://www.sheephapmap.org/hapmap.php][The SheepHapMap project]]. First download the data:
 #+BEGIN_SRC sh
-  mkdir -p practical/hapflk/data/
+  mkdir -p practical/data/
   ## get input files into practical directory 
-  wget -P practical/hapflk/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.fam 
-  wget -P practical/hapflk/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.bim
-  wget -P practical/hapflk/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.bed 
+  wget -P practical/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.fam 
+  wget -P practical/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.bim
+  wget -P practical/data http://genoweb.toulouse.inra.fr/~servin/data/NEU.bed 
 #+END_SRC
 
 #+RESULTS:
@@ -280,49 +283,50 @@ The first task will be aimed at running hapflk in SNP mode, to:
 - Calculate FLK tests
 This is done by running:
 #+BEGIN_SRC sh :cache yes
-hapflk --bfile practical/hapflk/data/NEU --outgroup=Soay -p practical/hapflk/NEU
+hapflk --bfile practical/data/NEU --outgroup=Soay -p practical/NEU
 #+END_SRC
+
 
 Which should take ~ 2 minutes.
 
 #+REVEAL: split
 This leads to the following output files:
 #+BEGIN_SRC sh :exports both :results pp
-ls practical/hapflk/NEU*
+ls practical/NEU*
 #+END_SRC
 
 #+RESULTS:
-: practical/hapflk/NEU_fij.txt
-: practical/hapflk/NEU.flk
-: practical/hapflk/NEU.frq
-: practical/hapflk/NEU_reynolds.txt
-: practical/hapflk/NEU_tree.txt
+: practical/NEU_fij.txt
+: practical/NEU.flk
+: practical/NEU.frq
+: practical/NEU_reynolds.txt
+: practical/NEU_tree.txt
 
 Let's look at  the population tree (=NEU_tree.txt=). 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
 #+HEADER: :width 4 :height 4 :units "in" :res 100
-#+BEGIN_SRC R :results output graphics :file practical/hapflk/kinship.png
+#+BEGIN_SRC R :results output graphics :file practical/kinship.png
 library(ape)
-neu.t=read.tree('practical/hapflk/NEU_tree.txt')
+neu.t=read.tree('practical/NEU_tree.txt')
 plot(neu.t,align=T)
 axis(1,line=1.5)
 title(xlab='F')
 #+END_SRC
 
 #+RESULTS:
-[[file:practical/hapflk/kinship.png]]
+[[file:practical/kinship.png]]
 Notice that the outgroup (Soay) has been removed.
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
-[[file:practical/hapflk/kinship.png]]
+[[file:practical/kinship.png]]
 #+REVEAL_HTML: </div>
 
 #+REVEAL: split
 The kinship file contains the (co)variance matrix of allele
 frequencies estimated with all SNPs.
 #+BEGIN_SRC R :exports results :output code :rownames yes
-  kin=as.matrix(read.table('practical/hapflk/NEU_fij.txt',row.names=1))
+  kin=as.matrix(read.table('practical/NEU_fij.txt',row.names=1))
   print(round(kin,digits=3))
 #+END_SRC
 
@@ -343,20 +347,20 @@ We can check the fit of the model by verifying that the empirical
 distribution of FLK is close to a $\chi^2(5)$ 
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
-#+BEGIN_SRC R :session flk :exports code :results output graphics :file practical/hapflk/flkdist.png
-  flk=read.table('practical/hapflk/NEU.flk',h=T)
+#+BEGIN_SRC R :session flk :exports code :results output graphics :file practical/flkdist.png
+  flk=read.table('practical/NEU.flk',h=T)
   hist(flk$flk,n=100,f=F)
   xx=seq(0,50,0.01)
   lines(xx,dchisq(xx,df=5),lwd=2,col=2)
 #+END_SRC
 
 #+RESULTS:
-[[file:practical/hapflk/flkdist.png]]
+[[file:practical/flkdist.png]]
 
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
-[[file:practical/hapflk/flkdist.png]]
+[[file:practical/flkdist.png]]
 #+REVEAL_HTML: </div>
 ** Running hapFLK on a (bit of) chromosome
 - hapFLK is a test based on LD patterns.
@@ -366,12 +370,12 @@ distribution of FLK is close to a $\chi^2(5)$
   region of a chromosome
 - We use plink to create our reduced dataset:
 #+BEGIN_SRC sh 
-  plink --sheep --bfile practical/hapflk/data/NEU \
+  plink --sheep --bfile practical/data/NEU \
         --chr 2 --from-kb 100000 --to-kb 140000\
-        --out practical/hapflk/data/mstn --make-bed
+        --out practical/data/mstn --make-bed
 #+END_SRC
 
-*** Launching and hapFLK run
+*** Running the LD model
 
 As for FLK, hapFLK must be calculated using a kinship matrix
 *estimated genome-wide*. 
@@ -384,15 +388,16 @@ clusters using the =-K= flag.
 #+REVEAL: split
 
 #+BEGIN_SRC sh 
-  hapflk --bfile practical/hapflk/data/mstn \
+  hapflk --bfile practical/data/mstn \
          --outgroup=Soay \
-         -p practical/hapflk/mstn \
+         -p practical/mstn \
          --annot \
-         --kinship practical/hapflk/NEU_fij.txt \
+         --kinship practical/NEU_fij.txt \
          -K 15 \
          --nfit=2 \
          --ncpu=2 
 #+END_SRC
+
 
 - *-K 15*: the number of clusters to model LD. This *depends on the
   data*. Can be estimated using [[http://scheet.org/software.html][=fastPHASE=]] cross-validation
@@ -409,21 +414,19 @@ clusters using the =-K= flag.
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
 #+BEGIN_SRC sh :exports both :results pp
-ls practical/hapflk/mstn*
+ls practical/mstn*
 #+END_SRC
 
 #+RESULTS:
-#+begin_example
-practical/hapflk/mstn.eig
-practical/hapflk/mstn.flk
-practical/hapflk/mstn.flk.eig
-practical/hapflk/mstn.frq
-practical/hapflk/mstn.hapflk
-practical/hapflk/mstn.hapflk.eig
-practical/hapflk/mstn.kfrq.fit_0.bz2
-practical/hapflk/mstn.kfrq.fit_1.bz2
-practical/hapflk/mstn.rey
-#+end_example
+: practical/mstn.eig
+: practical/mstn.flk
+: practical/mstn.flk.eig
+: practical/mstn.frq
+: practical/mstn.hapflk
+: practical/mstn.hapflk.eig
+: practical/mstn.kfrq.fit_0.bz2
+: practical/mstn.kfrq.fit_1.bz2
+: practical/mstn.rey
 #+REVEAL_HTML: </div>
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
 - =mstn.flk= and =mstn.frq=: same as before. Sometimes useful (not here).
@@ -436,9 +439,9 @@ practical/hapflk/mstn.rey
 
 *** FLK and hapFLK
 #+HEADER: :width 8 :height 4 :units "in" :res 100
-#+BEGIN_SRC R :session mstn :exports both :results output graphics :file "practical/hapflk/mstn.png"
-    flk=read.table('practical/hapflk/mstn.flk',h=T)
-    hflk=read.table('practical/hapflk/mstn.hapflk',h=T)
+#+BEGIN_SRC R :session mstn :exports both :results output graphics :file "practical/mstn.png"
+    flk=read.table('practical/mstn.flk',h=T)
+    hflk=read.table('practical/mstn.hapflk',h=T)
     par(mfrow=c(1,2))
     plot(flk$pos,-log10(flk$pvalue), main='FLK',
          xlab='Position', ylab='-log(p-value)', pch=16)
@@ -446,9 +449,12 @@ practical/hapflk/mstn.rey
          xlab='Position', ylab='hapFLK value')
 #+END_SRC
 
+#+RESULTS:
+[[file:practical/mstn.png]]
+
 #+REVEAL: split
 #+RESULTS:
-[[file:practical/hapflk/mstn.png]]
+[[file:practical/mstn.png]]
 
 NB: hapFLK results are not p-values. These can be computed *after a
 whole genome scan* using the [[https://forge-dga.jouy.inra.fr/attachments/download/5765/scaling_chi2_hapflk.py][=scaling_chi2_hapflk.py=]] script available 
@@ -458,19 +464,19 @@ on the hapFLK website.
 The [[https://forge-dga.jouy.inra.fr/attachments/download/2919/hapflk-clusterplot.R][hapflk-clusterplot.R]] script  produces local cluster plots.
 #+BEGIN_SRC sh
   ## chmod +x hapflk-clusterplot.R
-  hapflk-clusterplot.R practical/hapflk/mstn.kfrq.fit_0.bz2
+  hapflk-clusterplot.R practical/mstn.kfrq.fit_0.bz2
 #+END_SRC
 
 #+RESULTS:
 
 #+BEGIN_SRC sh :exports none
-mv practical/hapflk/mstn.kfrq.fit_0.bz2-plot.png practical/hapflk/clusterplot.png
+mv practical/mstn.kfrq.fit_0.bz2-plot.png practical/clusterplot.png
 #+END_SRC
 
 #+RESULTS:
 
 #+ATTR_HTML: :width 40%
-[[file: practical/hapflk/clusterplot.png]]
+[[file: practical/clusterplot.png]]
 
 *** Local population trees
 
@@ -479,7 +485,7 @@ Keep the tree structure but reesimates branch length. Use
 
 #+BEGIN_SRC sh
   ## chmod +x local_reynolds.py
-  cd practical/hapflk/
+  cd practical/
   local_reynolds.py -p mstn
   ## produces two files
   ## hapflk_snp_reynolds.txt
@@ -490,19 +496,21 @@ Keep the tree structure but reesimates branch length. Use
   R CMD BATCH local_trees.R
 #+END_SRC
 
+#+RESULTS:
+
 #+BEGIN_SRC sh :exports none
-mv practical/hapflk/mstn_LocalSnpTree.png practical/hapflk/localSnpTree.png
-mv practical/hapflk/mstn_LocalHapTree.png practical/hapflk/LocalHapTree.png
-mv practical/hapflk/mstn_WholeGenomeTree.png practical/hapflk/WholeGenomeTree.png
-mv practical/hapflk/mstn_hap_lmtab.csv practical/hapflk/hap_lmtab.csv
-mv practical/hapflk/mstn_snp_lmtab.csv practical/hapflk/snp_lmtab.csv
+mv practical/mstn_LocalSnpTree.png practical/localSnpTree.png
+mv practical/mstn_LocalHapTree.png practical/LocalHapTree.png
+mv practical/mstn_WholeGenomeTree.png practical/WholeGenomeTree.png
+mv practical/mstn_hap_lmtab.csv practical/hap_lmtab.csv
+mv practical/mstn_snp_lmtab.csv practical/snp_lmtab.csv
 #+END_SRC
 
 #+RESULTS:
 
 #+REVEAL: split
 #+ATTR_HTML: :width 50%
-[[file:practical/hapflk/localSnpTree.png]]
+[[file:practical/localSnpTree.png]]
 
 * setup :noexport:
 #+name: setup

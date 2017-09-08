@@ -5,18 +5,18 @@ library(phangorn)
 ### Pre filled with files from the tutorial
 ## tree file : the whole genome tree as obtained
 ## from the hapflk analysis
-tree_file='practical/hapflk/NEU_tree.txt'
+tree_file='practical/NEU_tree.txt'
 ## wg_dist_file : the Global Reynolds distances between population,
 ## as obtained from the hapflk analysis
-wg_dist_file='practical/hapflk/NEU_reynolds.txt'
+wg_dist_file='practical/NEU_reynolds.txt'
 ## Name of the outgroup in the previous file (if any)
 outgroup='Soay'
 ## local reynolds distances for SNPs and Haplotype clusters
 ## To be computed using the local_reynolds.py script
-loc_dist_file_snp='practical/hapflk/hapflk_snp_reynolds.txt'
-loc_dist_file_hap='practical/hapflk/hapflk_hap_reynolds.txt'
+loc_dist_file_snp='practical/hapflk_snp_reynolds.txt'
+loc_dist_file_hap='practical/hapflk_hap_reynolds.txt'
 ## prefix for outputfiles
-prefix='practical/hapflk/mstn'
+prefix='practical/mstn'
 ##################### END USER INPUT #########################
 
 ## Now run : R CMD BATCH local_trees.R 
