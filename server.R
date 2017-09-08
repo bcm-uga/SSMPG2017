@@ -24,6 +24,18 @@ server <- function(input, output) {
     return(tmp)
   })
   
+  submission <- reactiveValues(x = NULL)
+  
+  observe({
+    req(input$subm)
+    submission$x <- scan(input$subm$datapath)
+  })
+  
+  # submission <- reactive({
+  #   if (is.null(input$subm)) return(NULL)
+  #   scan(input$subm$datapath)
+  # })
+  
   source(file.path("server", "uiOutput.R"), local = TRUE)$value
   source(file.path("server", "users.R"), local = TRUE)$value
   source(file.path("server", "submission.R"), local = TRUE)$value

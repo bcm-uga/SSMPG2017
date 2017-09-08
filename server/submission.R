@@ -57,28 +57,24 @@ observeEvent(input$ok, {
     showModal(userModal(failed = 1))  
   } else if (input$username %in% user.df$name && hash.pwd != user.df$password[user.df$name == input$username]) {
     showModal(userModal(failed = 2))  
-  } else if (is.null(input$subm$datapath) && (n.challenge() == 1)) {
-    showModal(userModal(failed = 3))  
-  } else if (is.null(input$subm_2$datapath) && (n.challenge() == 2)) {
+  } else if (is.null(submission$x)) {
     showModal(userModal(failed = 3))  
   } else if (length(input$methods) == 0) {
     showModal(userModal(failed = 4))
   } else {
     removeModal()
     
-    submission <- scan(input$subm$datapath)
-    
     if (input$dataset == "Training set") {
       fb <- all.gt.reg[[1]]$region.start
       fe <- all.gt.reg[[1]]$region.end
-      reg <- paste(unique(sapply(submission, 
+      reg <- paste(unique(sapply(submission$x, 
                                  FUN = function(X) {
                                    which(fb <= X & fe >= X)
                                  })), collapse = ", ")
     } else if (input$dataset == "Evaluation set") {
       fb <- all.gt.reg[[2]]$region.start
       fe <- all.gt.reg[[2]]$region.end
-      reg <- paste(unique(sapply(submission, 
+      reg <- paste(unique(sapply(submission$x, 
                                  FUN = function(X) {
                                    which(fb <= X & fe >= X)
                                  })), collapse = ", ")
@@ -91,7 +87,7 @@ observeEvent(input$ok, {
                    challenge = as.character(n.challenge()),
                    dataset = input$dataset,
                    methods = paste(input$methods, collapse = "; "),
-                   candidates = paste(submission, collapse = ", "),
+                   candidates = paste(submission$x, collapse = ", "),
                    regions = reg)
     
     showModal(modalDialog(
