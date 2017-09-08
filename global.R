@@ -9,6 +9,7 @@ library(DT)
 library(RSQLite)
 library(shinyWidgets)
 library(stringr)
+library(shinyjs)
 
 challenge_names <- c("Dahu", "Cichlid")
 
