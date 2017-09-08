@@ -15,7 +15,7 @@ tabPanel("Challenge",
                fileInput(
                  "subm",
                  div("Choose submission file",
-                     div(tags$a(href = "https://drive.google.com/uc?export=download&id=0B9o4VIJJSodfOTNOelRKNm9MQ2M",
+                     div(tags$a(href = "https://drive.google.com/uc?export=download&id=0B9o4VIJJSodfOGhYUkFlalJ4NXM",
                                 h6("download example file"),
                                 target = "_blank")
                      )
