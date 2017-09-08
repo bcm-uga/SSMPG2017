@@ -29,9 +29,9 @@ server <- function(input, output) {
   observe({
     
     req(input$subm)
-    #aux <- as.integer(scan(input$subm$datapath))
-    #submission$x <- positions[[n.challenge()]][aux]
-    submission$x <- scan(input$subm$datapath)
+    aux <- as.integer(scan(input$subm$datapath))
+    submission$x <- positions[[n.challenge()]][aux]
+    #submission$x <- scan(input$subm$datapath)
   })
   
   # submission <- reactive({
