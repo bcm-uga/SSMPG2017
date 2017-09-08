@@ -84,6 +84,6 @@ observeEvent(c(input$update, input$switch), {
                color = "olive")
   })
   
-  reset("subm") 
+  #reset("subm") 
   
 })
