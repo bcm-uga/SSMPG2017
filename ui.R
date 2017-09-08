@@ -3,7 +3,7 @@ header <- dashboardHeader(
 )
 
 body <- dashboardBody(
-  #useShinyjs(),
+  useShinyjs(),
   uiOutput("ui")
 )
 
