@@ -6,6 +6,17 @@ header <- dashboardHeader(
 
 body <- dashboardBody(
   shinyjs::useShinyjs(),
+  tagList(
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "style.css"),
+      tags$script(type="text/javascript", src = "busy.js")
+    )
+    
+  ), 
+  div(class = "busy",
+      p("Updating..."),
+      img(src = "loading.gif")
+  ),
   uiOutput("ui")
 )
 
