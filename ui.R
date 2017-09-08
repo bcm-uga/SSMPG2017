@@ -1,5 +1,3 @@
-library(shinyjs)
-
 header <- dashboardHeader(
   title = "SSMPG 2017"
 )
