@@ -78,12 +78,31 @@ observeEvent(input$ok, {
     
     submission <- scan(input$subm$datapath)
     
+    if (input$dataset == "Training set") {
+      fb <- all.gt.reg[[1]]$region.start
+      fe <- all.gt.reg[[1]]$region.end
+      reg <- paste(unique(sapply(submission, 
+                                 FUN = function(X) {
+                                   which(fb <= X & fe >= X)
+                                 })), collapse = ", ")
+    } else if (input$dataset == "Evaluation set") {
+      fb <- all.gt.reg[[2]]$region.start
+      fe <- all.gt.reg[[2]]$region.end
+      reg <- paste(unique(sapply(submission, 
+                                 FUN = function(X) {
+                                   which(fb <= X & fe >= X)
+                                 })), collapse = ", ")
+    } else {
+      reg <- "None"
+    }
+    
     add_submission(user.name = input$username,
                    password = input$password,
                    challenge = as.character(n.challenge()),
                    dataset = input$dataset,
                    methods = paste(input$methods, collapse = "; "),
-                   candidates = paste(submission, collapse = ", "))
+                   candidates = paste(submission, collapse = ", "),
+                   regions = reg)
     
     showModal(modalDialog(
       span(paste("Your entry for challenge", 

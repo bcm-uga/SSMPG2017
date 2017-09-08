@@ -22,6 +22,7 @@ res <- RSQLite::dbSendQuery(conn = db,
                             dataset CHARACTER,
                             methods CHARACTER,
                             candidates CHARACTER,
+                            regions CHARACTER,
                             FOREIGN KEY (name) REFERENCES user(name))"
                             )
 RSQLite::dbClearResult(res)

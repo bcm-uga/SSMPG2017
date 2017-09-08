@@ -11,18 +11,17 @@ library(shinyWidgets)
 library(stringr)
 
 all.gt <- readRDS("anssnp.rds")
-all.gt.reg <- readRDS("ansreg.rds")
+all.gt.reg <- NULL
+all.gt.reg[[1]] <- readRDS("ansreg1a.rds")
+all.gt.reg[[2]] <- readRDS("ansreg2a.rds")
 
 add_submission <- function(user.name, 
                            password, 
                            challenge, 
                            dataset, 
-                           fdr, 
-                           power, 
-                           score, 
                            methods,
                            candidates,
-                           evaluation) {
+                           regions) {
   
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
   
@@ -34,7 +33,8 @@ add_submission <- function(user.name,
                                                 challenge = challenge,
                                                 dataset = dataset,
                                                 methods = methods,
-                                                candidates = candidates)
+                                                candidates = candidates,
+                                                regions = regions)
   )
   RSQLite::dbDisconnect(db)
 }
