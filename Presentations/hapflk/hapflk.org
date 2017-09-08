@@ -16,7 +16,7 @@
 
 * Resources
 
-- You can access this document as an HTML presentation [[http://htmlpreview.github.io/?https://github.com/BertrandServin/SSMPG2017/blob/master/hapflk.html][here]].  
+- You can access this document as an HTML presentation [[http://htmlpreview.github.io/?https://github.com/bcm-uga/SSMPG2017/blob/hapflk/Presentations/hapflk/hapflk.html][here]].  
 - The hapFLK webpage is [[https://forge-dga.jouy.inra.fr/projects/hapflk][here]]
 - The hapflk software is available on [[https://pypi.python.org/pypi/hapflk][Pypi]].
 - Associated papers are:
