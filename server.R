@@ -23,7 +23,7 @@ server <- function(input, output) {
     }
     return(tmp)
   })
-
+  
   source(file.path("server", "uiOutput.R"), local = TRUE)$value
   source(file.path("server", "users.R"), local = TRUE)$value
   source(file.path("server", "submission.R"), local = TRUE)$value

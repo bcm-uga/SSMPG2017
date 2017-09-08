@@ -50,10 +50,27 @@ tabPanel("Challenge",
                                 solidHeader = TRUE,
                                 width = 12, 
                                 status = "success",
-                                materialSwitch(inputId = "switch", 
-                                               label = " ", 
-                                               status = "primary", 
-                                               right = TRUE),
+                                fluidRow(
+                                  column(width = 4,
+                                         conditionalPanel(
+                                           condition = "input.switch == true",
+                                           h4(strong("Evaluation per SNP"))
+                                         ),
+                                         conditionalPanel(
+                                           condition = "input.switch == false",
+                                           h4(strong("Evaluation per region"))
+                                         )
+                                  ),
+                                  column(width = 8,
+                                         style = "margin-top: 12px;",
+                                         materialSwitch(inputId = "switch", 
+                                                        label = " ", 
+                                                        status = "primary", 
+                                                        right = TRUE)
+                                         
+                                  )
+ 
+                                ),
                                 
                                 # Leaderboard panel
                                 tabsetPanel(

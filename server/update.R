@@ -23,6 +23,7 @@ observeEvent(c(input$update, input$switch), {
            p = NULL,
            g = NULL) %>%
     arrange(desc(G_score), N, as.POSIXct(date)) %>%
+    mutate(rank = (1:length(name))) %>%
     as.data.frame()
   
   output$summary <- DT::renderDataTable({
@@ -30,7 +31,8 @@ observeEvent(c(input$update, input$switch), {
       mutate(Power = round(Power, digits = 5),
              FDR = round(FDR, digits = 5),
              G_score = round(G_score, digits = 5)) %>%
-      rename("G-score" = "G_score", "Team" = "name") %>%
+      select(rank, name, G_score, Power, FDR, N) %>%
+      rename("G-score" = "G_score", "Team" = "name", "Rank" = "rank", "Submissions" = "N") %>%
       DT::datatable(escape = FALSE, rownames = FALSE, 
                     options = list(initComplete = DT::JS(
                       "function(settings, json) {",
@@ -41,9 +43,9 @@ observeEvent(c(input$update, input$switch), {
   
   output$barchart <- renderPlot({
     df %>% 
-      ggplot(aes(x = reorder(name, G_score), 
+      ggplot(aes(x = reorder(name, -rank), 
                  y = G_score,
-                 label = reorder(name, G_score))) +
+                 label = reorder(name, -rank))) +
       coord_flip() +
       ylim(0, 1) +
       geom_bar(stat = "identity", 
@@ -55,31 +57,6 @@ observeEvent(c(input$update, input$switch), {
       theme(axis.title.x = element_blank(),
             axis.title.y = element_blank(),
             axis.text.y = element_blank())
-    # df %>%
-    #   plot_ly(x = ~G_score, 
-    #           y = ~reorder(name, G_score),
-    #           type = "bar", 
-    #           orientation = "h",
-    #           marker = list(color = "rgba(50, 171, 96, 0.6)",
-    #                         line = list(color = "rgba(50, 171, 96, 1.0)", width = 1)),
-    #           hoverinfo = "text",
-    #           text = ~paste("G-Score: ", round(G_score, digits = 2),
-    #                         "<br> Power: ", round(Power, digits = 2),
-    #                         "<br> FDR: ", round(FDR, digits = 2))) %>%
-    #   layout(title = paste("<b> Challenge", n.challenge(), "-", input$dataset, "</b>"),
-    #          xaxis = list(title = " ",
-    #                       range = c(0, 1.1)),
-    #          yaxis = list(title = " ",
-    #                       showticklabels = FALSE)) %>%
-    #   add_annotations(xref = "x1",
-    #                   yref = "y",
-    #                   x = pmax(0.05, df$G_score / 2),
-    #                   y = reorder(df$name, df$G_score),
-    #                   text = paste("<b>", reorder(df$name, df$G_score), "</b>"),
-    #                   font = list(family = "Arial",
-    #                               size = 14,
-    #                               color = "rgba(255, 255, 255, 1.0)"),
-    #                   showarrow = FALSE)
   })
   
   output$challengeBox <- renderValueBox({
@@ -106,4 +83,7 @@ observeEvent(c(input$update, input$switch), {
                icon = icon("heart"),
                color = "olive")
   })
+  
+  reset("subm") 
+  
 })
