@@ -1,5 +1,5 @@
 ### Packages
-
+rm(list = ls())
 library(shiny)
 library(shinydashboard)
 library(ggplot2)
@@ -17,7 +17,6 @@ all.gt <- readRDS("anssnp.rds")
 all.gt.reg <- NULL
 all.gt.reg[[1]] <- readRDS("ansreg1a.rds")
 all.gt.reg[[2]] <- readRDS("ansreg2a.rds")
-positions <- readRDS("positions.rds")
 
 add_submission <- function(user.name, 
                            password, 
