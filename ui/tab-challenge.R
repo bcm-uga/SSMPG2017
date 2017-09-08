@@ -54,11 +54,11 @@ tabPanel("Challenge",
                                   column(width = 4,
                                          conditionalPanel(
                                            condition = "input.switch == true",
-                                           h4(strong("Evaluation per SNP"))
+                                           h4(strong("Evaluation per region"))
                                          ),
                                          conditionalPanel(
                                            condition = "input.switch == false",
-                                           h4(strong("Evaluation per region"))
+                                           h4(strong("Evaluation per SNP"))
                                          )
                                   ),
                                   column(width = 8,
