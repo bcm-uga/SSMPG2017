@@ -39,7 +39,7 @@
 Consider the trajectory of an allele through time in a population of
 finite size 
 #+BEGIN_SRC R :session principle :exports none
-source('DiffusionWF.R')
+  source('DiffusionWF.R')
 #+END_SRC
 
 #+RESULTS:
