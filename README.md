@@ -31,6 +31,8 @@ devtools::install_github("whitlock/OutFLANK")
 
 #Package to run pcadapt
 devtools::install_github("bcm-uga/pcadapt")
+install.packages("bigstatsr")
+devtools::install_github("privefl/bigsnpr")
 
 #Package q-value for controlling FDR
 #Try https:// or http:// 
