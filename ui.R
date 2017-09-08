@@ -9,8 +9,8 @@ body <- dashboardBody(
 sidebar <- dashboardSidebar(
   sidebarMenu(id = "tab",
               menuItem("Challenge", icon = icon("trophy"),
-                       menuSubItem("Challenge 1", tabName = "challenge"),
-                       menuSubItem("Challenge 2", tabName = "challenge_2")), 
+                       menuSubItem("Dahu", tabName = "challenge"),
+                       menuSubItem("Cichlid", tabName = "challenge_2")), 
               menuItem("Vignette", tabName = "vignette", icon = icon("book")), 
               menuItem("GitHub", icon = icon("github"), href = "https://github.com/bcm-uga/SSMPG2017"),
               menuItem("Datasets", tabName = "download", icon = icon("download")),

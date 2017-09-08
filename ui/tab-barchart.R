@@ -1,6 +1,0 @@
-tabPanel(title = strong("Bar chart"),
-         plotOutput("barchart"),
-         actionButton(inputId = "display",
-                      label = "Display/Update"), 
-         value = 1
-)

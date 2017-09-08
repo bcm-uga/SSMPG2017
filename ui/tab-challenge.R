@@ -1,8 +1,8 @@
 tabPanel("Challenge",
          fluidRow(
            valueBoxOutput("challengeBox"),
-           valueBoxOutput("contestantBox"),
            conditionalPanel(condition = "input.tab == 'challenge' && input.dataset == 'Training set'",
+                            valueBoxOutput("contestantBox"),
                             valueBoxOutput("leaderBox")
            )
          ),
@@ -50,19 +50,25 @@ tabPanel("Challenge",
                                 solidHeader = TRUE,
                                 width = 12, 
                                 status = "success",
-                                materialSwitch(inputId = "switch", label = "Switch between SNP and regions", status = "primary", right = TRUE),
-                                conditionalPanel(condition = "input.switch == false",
-                                                 tabsetPanel(
-                                                   source(file.path("ui", "tab-barchart.R"), local = TRUE)$value,
-                                                   source(file.path("ui", "tab-table.R"), local = TRUE)$value
-                                                 )
+                                materialSwitch(inputId = "switch", 
+                                               label = " ", 
+                                               status = "primary", 
+                                               right = TRUE),
+                                
+                                # Leaderboard panel
+                                tabsetPanel(
+                                  tabPanel(title = strong("Bar chart"),
+                                           plotOutput("barchart")
+                                  ),
+                                  tabPanel(
+                                    title = strong("Summary"), 
+                                    DT::dataTableOutput("summary")
+                                  )
                                 ),
-                                conditionalPanel(condition = "input.switch == true",
-                                                 tabsetPanel(
-                                                   source(file.path("ui", "tab-barchart-region.R"), local = TRUE)$value,
-                                                   source(file.path("ui", "tab-table-region.R"), local = TRUE)$value
-                                                 )
-                                )
+                                
+                                # Update button
+                                actionButton(inputId = "update",
+                                             label = "Display/Update")
                             )
            )
          )

@@ -13,7 +13,7 @@ userModal <- function(failed = 0) {
                                             "Selestim" = "SelEstim",
                                             "SweeD" = "SweeD",
                                             "Other" = "Other"),
-                                width = NULL)),
+                                width = "100%")),
     
     span("You are about to submit for challenge",
          n.challenge(), 
@@ -46,16 +46,6 @@ userModal <- function(failed = 0) {
 # Show modal when button is clicked.
 observeEvent(input$submit, {
   showModal(userModal())
-})
-
-# Show modal when button is clicked.
-observeEvent(input$submit_2, {
-  showModal(userModal())
-})
-
-# Show modal when button is clicked.
-observeEvent(input$gotit, {
-  removeModal()
 })
 
 observeEvent(input$ok, {

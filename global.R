@@ -10,6 +10,8 @@ library(RSQLite)
 library(shinyWidgets)
 library(stringr)
 
+challenge_names <- c("Dahu", "Cichlid")
+
 all.gt <- readRDS("anssnp.rds")
 all.gt.reg <- NULL
 all.gt.reg[[1]] <- readRDS("ansreg1a.rds")
