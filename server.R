@@ -29,16 +29,10 @@ server <- function(input, output) {
   observe({
     
     req(input$subm)
-    aux <- as.integer(scan(input$subm$datapath))
     positions <- readRDS("positions.rds")
-    submission$x <- positions[[n.challenge()]][aux]
-    #submission$x <- scan(input$subm$datapath)
+    submission$x <- positions[[n.challenge()]][as.integer(scan(input$subm$datapath))]
+    
   })
-  
-  # submission <- reactive({
-  #   if (is.null(input$subm)) return(NULL)
-  #   scan(input$subm$datapath)
-  # })
   
   source(file.path("server", "uiOutput.R"), local = TRUE)$value
   source(file.path("server", "users.R"), local = TRUE)$value
