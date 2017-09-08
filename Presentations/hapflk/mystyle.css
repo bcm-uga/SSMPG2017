@@ -1,0 +1,13 @@
+.reveal p {
+    text-align: left;
+    margin-left: 20px;
+}
+
+.reveal section img {
+        border: 0;
+        box-shadow: none;
+}
+
+div.figure p {
+    text-align: center;
+}
