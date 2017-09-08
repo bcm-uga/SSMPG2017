@@ -30,8 +30,8 @@ server <- function(input, output) {
     
     req(input$subm)
     aux <- as.integer(scan(input$subm$datapath))
-    submission$x <- positions[[n.challenge()]][aux]
-    #submission$x <- scan(input$subm$datapath)
+    #submission$x <- positions[[n.challenge()]][aux]
+    submission$x <- scan(input$subm$datapath)
   })
   
   # submission <- reactive({
