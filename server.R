@@ -1,7 +1,7 @@
 server <- function(input, output) {
   
   n.challenge <- reactive({
-    n <- 0
+    n <- 1
     if (input$tab == "challenge"){
       n <- 1
     } else if (input$tab == "challenge_2"){
@@ -27,6 +27,7 @@ server <- function(input, output) {
   submission <- reactiveValues(x = NULL)
   
   observe({
+    
     req(input$subm)
     aux <- as.integer(scan(input$subm$datapath))
     submission$x <- positions[[n.challenge()]][aux]
