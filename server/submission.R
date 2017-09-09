@@ -13,7 +13,7 @@ userModal <- function(failed = 0) {
                                             "Selestim" = "SelEstim",
                                             "SweeD" = "SweeD",
                                             "Other" = "Other"),
-                                width = NULL)),
+                                width = "100%")),
     
     span("You are about to submit for challenge",
          n.challenge(), 
@@ -48,16 +48,6 @@ observeEvent(input$submit, {
   showModal(userModal())
 })
 
-# Show modal when button is clicked.
-observeEvent(input$submit_2, {
-  showModal(userModal())
-})
-
-# Show modal when button is clicked.
-observeEvent(input$gotit, {
-  removeModal()
-})
-
 observeEvent(input$ok, {
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
   user.df <- RSQLite::dbReadTable(db, "user")
@@ -76,42 +66,39 @@ observeEvent(input$ok, {
   } else {
     removeModal()
     
-    m <- paste(input$methods, collapse = "; ")
-    
     submission <- scan(input$subm$datapath)
-    all.gt <- readRDS("fake.rds")
-    gt <- all.gt[[n.challenge()]]
     
-    if (n.challenge() == 1) {
-      
-      r <- mean(gt %in% submission)
-      p <- mean(submission %in% gt)
-      g <- sqrt(r * p)
-      add_submission(user.name = input$username,
-                     password = input$password,
-                     challenge = as.character(n.challenge()),
-                     dataset = input$dataset,
-                     fdr = 1 - p,
-                     power = r,
-                     score = `if`(is.nan(g), 0, g),
-                     methods = m,
-                     candidates = paste(submission, collapse = ", "))
-    } else if (n.challenge() == 2) {
-      add_submission(user.name = input$username,
-                     password = input$password,
-                     challenge = as.character(n.challenge()),
-                     dataset = input$dataset,
-                     fdr = 0,
-                     power = 0,
-                     score = 0,
-                     methods = m,
-                     candidates = paste(submission, collapse = ", "))  
+    if (input$dataset == "Training set") {
+      fb <- all.gt.reg[[1]]$region.start
+      fe <- all.gt.reg[[1]]$region.end
+      reg <- paste(unique(sapply(submission, 
+                                 FUN = function(X) {
+                                   which(fb <= X & fe >= X)
+                                 })), collapse = ", ")
+    } else if (input$dataset == "Evaluation set") {
+      fb <- all.gt.reg[[2]]$region.start
+      fe <- all.gt.reg[[2]]$region.end
+      reg <- paste(unique(sapply(submission, 
+                                 FUN = function(X) {
+                                   which(fb <= X & fe >= X)
+                                 })), collapse = ", ")
+    } else {
+      reg <- "None"
     }
+    
+    add_submission(user.name = input$username,
+                   password = input$password,
+                   challenge = as.character(n.challenge()),
+                   dataset = input$dataset,
+                   methods = paste(input$methods, collapse = "; "),
+                   candidates = paste(submission, collapse = ", "),
+                   regions = reg)
+    
     showModal(modalDialog(
       span(paste("Your entry for challenge", 
                  n.challenge(), 
                  "has been successfully submitted.")
-           ),
+      ),
       easyClose = TRUE,
       footer = NULL)
     )

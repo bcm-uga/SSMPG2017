@@ -1,7 +1,7 @@
 # SSMPG 2017
 Repository for the [Data challenge about Software and Statistical Methods for Population Genetics (SSMPG 2017)](https://data-institute.univ-grenoble-alpes.fr/data-institute/news-and-events/data-challenge-on-software-and-statistical-methods-for-population-genetics-ssmpg-2017--713800.htm) (Aussois, September 11-15 2017)
 
-[Lecture: Introduction to Genome Scans](https://docs.google.com/document/d/1wQjVDZ2ZTPZoGVjSvLdqv-IMfpuunxYKHysAop27Mlo/edit#)
+[Introductory lecture about Genome Scans](https://docs.google.com/document/d/1wQjVDZ2ZTPZoGVjSvLdqv-IMfpuunxYKHysAop27Mlo/edit#)
 
 ##  1. Install software
 
@@ -31,6 +31,8 @@ devtools::install_github("whitlock/OutFLANK")
 
 #Package to run pcadapt
 devtools::install_github("bcm-uga/pcadapt")
+install.packages("bigstatsr")
+devtools::install_github("privefl/bigsnpr")
 
 #Package q-value for controlling FDR
 #Try https:// or http:// 
@@ -43,6 +45,8 @@ install.packages("rehh")
 #Package to plot population trees
 install.packages("ape")
 ```
+
+[Link to tutorial for OutFLANK](http://rpubs.com/lotterhos/outflank)
 
 ### Install BAYPASS
 
@@ -112,11 +116,29 @@ SelEstim uses [OpenMP](href{http://openmp.org/wp/) to implement multithreading, 
 
 ##  2. Download datasets
 
+The first challenge is the **Dahu** challenge. Teams are asked to analyze simulated data for the Dahu challenge.
+
+Download the [training](https://drive.google.com/open?id=0B2RlEpeOlBn_Rk52bEgwZmtzeGc) and the [validation](https://drive.google.com/open?id=0B2RlEpeOlBn_RndaUExoQTFkaUU) dataset for the Dahu challenge.
+
+The second challenge is the **Cichlid** challenge. Teams are asked to analyze true data for the  Cichlid challenge.
+
+Data should be available soon for the **Cichlid** challenge.
+
 ## 3. Form a team
+
+To participate to the challenge, you should form teams. A team can be composed of 1, 2, or 3 participants. Once you have chosen a team, click on "create teams" on the [submission website](http://176.31.253.205/shiny/SSMPG2017/).
 
 ## 4. Submit candidate markers 
 
+
+The objective of the two data challenges is to find markers that are involved in adaptation.
+
+To submit a list of markers involved in adaptation, you should use the [submission website](http://176.31.253.205/shiny/SSMPG2017/). An example of submission file containing a list of markers involved in adaptation is contained in the file [mysubmission.txt](TO COMPLETE).
+
 ## 5. Evaluation
+
+### Dahu challenge
+Submissions will be evaluated by comparing submitted list to the list of causal adaptive SNPs.
 
 The ranking of the teams will be based on the [G score](https://en.wikipedia.org/wiki/F1_score#G-measure). The G score varies from 0 (minimum score) to 1 (maximum score).
 
@@ -124,6 +146,19 @@ The G score depends on the false discovery rate (FDR), which is the percentage o
 
 The mathematical definition of the G score is
 
-![equation](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7B%5Cmathrm%7B%281-FDR%29%7D%20%5Ccdot%20%5Cmathrm%7Bpower%7D%7D.)
+![](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7B%5Cmathrm%7B%281-FDR%29%7D%20%5Ccdot%20%5Cmathrm%7Bpower%7D%7D.)
 
-For the 1st dataset, G scores will be publicly available (public leaderboard). Participants should use the 1st dataset for training. **The final ranking of the teams will be based on the 2nd dataset for which G scores are not public.** Prizes will be provided to the best team according to the marker-based score and to the best team according to the region-best score.
+For the *training* dataset, G scores will be publicly available (public leaderboard). Participants should use the *training* dataset for training. 
+
+**The final ranking of the teams will be based on the  *validation*  dataset for which G scores are not public.** 
+
+A prize will be provided to the best team according to the marker-based score and another prize will be provided to the best team according to the region-best score.
+
+### Cichlid challenge
+
+Submissions will be evaluated based on subjective evaluations by instructors based on presentations.
+
+## 5. Presentations
+
+During the SSMPG prize ceremony, each team will be asked to present 2-3 slides for each challenge.
+

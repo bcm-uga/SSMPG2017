@@ -1,16 +1,17 @@
 add_user <- function() {
 
   ## get username
-  name <- readline(prompt="User name: ")
+  name <- readline(prompt = "User name: ")
 
   ## get mdp
-  password <- readline(prompt="User password: ")
+  password <- readline(prompt = "User password: ")
   password.hash <- digest::digest(paste0("SSMPG2017", password), algo = "md5")
 
   ## write in table
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
   dplyr::db_insert_into(db, "user", tibble::tibble(name = name, password = password.hash))
   RSQLite::dbDisconnect(db)
+  
 }
 
 add_submission <- function(user.name, password, challenge, dataset, fdr, power, score) {

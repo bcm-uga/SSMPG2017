@@ -35,7 +35,6 @@ observeEvent(input$create, {
         footer = NULL
         )
     )
-  
   }
   RSQLite::dbDisconnect(db)
 })

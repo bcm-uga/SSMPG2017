@@ -1,8 +1,8 @@
 tabPanel("Challenge",
          fluidRow(
            valueBoxOutput("challengeBox"),
-           valueBoxOutput("contestantBox"),
            conditionalPanel(condition = "input.tab == 'challenge' && input.dataset == 'Training set'",
+                            valueBoxOutput("contestantBox"),
                             valueBoxOutput("leaderBox")
            )
          ),
@@ -46,16 +46,47 @@ tabPanel("Challenge",
          ),
          fluidRow(
            conditionalPanel(condition = "(input.tab == 'challenge') && (input.dataset == 'Training set')",
-             box(title = strong("Leaderboard"),
-                 solidHeader = TRUE,
-                 width = 12, 
-                 status = "success",
-                 tabsetPanel(
-                   source(file.path("ui", "tab-barchart.R"), local = TRUE)$value,
-                   source(file.path("ui", "tab-table.R"), local = TRUE)$value,
-                   id = "conditionedPanels"
-                   )
-                 )
-             )
+                            box(title = strong("Leaderboard"),
+                                solidHeader = TRUE,
+                                width = 12, 
+                                status = "success",
+                                fluidRow(
+                                  column(width = 4,
+                                         conditionalPanel(
+                                           condition = "input.switch == true",
+                                           h4(strong("Evaluation per SNP"))
+                                         ),
+                                         conditionalPanel(
+                                           condition = "input.switch == false",
+                                           h4(strong("Evaluation per region"))
+                                         )
+                                  ),
+                                  column(width = 8,
+                                         style = "margin-top: 12px;",
+                                         materialSwitch(inputId = "switch", 
+                                                        label = " ", 
+                                                        status = "primary", 
+                                                        right = TRUE)
+                                         
+                                  )
+ 
+                                ),
+                                
+                                # Leaderboard panel
+                                tabsetPanel(
+                                  tabPanel(title = strong("Bar chart"),
+                                           plotOutput("barchart")
+                                  ),
+                                  tabPanel(
+                                    title = strong("Summary"), 
+                                    DT::dataTableOutput("summary")
+                                  )
+                                ),
+                                
+                                # Update button
+                                actionButton(inputId = "update",
+                                             label = "Display/Update")
+                            )
+           )
          )
 )
