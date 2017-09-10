@@ -183,10 +183,10 @@ position.filtered <- sim1$position[spectrum > 50]
 dim(genotype.filtered)
 ```
 
-Next, we repeat the test and provide a new list of candidates from the website. 
+Next, we repeat the test and provide a new list of candidates for the website. 
 
 
-```{r, echo = FALSE}
+```{r}
 lfmm.lasso.filter <- lfmm::lfmm_lasso(Y = scale(genotype.filtered), X = x, K = 5, nozero.prop = 0.02)
 ```
 
