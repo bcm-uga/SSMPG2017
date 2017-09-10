@@ -1,0 +1,211 @@
+             Dynamic Creator of Mersenne Twisters Ver. 0.6 (2009/12/15)
+
+1. Overview
+   This is a C library for "Dynamic Creator", which dynamically
+  generates a parameter for a random number generator. Users
+  can specify (1) the word size w of generated random integers
+  (presently w=31,32 only) (2) the period (chosen from the
+  list of Mersenne primes below), and (3) id-number.
+
+   When these specifications are given to a function in this
+  library, it searches for a set of parameters (stored in
+  a struct type named mt_struct) of a recursion generating
+  a random number sequence conforming to the specification.
+  If we specify different id-numbers, then the set of yielded
+  random number sequences should be highly independent.
+
+   Each random number generator is a Mersenne Twister with
+  specified size, which is very widely used and is proved to
+  be a reliable source of pseudorandomness.
+
+2. Compiling
+
+   When you develop the tar file, you will find the following
+  three files and three directories.
+
+    README              This file
+    README.jp             Japanese version of the above file
+    VERSION               Version information
+    CHANGELOG             Log of changes
+    lib                   The library
+    include               The include file "dc.h"
+    example               Examples of C-codes
+
+    To compile this library,  do "cd lib" and "make lib".
+  Then "libdcmt.a" will be created in the directory "lib",
+  and the compilation for the library is done.
+
+    To use the library, include "dc.h" in the include directory
+  in your C-code source files, and link them with libdcmt.a
+  when you compile the source.
+
+3. The library functions
+  ===============
+  OLD INTERFACE
+  ===============
+  Old interface functions are not thread safe.
+  Interface is same as old version, but we do not assure the
+  results of the functions are the same as the results of old versions.
+
+   void init_dc(uint32 seed)
+      Initializes this library, i.e., initialize the internal
+     random number generator of this library. One needs to call
+     this function once, before using any of get_mt_parameter(),
+     get_mt_parameter_id(), get_mt_parameters().
+     The seed may be any integer between 0 and 2^32-1, so
+     2^32 possible choices.
+
+       If this function is called with one same seed, then the
+     generated parameters are identical for any system, i.e.,
+     it is reproducible.
+
+     NOTE: This function is not used in new interface.
+
+
+   mt_struct *get_mt_parameter(int w, int p)
+       Search for a set of parameters for random number generator.
+     (We call such a parameter a "mt_struct parameter".) w is the
+     number of bits in one word of generated random numbers
+     (w=31 or 32 only). p is the exponent of the period. The period
+     should be 2^p-1, but p must be an Mersenne exponent, i.e.,
+     2^p-1 should be a prime. The list of usable p are as follows.
+       521   607  1279  2203
+       2281  3217  4253  4423
+       9689  9941 11213 19937
+       21701 23209 44497
+
+       This function returns a mt_struct parameter, when it
+     finds one, and returns NULL, when it failed to find.
+     The function genrand_mt() below will generate a random
+     number sequence of w-bit integers with period 2^p-1,
+     when this mt_struct parameter is passed.
+
+       Depending on the machine's speed, it may take one minute
+     or more in finding one mt_struct parameter even if p=521.
+     The average time in the search is rapidly increasing
+     with respect to p. For large p, it is expected to be
+     O(p^3).
+
+   mt_struct *get_mt_parameter_id(int w, int p, int id)
+       This is similar to the above get_mt_parameter().
+     get_mt_parameter() admits only w and p, but this function
+     takes one more parameter, called id, and generates a
+     mt_struct parameter, in which id is embedded.
+       id is an 16-bit integer. For different id's, the
+     generated random number sequences are highly independent.
+     (Mathematically saying, the characteristic polynomials
+     of the recursion are coprime to each other.)
+
+  mt_struct **get_mt_parameters(int w, int p, int max_id, int *count)
+       This searches for a set of mt_struct parameters with
+     id between start_id and max_id (start_id<=id<=max_id). Thus, it finds
+     (max_id-start_id)+1 independent mt_struct parameters, and make them
+     into an array, and return it. The maximum value of max_id
+     is 2^16-1.
+       This returns 'count', which is normally max_id - start_id + 1.
+     If some parameters are found and then error occurs or cannot
+     found new parameter, count will less than max_id - start_id + 1.
+       Users should call free_mt_struct_array after using structs, unless
+     This function returns NULL.
+
+  ===============
+  NEW INTERFACE
+  ===============
+  'init_dc' function is not used in new interface.
+  Instead, each function needs additional argument 'seed'.
+  New interface functions are so-called thread safe or thread independent.
+
+  mt_struct *get_mt_parameter_st(int w, int p, uint32_t seed)
+  Thread safe version of 'get_mt_parameter'.
+
+  mt_struct *get_mt_parameter_id_st(int w, int p, int id, uint32_t seed)
+  Thread safe version of 'get_mt_parameter_id'.
+
+  mt_struct **get_mt_parameters_st(int w, int p, int start_id, int max_id, uint32_t seed, int *count)
+  Thread safe version of 'get_mt_parameters'.
+
+  ===============
+  COMMON INTERFACE
+  ===============
+  Following functions are used commonly in old interface and new interface.
+
+  void sgenrand_mt(uint32_t seed, mt_struct *mts)
+       One mt_struct parameter has the information on the recursion
+     and the state vector. This function initializes this state vector
+     in mts with the seed. Before using the random numbers on the
+     mt_struct parameter mts, call this function once to initialize.
+     The seed is any integer between 0 and 2^32-1, and each seed
+     generates distinct sequences.
+
+  uint32_t genrand_mt(mt_struct *mts)
+       This returns a random number, generated from mts,
+     by using the recursion specified in the mts, and the state vector
+     inside mts.
+
+  void free_mt_struct(mt_struct *mts);
+   Free memories allocated by get_mt_parameter,
+   get_mt_parameter_id,get_mt_parameter_st or get_mt_parameter_id_st.
+
+  void free_mt_struct_array(mt_struct **mtss, int count);
+   Free memories allocated by get_mt_parameters or get_mt_parameters_st.
+
+4. Examples
+
+4.1 example1
+   Move to the directory "example", and execute "make example1".
+  Then an executable file "example1" will be created.
+
+   Execute "example1", and wait for one minute. Then
+  get_mt_parameter(32,521) will give a mt_struct parameter
+      period 2^521-1. (If it could not find one, then print
+  "error".)
+
+   This mt_struct parameter is stored in mts. Using this,
+  by genrand_mt(mts), 100 random numbers will be generated
+  and printed.
+
+4.2 example2
+   Similarly to 4.1, in the directory example, execute
+  "make example2" and obtain an executable file "example2".
+  Execute "example2", and wait for five minutes. Then
+  three mt_struct parameters of 32-bit and period 2^521-1.
+  Each has id 0,1,999.
+
+   Store these three mt_struct parameters in mts0, mts1, mts2.
+  Using these, genrand_mt() generates three highly independent
+  three random number sequnces. First tens of each sequence
+  will be printed.
+
+5. Caution
+   This library was developed on Vine Linux 2.6R4.
+  It is expected to work in most of 32-bit machines with
+  a C99 compiler.
+
+   This library is still under development, and may contain
+  some serious bugs. Please keep this in your mind. Report
+  the bugs to the authors, if you find any.
+
+6. Comment and bug reports
+
+   If you find any comments or bug, please kindly send an email
+  to both of or one of
+	nisimura@sci.kj.yamagata-u.ac.jp
+	m-mat@math.sci.hiroshima-u.ac.jp
+
+  The home page
+	http:/www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
+  contains newest information on our random number generators,
+  but will be rarely up-dated and frequently be down.
+
+7. References
+
+  [1] Makoto Matsumoto and Takuji Nishimura,
+      "Mersenne Twister: A 623-Dimensionally Equidistributed Uniform
+      Pseudorandom Number Generator",
+      ACM Transactions on Modeling and Computer Simulation,
+      Vol. 8, No. 1, 1998, pp 3--30.
+
+  [2] Makoto Matsumoto and Takuji Nishimura,
+      "Dynamic Creation of Pseudorandom Number Generators",
+      Monte Carlo and Quasi-Monte Carlo Methods 1998,
+      Springer, 2000, pp 56--69.

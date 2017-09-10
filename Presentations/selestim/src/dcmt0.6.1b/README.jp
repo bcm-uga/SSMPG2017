@@ -1,0 +1,232 @@
+             Dynamic Creator of Mersenne Twisters Ver. 0.6 (2009/12/15)
+
+
+1. はじめに
+
+  このCライブラリはDynamic Creator (疑似乱数発生Cコードを、ユーザ
+  の与えた仕様に合わせて、動的に生成するアルゴリズム)を実現する
+  ものです。
+
+  ユーザが与えることのできる仕様は、生成される乱数のワード長w
+  (現在のところw=31,32のみです)、周期(メルセンヌ素数に限られます)、
+  およびid番号です。
+
+  これらのパラメータをこのライブラリの関数に与えると、これらの
+  関数は乱数生成の漸化式に必要なパラメータを捜し出します。
+  異なるid番号に対して得られたパラメータからは、互いに独立性
+  の高い疑似乱数が得られると考えられます。
+
+  生成された一つ一つの疑似乱数発生法は、Mersenne Twister法と
+  呼ばれる広く普及した信頼性の高い発生法となっています。
+
+2. コンパイル
+
+  tarファイルを展開すると、次の３つのファイルと３つのディレクトリ
+  が現われます。
+
+  README 		このファイルの英語版
+  README.jp		このファイルの日本語版
+  VERSION		バージョン情報
+  CHANGELOG             更新ログ
+  lib			ライブラリ
+  include 		dc.h インクルードファイル
+  example		実行例
+
+  ライブラリをコンパイルするにはlibディレクトリへ移り,
+
+    make lib
+
+  を実行します。するとlibディレクトリにlibdcmt.aが出来上がり、
+  ライブラリのコンパイルが完了します。
+
+  このライブラリを使用するには, Cコードのソースファイルに、
+  上述のincludeディレクトリのdc.hをインクルードし, コンパイル時
+  にlibdcmt.aをリンクしください。
+
+3. 各関数の説明
+  ===============
+  旧インターフェイス
+  ===============
+  旧インターフェイス関数はthread safeではありません。
+  以前のバージョンと同じseed, idで同じパラメータになることを保証するわけではありません。
+
+  void init_dc(uint32 seed)
+   このライブラリを初期化する。このライブラリが持つ内部の乱数を
+   初期化します。
+   以下で説明する関数 get_mt_parameter(), get_mt_parameter_id(),
+   get_mt_parameters()を呼び出すまえに一度, この関数の呼び出す必要
+   があります。seedの値は0以上(2^32-1)以下の整数です。
+
+   この関数に同じseedを与えて初期化し、同じ仕様で乱数発生法
+   パラメータを要求すると、同じパラメータを生成します。
+
+   新インターフェイスでは、この関数を使用しませんその代わりに各関数で
+   seed を与えます。
+
+  mt_struct *get_mt_parameter(int w, int p)
+   乱数のパラメータを探します。構造体mt_structに適切な乱数生成パラ
+   メータをセットして返します。適切な乱数パラメータが見つからなけ
+   ればNULLを返します。wは生成する乱数のビット数を指定する。現在の
+   所w=31,32でなければなりません。pには周期の指数を指定します。
+   すなわち、この指定によって得られた乱数生成パラメータは、周期2^p-1
+   のwビット長の整数疑似乱数を生成するものです。
+   2^p-1は素数とならないといけません。このライブラリーで使える
+   pは、
+     521   607  1279  2203
+    2281  3217  4253  4423
+    9689  9941 11213 19937
+   21701 23209 44497
+   のいずれかです。(これらは、521以上44497以下のメルセンヌ指数です。)
+
+   この関数により得られたパラメータ(構造体mt_structのタイプを持つ)
+   をgenrand_mt()に渡す事によって周期2^p-1の乱数列が生成
+   されます。
+
+   なお、p=521でも一個の乱数パラメータの探索に１分程度かかる
+   ことがあります。また、pの増大につれて探索時間は急速に増大
+   します。(大きなpにたいしては、は大体 O(p^3)の計算時間が
+   かかると思われます。)
+
+  mt_struct *get_mt_parameter_id(int w, int p, int id)
+   乱数のパラメータを探します。上述のget_mt_parameterが
+   ビット長と周期のみを指定したのに対し、この関数ではさらに
+   idというパラメータをとります。idは16ビット長整数です。
+   異なるidに対しては、本質的に違う乱数パラメータが得られます。
+   (数学的にいうと、漸化式の特性多項式が互いに素となります。)
+   このため、異なるidから得られた乱数パラメータにより、
+   genrand_mt()を用いて得られる疑似乱数列の間の相関は、
+   少ないと考えられます。
+
+  mt_struct **get_mt_parameters(int w, int p, int max_id, int *count)
+   注意：この関数は旧インターフェイスですが、引数にcountが追加されています。
+   乱数のパラメータを探す。idがstart_idからmax_idまでの乱数パラメータを探
+   します(start_id<=id<=max_id)。すなわち、(max_id-start_id)+1個の独立な乱数
+   パラメータを探します。max_idの最大値は、2^16-1です。
+   この関数は'count'に値をセットします。通常は、max_id - start_id + 1を
+   セットしますが、途中まで正常に探索出来て、その後エラーが起こったり、
+   パラメータが見つからなかったりした時は、それより少ない数を返します。
+   ユーザーはmt_structを使い終わったら、free_mt_struct_array関数を呼ばなければ
+   なりません。ただし、この関数がNULLを返した時は呼ぶ必要がありません。
+  mt_struct *get_mt_parameter(int w, int p, uint32_t seed)
+   乱数のパラメータを探します。構造体mt_structに適切な乱数生成パラ
+   メータをセットして返します。適切な乱数パラメータが見つからなけ
+   ればNULLを返します。wは生成する乱数のビット数を指定する。現在の
+   所w=31,32でなければなりません。pには周期の指数を指定します。
+   すなわち、この指定によって得られた乱数生成パラメータは、周期2^p-1
+   のwビット長の整数疑似乱数を生成するものです。
+   2^p-1は素数とならないといけません。このライブラリーで使える
+   pは、
+     521   607  1279  2203
+    2281  3217  4253  4423
+    9689  9941 11213 19937
+   21701 23209 44497
+   のいずれかです。(これらは、521以上44497以下のメルセンヌ指数です。)
+
+   この関数により得られたパラメータ(構造体mt_structのタイプを持つ)
+   をgenrand_mt()に渡す事によって周期2^p-1の乱数列が生成
+   されます。
+
+   なお、p=521でも一個の乱数パラメータの探索に１分程度かかる
+   ことがあります。また、pの増大につれて探索時間は急速に増大
+   します。(大きなpにたいしては、は大体 O(p^3)の計算時間が
+   かかると思われます。)
+
+  ===============
+  新インターフェイス
+  ===============
+  新インターフェイスでは、init_dc関数を使用しません、その代わりに各関数で
+  seed を与えます。
+  新インターフェイスはthread safeまたは、thread independentです。
+
+  mt_struct *get_mt_parameter_st(int w, int p, uint32_t seed)
+  get_mt_parameterのthread safe版です。
+
+  mt_struct *get_mt_parameter_id_st(int w, int p, int id, uint32_t seed)
+  get_mt_parameter_id の thread safe 版です。
+
+  mt_struct **get_mt_parameters_st(int w, int p, int start_id, int max_id, uint32_t seed, int *count)
+  get_mt_parameters の thread safe 版です。
+
+  ===============
+  共通
+  ===============
+  新・旧インターフェイス共通の関数です。
+
+  void sgenrand_mt(uint32_t seed, mt_struct *mts)
+   乱数を初期化します。構造体mtsに乱数の初期状態をセットします。
+   genrand_mt(mts)を呼ぶ前に一度, 必ずこの関数を使用し乱数の初期状態
+   を設定する必要があります。seedは0から2^32-1までの符号無し整数で、
+   どの整数に対しても相異なる疑似乱数が生成されます。
+
+  uint32_t genrand_mt(mt_struct *mts)
+   乱数を生成します。引数で指定された構造体mtsにセットされている乱数パ
+   ラメータ, 及び状態ベクトルに基づいて乱数を生成し、次の状態ベクトル
+   に移ります。
+
+  void free_mt_struct(mt_struct *mts);
+   get_mt_parameter, get_mt_parameter_id,get_mt_parameter_st,
+   get_mt_parameter_id_st によって割当てられた構造体のメモリを開放します。
+
+  void free_mt_struct_array(mt_struct **mtss, int count);
+   get_mt_parameters,get_mt_parameters_st によって割当てられた構造体の
+   メモリを開放します。
+
+4. 実行例
+
+4.1 example1
+  ディレクトリexampleにうつり、make example1を実行して下さい。
+  実行可能ファイルexample1がつくられます。
+  これを実行し、1分ほど待つと周期2^521-1の32ビット長整数疑似乱数
+  生成パラメータが得られます。(get_mt_parameter(32,521)。得られな
+  かった場合にはerrorが出力されます。)
+
+  この乱数パラメータをmtsに保存し、それを用いてgenrand_mt(mts)
+  により100個の疑似乱数を生成して出力します。
+
+4.2 example2
+  4.1と同様に、ディレクトリexampleでmake example2を実行し
+  実行可能ファイルexample2をつくります。
+  これを実行し、5分ほど待つと周期2^521-1の32ビット長整数疑似乱数
+  生成パラメータ三つ、idが0,1,999であるものが得られます。
+  (get_mt_parameter_id(32,521,999)など。得られな
+  かった場合にはerrorが出力されます。)
+
+  この乱数パラメータをmts0, mts1, mts2に保存し、それを用いて
+  genrand_mt()により３つの系列の独立な疑似乱数を10個ずつ生成して
+  出力します。
+
+
+5. 注意
+
+  このライブラリはVine Linux 2.6R4を使って開発しました。
+  特別な事はしていないので, ほとんどの32ビット計算機上で
+  動くはずです。C99コンパイラが必要です。
+
+  このライブラリは未だ開発段階であるので注意して使用して下さい。
+
+
+6. コメントおよびバグレポート等
+
+   コメントおよびバグレポート等がありましたら,
+   nisimura@sci.kj.yamagata-u.ac.jp
+   あるいは
+   m-mat@math.sci.hiroshima-u.ac.jp
+   にメールを送って下さい.
+
+   最新の情報は
+   http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/mt.html
+   に載せられる予定ですが、ページ管理ができていません。
+
+7. 参考文献
+
+  [1] Makoto Matsumoto and Takuji Nishimura,
+      "Mersenne Twister: A 623-Dimensionally Equidistributed Uniform
+      Pseudorandom Number Generator",
+      ACM Transactions on Modeling and Computer Simulation,
+      Vol. 8, No. 1, 1998, pp 3--30.
+
+  [2] Makoto Matsumoto and Takuji Nishimura,
+      "Dynamic Creation of Pseudorandom Number Generators",
+      Monte Carlo and Quasi-Monte Carlo Methods 1998,
+      Springer, 2000, pp 56--69.
+
