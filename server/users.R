@@ -22,12 +22,33 @@ observeEvent(input$users, {
 
 observeEvent(input$create, {
   hash.pwd <- digest::digest(paste0("SSMPG2017", input$new_password), algo = "md5")
-  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db.file)
   user.df <- RSQLite::dbReadTable(db, "user")
   if (input$new_username %in% user.df$name) {
     showModal(createModal(failed = 1))  
   } else {
     dplyr::db_insert_into(db, "user", tibble::tibble(name = input$new_username, password = hash.pwd))
+    ## init
+    dplyr::db_insert_into(con = db, 
+                          table = "submission", 
+                          values = tibble::tibble(name = input$new_username,
+                                                  date = as.character(Sys.time()),
+                                                  challenge = "1",
+                                                  dataset = "Training set",
+                                                  methods = "None",
+                                                  candidates = "0",
+                                                  regions = "0")
+    )
+    dplyr::db_insert_into(con = db, 
+                          table = "submission", 
+                          values = tibble::tibble(name = input$new_username,
+                                                  date = as.character(Sys.time()),
+                                                  challenge = "1",
+                                                  dataset = "Evaluation set",
+                                                  methods = "None",
+                                                  candidates = "0",
+                                                  regions = "0")
+    )
     removeModal()
     showModal(modalDialog(
         span(paste(input$new_username, "has been successfully created.")),

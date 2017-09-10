@@ -1,21 +1,21 @@
-observeEvent(c(input$update, input$switch), {
+observeEvent(c(input$update, input$switch, input$dataset), {
   if (input$tab == "challenge") {
-    db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
+    db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db.file)
     df <- RSQLite::dbReadTable(db, "submission")
     RSQLite::dbDisconnect(db)
     
     # Retrieve the latest submission for each team
     df <- df %>% 
-      filter(challenge == n.challenge()) %>%
+      filter(challenge == n.challenge(), dataset == input$dataset) %>%
       group_by(name) %>% 
       summarise(rank = which.max(as.POSIXct(date)), 
                 candidates = `if`(input$switch, regions[rank], candidates[rank]),
                 date = date[rank],
-                N = n()) %>%
+                N = n() - 1) %>%
       mutate(r = sapply(stringr::str_split(candidates, ", "), FUN = function(X) {mean(gt() %in% as.integer(X))}),
              p = sapply(stringr::str_split(candidates, ", "), FUN = function(X) {mean(as.integer(X) %in% gt())}),
              g = sqrt(r * p),
-             FDR = 1 - p,
+             FDR = (1 - p) * (N > 0),
              Power = r,
              G_score = sapply(g, FUN = function(X) {`if`(is.nan(X), 0, X)}),
              candidates = NULL,
@@ -35,6 +35,7 @@ observeEvent(c(input$update, input$switch), {
         select(rank, name, G_score, Power, FDR, N) %>%
         rename("G-score" = "G_score", "Team" = "name", "Rank" = "rank", "Submissions" = "N") %>%
         DT::datatable(escape = FALSE, rownames = FALSE, 
+                      caption =  input$dataset,
                       options = list(initComplete = DT::JS(
                         "function(settings, json) {",
                         "$(this.api().table().header()).css({'background-color': '#49c', 'color': '#fff'});",
@@ -54,8 +55,12 @@ observeEvent(c(input$update, input$switch), {
                  alpha = 0.6, 
                  color = "#32ab60") +
         geom_label(fontface = "bold", color = "steelblue", hjust = 1.1, vjust = 0.5) +
+        ggtitle(label = input$dataset) +
         theme_bw() +
-        theme(axis.title.x = element_blank(),
+        theme(plot.title = element_text(hjust = 0.5, 
+                                        face = "bold", 
+                                        size = 15),
+              axis.title.x = element_blank(),
               axis.title.y = element_blank(),
               axis.text.y = element_blank())
     })
