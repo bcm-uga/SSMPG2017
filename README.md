@@ -31,6 +31,8 @@ devtools::install_github("whitlock/OutFLANK")
 
 #Package to run pcadapt
 devtools::install_github("bcm-uga/pcadapt")
+install.packages("bigstatsr")
+devtools::install_github("privefl/bigsnpr")
 
 #Package q-value for controlling FDR
 #Try https:// or http:// 
@@ -44,7 +46,12 @@ install.packages("rehh")
 install.packages("ape")
 ```
 
+### OutFLANK resources
 [Link to tutorial for OutFLANK](http://rpubs.com/lotterhos/outflank)
+
+[OutFLANK website](https://github.com/whitlock/OutFLANK)
+
+[Whitlock MC and KE Lotterhos. 2015. Reliable Detection of Loci Responsible for Local Adaptation: Inference of a Null Model through Trimming the Distribution of FST. American Naturalist](http://www.journals.uchicago.edu/doi/abs/10.1086/682949)
 
 ### Install BAYPASS
 
@@ -114,11 +121,13 @@ SelEstim uses [OpenMP](href{http://openmp.org/wp/) to implement multithreading, 
 
 ##  2. Download datasets
 
-Go to the [submission website](http://176.31.253.205/shiny/SSMPG2017/) to download datasets for the challenges.
-
 The first challenge is the **Dahu** challenge. Teams are asked to analyze simulated data for the Dahu challenge.
 
+Download the [training](https://drive.google.com/open?id=0B2RlEpeOlBn_Rk52bEgwZmtzeGc) and the [validation](https://drive.google.com/open?id=0B2RlEpeOlBn_RndaUExoQTFkaUU) dataset for the Dahu challenge.
+
 The second challenge is the **Cichlid** challenge. Teams are asked to analyze true data for the  Cichlid challenge.
+
+Data should be available soon for the **Cichlid** challenge.
 
 ## 3. Form a team
 
@@ -154,7 +163,7 @@ A prize will be provided to the best team according to the marker-based score an
 
 Submissions will be evaluated based on subjective evaluations by instructors based on presentations.
 
-## 5. Presentation
+## 5. Presentations
 
-During the SSMPG prize ceremony, each team will be asked  to present 2-3 slides for each challenge.
+During the SSMPG prize ceremony, each team will be asked to present 2-3 slides for each challenge.
 

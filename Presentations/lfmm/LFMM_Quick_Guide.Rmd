@@ -1,0 +1,294 @@
+---
+title: 'LFMM: quick user guide'
+author: "Olivier Francois"
+date: "8 septembre 2017"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+**Abstract:** This short tutorial provides brief examples on how the R packages **lfmm** and **LEA** can be used for fitting latent factor mixed models and evaluating association between genotypic variation and phenotypic traits or environmental covariates. Three algorithms are presented: ridge regression, lasso regression and a Bayesian (bootstrap) algorithm.
+
+***
+### Short introduction 
+
+Latent factor mixed models (LFMMs) are statistical regression models that can fit linear regression models to the data in order to test associations between a multidimensional set of response variables and a set of explanatory variables. The response variables can include multiple genotypes, and the explanatory variables can represent environmental measures or measures of phenotypic traits. LFMMs include unobserved variables, called latent factors, that correct the model for confounding effects due to population structure and other hidden causes. Yechnically, LFMMs are defined according to the following formula 
+$$
+ Y = X B^T + U V^T + E
+$$
+where $Y$ is an $n \times p$ matrix of observations of $p$ variables (e.g., genotypes) on $n$ individuals, $X$ is an $n \times d$ matrix of explanatory variables measured for the $n$ individuals, $B$ is a $p \times d$ matrix of effects for all explanatory variables, $U$ is an $n \times K$ matrix of latent variables (confounders), and $V$ is a $p \times d$ matrix of loadings for all latent variables.
+
+LFMMs belong to a broad class of genome-wide association studies (GWAS) statistical models. In population genetics, LFMMs were used by Frichot et al. (2013) for testing correlation between loci and ecological variables. Recent implementations of LFMMs are available in the R packages **lfmm**, **LEA** (Frichot et al. 2013), **sva** (Leek and Storey 2008), and **cate** (Wang et al. 2017).  
+
+For numerical effiency, we present examples using the R package **lfmm**: 
+```{r}
+#devtools::install_github("bcm-uga/lfmm")
+```
+
+
+### Reading data matrices
+
+We illustrate the use of **lfmm** methods with the data used for challenge 1 (**sim1a**). We first present some analyses based on the raw data without filtering. A preliminary operation consists of scaling the data (not mandatory, but recommended). 
+
+```{r}
+sim1 <- readRDS("sim1a.rds")
+# extract scaled genotypes
+scaled.genotype <- scale(as.matrix(t(sim1$G)))
+# extract scaled phenotypes
+x <- scale(as.matrix(sim1$phenotype1))
+```
+
+The **scaled.genotype** object contains the standardized values of genotypes for 1000 individuals and 5940 SNP loci. This object is a matrix with $n = 1000$ rows and $p = 5940$ columns.  The **x** object contains the standardized values of phenotypes for 1000 individuals. This object is a matrix $p = 5940$ rows and a single column. 
+
+A principal component analysis can reveal some 'population structure' in the genotypic data. We perfom PCA by using the **prcomp** function as follows. 
+
+
+```{r}
+pc <- prcomp(scaled.genotype)
+plot(pc$sdev[1:20]^2)
+points(5,pc$sdev[5]^2, type = "h", lwd = 3, col = "blue")
+```
+
+The screeplot indicates that there are $K = 5$ main components in the data. We will use $K = 5$ latent factors in subsequent analyses with LFMMs.
+
+### Basic commands: Ridge penalty.
+
+LFMM parameters can be estimated by solving regularized least-squares mimimization with ridge penalty as follows.     
+
+```{r}
+lfmm.ridge <- lfmm::lfmm_ridge(Y = scaled.genotype, X = x, K = 5, lambda = 1e-4)
+```
+
+The **lfmm.ridge** object contains estimates for the latent variables and for the effect sizes. Here, the estimates are used for computing calibrated significance values and for testing associations between the response matrix Y and the explanatory variable x. It can be done as follows:  
+
+
+```{r}
+lfmm.test <- lfmm::lfmm_test(Y = scaled.genotype, X = x, lfmm = lfmm.ridge, calibrate = "gif")
+
+p.values <- lfmm.test$calibrated.pvalue
+
+lfmm.test$gif
+```
+
+The next steps are common to many testing methods. First, we display an histogram of pvalues for checking that it has flat shape, with a peak close to zero.
+
+```{r}
+hist(p.values, col = "lightgreen")
+```
+
+Next, we use an FDR control algorithm and compute q-values. 
+
+
+```{r}
+qval <- qvalue::qvalue(p.values)
+plot(qval)
+```
+
+The plot suggests that setting fdr.level = 0.025 warrant few false positives. 
+
+```{r}
+qval <- qvalue::qvalue(p.values, fdr.level = 0.025)
+candidates <- which(qval$significant)
+```
+
+We eventually show a 'Manhattan' plot, where candidate loci are colored in orange.
+
+```{r}
+plot(-log10(p.values), cex = .5, pch = 19, col = "grey")
+points(candidates, -log10(p.values[candidates]), cex = .5, pch = 19, col = "orange")
+```
+
+We write the corresponding genomic positions in a candidate list for submission to the ssmpg competition web-site.
+
+```{r}
+write(file="mylist_lfmm_ridge.txt", sim1$position[candidates], ncol = 1)
+```
+
+
+### Fitting with lasso  
+
+LFMM parameters can alternatively be estimated by solving regularized least-squares mimimization, with lasso penalty as follows.     
+
+
+```{r, echo = FALSE}
+lfmm.lasso <- lfmm::lfmm_lasso(Y = scaled.genotype, X = x, K = 5, nozero.prop = 0.02)
+```
+
+The **lfmm.lasso** object contains new estimates for the latent variables and for the effect sizes. Note that for lasso, we didn't set the value of a regularization parameter. Instead, we set the proportion of non-null effects (here 2 percent). 
+
+
+Following the same commands as for the ridge regression model, the lasso regression estimates can used for computing calibrated significance values and for testing associations between the response matrix Y and the explanatory variable x. 
+
+
+```{r}
+lfmm.test <- lfmm::lfmm_test(Y = scaled.genotype, X = x, lfmm = lfmm.lasso, calibrate = "gif")
+
+p.values <- lfmm.test$calibrated.pvalue
+
+lfmm.test$gif
+
+hist(p.values, col = "lightblue")
+```
+
+```{r}
+qval <- qvalue::qvalue(p.values)
+plot(qval)
+```
+
+
+```{r}
+qval <- qvalue::qvalue(p.values, fdr.level = 0.025)
+candidates <- which(qval$significant)
+```
+
+
+```{r}
+plot(-log10(p.values), cex = .5, pch = 19, col = "grey")
+points(candidates, -log10(p.values[candidates]), cex = .5, pch = 19, col = "orange")
+```
+
+
+
+```{r}
+write(file="mylist_lfmm_lasso.txt", sim1$position[candidates], ncol = 1)
+```
+
+### Preprocessing the data 
+
+GWAS data analysis usually follows a number of preprocessing steps, including filtering the data (QC and MAF thesholding), LD pruning, imputation of missing genotypes. Here we show the effect of MAF filtering (LD pruning could be achieved by using the R package **SNPRelate**). 
+
+```{r}
+sim1 <- readRDS("sim1a.rds")
+genotype <- as.matrix(t(sim1$G))
+spectrum <- apply(genotype, 2, sum)
+```
+
+We first display a site frequency spectrum. 
+
+```{r}
+plot(table(spectrum)[1:100])
+```
+
+We decide to filter out loci with MAF lower than 50 (five percent) and define a new matrix with less genotypes: **genotype.filtered**
+
+```{r}
+genotype.filtered <- genotype[,spectrum > 50]
+position.filtered <- sim1$position[spectrum > 50]
+dim(genotype.filtered)
+```
+
+Next, we repeat the test and provide a new list of candidates for the website. 
+
+
+```{r}
+lfmm.lasso.filter <- lfmm::lfmm_lasso(Y = scale(genotype.filtered), X = x, K = 5, nozero.prop = 0.02)
+```
+
+```{r}
+lfmm.test <- lfmm::lfmm_test(Y = scale(genotype.filtered), X = x, lfmm = lfmm.lasso.filter, calibrate = "gif")
+
+p.values <- lfmm.test$calibrated.pvalue
+
+lfmm.test$gif
+
+hist(p.values, col = "lightblue")
+```
+
+```{r}
+qval <- qvalue::qvalue(p.values)
+plot(qval)
+```
+
+
+```{r}
+qval <- qvalue::qvalue(p.values, fdr.level = 0.025)
+candidates <- which(qval$significant)
+```
+
+
+```{r}
+plot(-log10(p.values), cex = .5, pch = 19, col = "grey")
+points(candidates, -log10(p.values[candidates]), cex = .5, pch = 19, col = "orange")
+```
+
+
+```{r}
+write(file="mylist_lfmm_filter.txt", position.filtered[candidates], ncol = 1)
+```
+
+### Fitting LFMM with LEA 
+
+LFMM parameters can be estimated by using a hierarchical Bayesian model with sparse priors, as implemented in LEA. The algorithm is implemented in the R package **LEA**.   
+
+
+```{r}
+#devtools::install_github("bcm-uga/LEA")
+```
+
+Because **LEA::lfmm** is slower than **lfmm::lfmm** we use less individuals and genotypes. We also need to convert the data to the lfmm format and write external files (".lfmm", ".env").  
+
+```{r}
+genotype <- genotype[seq(1,1000, by = 2),]
+spectrum <- apply(genotype, 2, sum)
+genotype.filtered <- genotype[,spectrum > 50]
+position.filtered <- sim1$position[spectrum > 50]
+
+# creation of a genotype file: genotype.lfmm.
+LEA::write.lfmm(t(sim1$G), "genotype.lfmm")
+
+# Creation of a phenotype/environment file: x.env.
+LEA::write.env(sim1$phenotype1, "x.env")
+```
+
+We perform estimation as follows. Running this command could take around one hour of time, depending on your CPUs. 
+
+```{r}
+project.lfmm = LEA::lfmm( "genotype.lfmm", 
+                          "x.env", 
+                           K = 5, 
+                           repetitions = 3,
+                           CPU = 4,
+                           project = "new")
+```
+
+```{r}
+# get adjusted p-values using all runs
+pv = LEA::lfmm.pvalues(project.lfmm, K = 5)
+```
+
+The file steps are common to all methods.
+
+
+```{r}
+hist(pv$pvalues, col = "tomato")
+```
+
+```{r}
+qval <- qvalue::qvalue(pv$pvalues)
+plot(qval)
+```
+
+
+
+```{r}
+qval <- qvalue::qvalue(pv$pvalues, fdr.level = 0.005)
+candidates <- which(qval$significant)
+```
+
+
+```{r}
+plot(-log10(pv$pvalues), cex = .5, pch = 19, col = "grey")
+points(candidates, -log10(pv$pvalues[candidates]), cex = .5, pch = 19, col = "orange")
+```
+
+
+```{r}
+write(file="mylist_lfmm_LEA.txt", position.filtered[candidates], ncol = 1)
+```
+
