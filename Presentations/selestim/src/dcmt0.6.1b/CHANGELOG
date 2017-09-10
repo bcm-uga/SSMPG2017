@@ -1,0 +1,32 @@
+version 0.6.1b
+ License is changed to BSD.
+
+version 0.6.1
+ speed improvement using zero-excess initial state. (2010/1/15)
+ change print format specifier (2010/1/20)
+
+version 0.6
+ All global variables are moved into structures. (thread safe or thread independent) (2009/12/15)
+ lenstra algorithm is replaced by pivot_reduction algorithm. (2009/12/15)
+ Interface changed (2009/12/15)
+ Revive old interfaces (2009/12/22) CAUTION:old interfaces are thread unsafe.
+
+version 0.5
+ A bug delete_mt_array() in lib/seive.c is fixed. (2009/3/24)
+ A bug _sgenrand_dc() in lib/mt19937.c is fixed. (2009/3/24)
+
+version 0.4
+ A bug in sgenrand_mt() in lib/genmtrand.c is fixed. (2007/8/11)
+
+version 0.3
+  ``uint32'' is replaced by ``uint32_t.'' (2006/11/27)
+
+version 0.2.1
+ ``inttypes.h'' is included.
+ typedef unsigned int uint32; --> typedef uint32_t uint32;
+ A C99 complier is required. (2006/11/18)
+
+version 0.2
+ _sgenrand_dc() in lib/mt19937.c is changed. (2002/2/21)
+ sgenrand_mt() in lib/genmtrand.c is changed. (2002/2/21)
+

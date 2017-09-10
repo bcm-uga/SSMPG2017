@@ -1,0 +1,1613 @@
+------------------------------------------------------------------------------------
+Wed Sep  6 08:25:36 2017
+------------------------------------------------------------------------------------
+
+./src/selestim -file data/data.dat -burnin 5000 -npilot 15 -lpilot 500 -length 25000 -thin 25 -outputs run-example/ 
+
+This analysis was performed using selestim (version 1.1.7)
+
+Checking file `data/data.dat'... OK
+The data consist in 2249 SNPs and 4 sampled populations
+
+------------------------------------------------------------------------------------
+Mean sample size (min, max) per sampled population:
+------------------------------------------------------------------------------------
+Population no.  1: 100.00 (100,100)
+Population no.  2: 100.00 (100,100)
+Population no.  3: 100.00 (100,100)
+Population no.  4: 100.00 (100,100)
+------------------------------------------------------------------------------------
+Overall          : 100.00 (100,100)
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+Overall genetic differentiation (F_ST)                                = 0.0621
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+Prior distribution of lambda is inverse gamma (lambda_prior)
+    with shape parameter (invgam_shape)                               = 3.000000
+    and rate parameter (invgam_rate)                                  = 2.000000
+
+Number of threads used (threads)                                      = 8
+Random number generator's seed (seed)                                 = 1504679136
+
+Length of the burn-in period (burnin)                                 = 5000
+Run length of the Markov chain (length)                               = 25000
+Thinning interval (thin)                                              = 25
+Number of MCMC samples (length / thin)                                = 1000
+Number of pilot studies (npilot)                                      = 15
+Length of each pilot study (lpilot)                                   = 500
+
+Lower bound of the interval for M (min_M)                             = 0.001000
+Upper bound of the interval for M (max_M)                             = 10000.00
+Upper bound of the interval for sigma (max_sig)                       = 700.00
+Initial half window width for updates of allele counts (dlt_cnt)      = 5
+Initial half window width for updates of p (dlt_p)                    = 0.250000
+Initial SD of the lognormal for updates of M (dlt_M)                  = 0.100000
+Initial half window width for updates of pi (dlt_pi)                  = 0.250000
+Initial SD of the lognormal for updates of sigma (dlt_sig)            = 2.500000
+Initial SD of the lognormal for updates of delta (dlt_del)            = 0.800000
+Initial half window width for updates of mu (dlt_beta_mu)             = 0.025000
+Initial SD of the lognormal for updates of nu (dlt_beta_nu)           = 1.000000
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+Pilot run #1: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6994 [0.0002,1.0000]
+		average updating parameter = 0.2329 [0.2000,0.2500]
+		average acceptance rate = 0.2571 [0.0060,0.3780]
+		3082 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 17.8737 [13.2829,25.2056]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.2990 [0.2680,0.3220]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.2587
+		updating parameter = 0.0250
+		average acceptance rate = 0.3160
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0497
+		updating parameter = 0.8000
+		average acceptance rate = 0.0320
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7018 [0.0482,0.9895]
+		average updating parameter = 0.2480 [0.2000,0.3125]
+		average acceptance rate = 0.3188 [0.1060,0.4180]
+		113 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.7500
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.8162 [0.0010,13.9726]
+		average updating parameter = 0.9999 [0.8000,1.0000]
+		average acceptance rate = 0.5493 [0.3920,0.6340]
+		2248 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.8037 [0.0000,57.8115]
+		average updating parameter = 3.1167 [2.0000,3.1250]
+		average acceptance rate = 0.4576 [0.1360,0.5520]
+		8887 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #2: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6988 [0.0001,1.0000]
+		average updating parameter = 0.2237 [0.1600,0.2500]
+		average acceptance rate = 0.2726 [0.0220,0.4320]
+		1842 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 16.4422 [11.5363,25.0954]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3125 [0.2900,0.3260]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.3021
+		updating parameter = 0.0250
+		average acceptance rate = 0.2580
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0273
+		updating parameter = 0.6400
+		average acceptance rate = 0.0480
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6985 [0.0173,0.9910]
+		average updating parameter = 0.2472 [0.1600,0.3125]
+		average acceptance rate = 0.3210 [0.1440,0.4300]
+		87 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.2911
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2599 [0.0011,9.9530]
+		average updating parameter = 1.2484 [1.0000,1.2500]
+		average acceptance rate = 0.4780 [0.3460,0.5580]
+		2236 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.2285 [0.0000,33.0696]
+		average updating parameter = 3.3975 [1.6000,3.9062]
+		average acceptance rate = 0.3926 [0.1560,0.5200]
+		3259 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #3: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6994 [0.0000,1.0000]
+		average updating parameter = 0.2181 [0.1280,0.2500]
+		average acceptance rate = 0.2822 [0.0180,0.4160]
+		1272 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 16.8014 [12.0193,22.6394]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.2980 [0.2720,0.3360]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.2175
+		updating parameter = 0.0250
+		average acceptance rate = 0.3140
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0285
+		updating parameter = 0.5120
+		average acceptance rate = 0.0500
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6991 [0.0341,0.9892]
+		average updating parameter = 0.2469 [0.1280,0.3125]
+		average acceptance rate = 0.3238 [0.2000,0.4300]
+		54 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.5453
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.4700 [0.0001,10.1450]
+		average updating parameter = 1.4438 [1.0000,1.5625]
+		average acceptance rate = 0.4094 [0.2860,0.5180]
+		1408 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.4935 [0.0000,52.7737]
+		average updating parameter = 3.5782 [1.2800,4.8828]
+		average acceptance rate = 0.3701 [0.2120,0.4880]
+		2086 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #4: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6993 [0.0004,1.0000]
+		average updating parameter = 0.2144 [0.1024,0.2500]
+		average acceptance rate = 0.2887 [0.0200,0.4420]
+		960 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 17.7474 [12.6764,26.4964]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3255 [0.2960,0.3600]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.0719
+		updating parameter = 0.0200
+		average acceptance rate = 0.2480
+		1 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 0.9759
+		updating parameter = 0.4096
+		average acceptance rate = 0.0640
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7005 [0.0407,0.9863]
+		average updating parameter = 0.2466 [0.1024,0.3125]
+		average acceptance rate = 0.3222 [0.1760,0.4220]
+		55 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.6890
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.6754 [0.0012,13.9661]
+		average updating parameter = 1.5220 [1.0000,1.9531]
+		average acceptance rate = 0.3696 [0.2720,0.4960]
+		558 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.6589 [0.0001,73.4018]
+		average updating parameter = 3.6877 [1.2800,4.8828]
+		average acceptance rate = 0.3547 [0.2020,0.4700]
+		1262 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #5: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6993 [0.0006,1.0000]
+		average updating parameter = 0.2113 [0.0819,0.2500]
+		average acceptance rate = 0.2937 [0.0140,0.4160]
+		830 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 16.9732 [11.6025,23.5437]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3300 [0.3140,0.3380]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.3841
+		updating parameter = 0.0200
+		average acceptance rate = 0.3240
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0802
+		updating parameter = 0.3277
+		average acceptance rate = 0.1120
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7004 [0.0441,0.9880]
+		average updating parameter = 0.2464 [0.1024,0.3125]
+		average acceptance rate = 0.3235 [0.1460,0.4320]
+		37 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.5718
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.5307 [0.0005,16.2931]
+		average updating parameter = 1.5489 [1.0000,1.9531]
+		average acceptance rate = 0.3529 [0.2600,0.4880]
+		189 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.5474 [0.0000,42.2345]
+		average updating parameter = 3.7573 [1.2800,4.8828]
+		average acceptance rate = 0.3461 [0.2000,0.4820]
+		807 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #6: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6994 [0.0007,1.0000]
+		average updating parameter = 0.2090 [0.0655,0.2500]
+		average acceptance rate = 0.2980 [0.0400,0.4140]
+		665 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 17.3090 [12.1693,25.0219]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3085 [0.2960,0.3220]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.3522
+		updating parameter = 0.0200
+		average acceptance rate = 0.3460
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0674
+		updating parameter = 0.2621
+		average acceptance rate = 0.1200
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7009 [0.0431,0.9931]
+		average updating parameter = 0.2466 [0.1024,0.3125]
+		average acceptance rate = 0.3227 [0.2240,0.4380]
+		39 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.4922
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.5276 [0.0001,11.0878]
+		average updating parameter = 1.5632 [1.0000,1.9531]
+		average acceptance rate = 0.3466 [0.2480,0.4800]
+		99 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.5309 [0.0000,52.3141]
+		average updating parameter = 3.8068 [1.2800,4.8828]
+		average acceptance rate = 0.3405 [0.2380,0.4800]
+		581 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #7: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6992 [0.0001,1.0000]
+		average updating parameter = 0.2073 [0.0524,0.2500]
+		average acceptance rate = 0.3014 [0.0460,0.4180]
+		501 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 17.1086 [12.7705,23.2158]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.2895 [0.2780,0.3120]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.2657
+		updating parameter = 0.0200
+		average acceptance rate = 0.3760
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0374
+		updating parameter = 0.2097
+		average acceptance rate = 0.1240
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7004 [0.0509,0.9899]
+		average updating parameter = 0.2461 [0.1024,0.3125]
+		average acceptance rate = 0.3217 [0.1160,0.4240]
+		48 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.6339
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.6737 [0.0002,14.4680]
+		average updating parameter = 1.5715 [1.0000,1.9531]
+		average acceptance rate = 0.3447 [0.2220,0.4640]
+		66 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.6356 [0.0000,54.9833]
+		average updating parameter = 3.8375 [1.2800,4.8828]
+		average acceptance rate = 0.3356 [0.2280,0.4800]
+		363 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #8: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6992 [0.0007,1.0000]
+		average updating parameter = 0.2060 [0.0419,0.2500]
+		average acceptance rate = 0.3049 [0.0260,0.4240]
+		384 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 16.8656 [10.9558,23.7901]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.2895 [0.2800,0.3040]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.3057
+		updating parameter = 0.0200
+		average acceptance rate = 0.3500
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0795
+		updating parameter = 0.1678
+		average acceptance rate = 0.1660
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6998 [0.0230,0.9886]
+		average updating parameter = 0.2462 [0.1024,0.3125]
+		average acceptance rate = 0.3253 [0.1480,0.4440]
+		51 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.1878
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2415 [0.0002,8.8477]
+		average updating parameter = 1.5775 [1.0000,1.9531]
+		average acceptance rate = 0.3433 [0.2380,0.4660]
+		46 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.2582 [0.0000,38.0575]
+		average updating parameter = 3.8618 [1.2800,4.8828]
+		average acceptance rate = 0.3348 [0.2320,0.4620]
+		288 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #9: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6995 [0.0011,1.0000]
+		average updating parameter = 0.2048 [0.0336,0.2500]
+		average acceptance rate = 0.3068 [0.1160,0.4300]
+		340 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 16.5526 [12.2429,22.8941]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3050 [0.2900,0.3220]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.3624
+		updating parameter = 0.0200
+		average acceptance rate = 0.3160
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0334
+		updating parameter = 0.1342
+		average acceptance rate = 0.2120
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7015 [0.0475,0.9948]
+		average updating parameter = 0.2462 [0.1024,0.3125]
+		average acceptance rate = 0.3244 [0.2040,0.4220]
+		46 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.4842
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.4911 [0.0003,10.9090]
+		average updating parameter = 1.5846 [1.0000,1.9531]
+		average acceptance rate = 0.3423 [0.2280,0.4620]
+		46 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.4896 [0.0000,59.0052]
+		average updating parameter = 3.8756 [1.2800,4.8828]
+		average acceptance rate = 0.3319 [0.2360,0.4700]
+		163 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #10: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6997 [0.0001,1.0000]
+		average updating parameter = 0.2039 [0.0268,0.2500]
+		average acceptance rate = 0.3087 [0.0820,0.4280]
+		313 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 17.0286 [11.9234,24.5707]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.2990 [0.2740,0.3180]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.3143
+		updating parameter = 0.0200
+		average acceptance rate = 0.3560
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0154
+		updating parameter = 0.1342
+		average acceptance rate = 0.2920
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7002 [0.0330,0.9885]
+		average updating parameter = 0.2461 [0.0819,0.3125]
+		average acceptance rate = 0.3241 [0.2320,0.4280]
+		22 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.3236
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.3233 [0.0002,9.5877]
+		average updating parameter = 1.5898 [1.0000,1.9531]
+		average acceptance rate = 0.3416 [0.2300,0.4480]
+		46 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.3487 [0.0000,60.2100]
+		average updating parameter = 3.8861 [1.2800,4.8828]
+		average acceptance rate = 0.3314 [0.2180,0.5140]
+		134 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #11: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6993 [0.0013,1.0000]
+		average updating parameter = 0.2031 [0.0215,0.2500]
+		average acceptance rate = 0.3098 [0.0920,0.4780]
+		254 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 16.4288 [11.9637,23.2534]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3260 [0.3180,0.3380]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.2661
+		updating parameter = 0.0250
+		average acceptance rate = 0.4040
+		1 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0768
+		updating parameter = 0.1074
+		average acceptance rate = 0.2300
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7007 [0.0486,0.9895]
+		average updating parameter = 0.2461 [0.1024,0.3125]
+		average acceptance rate = 0.3248 [0.1900,0.4320]
+		37 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.2552
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2126 [0.0009,8.2844]
+		average updating parameter = 1.5942 [1.0000,1.9531]
+		average acceptance rate = 0.3406 [0.2200,0.4320]
+		40 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.2421 [0.0000,46.6599]
+		average updating parameter = 3.8918 [1.2800,4.8828]
+		average acceptance rate = 0.3312 [0.2140,0.4640]
+		87 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #12: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6999 [0.0020,1.0000]
+		average updating parameter = 0.2022 [0.0215,0.2500]
+		average acceptance rate = 0.3110 [0.0660,0.4380]
+		272 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 16.8014 [11.9322,23.1744]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3245 [0.3000,0.3720]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.2648
+		updating parameter = 0.0250
+		average acceptance rate = 0.2520
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 0.9865
+		updating parameter = 0.1074
+		average acceptance rate = 0.2860
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7009 [0.0470,0.9962]
+		average updating parameter = 0.2461 [0.0819,0.3125]
+		average acceptance rate = 0.3226 [0.1880,0.4320]
+		32 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.5783
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.5574 [0.0004,18.0105]
+		average updating parameter = 1.5968 [1.0000,1.9531]
+		average acceptance rate = 0.3403 [0.2240,0.4380]
+		44 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.5517 [0.0000,45.7693]
+		average updating parameter = 3.8964 [1.2800,4.8828]
+		average acceptance rate = 0.3300 [0.2040,0.4620]
+		76 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #13: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6995 [0.0015,1.0000]
+		average updating parameter = 0.2015 [0.0172,0.2500]
+		average acceptance rate = 0.3130 [0.1300,0.4460]
+		227 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 17.2338 [12.5668,23.9360]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.2880 [0.2680,0.3060]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.3193
+		updating parameter = 0.0250
+		average acceptance rate = 0.2900
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0324
+		updating parameter = 0.1074
+		average acceptance rate = 0.2960
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7002 [0.0357,0.9884]
+		average updating parameter = 0.2460 [0.0819,0.3125]
+		average acceptance rate = 0.3235 [0.2320,0.4240]
+		30 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.6919
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.6473 [0.0001,12.2063]
+		average updating parameter = 1.6000 [1.0000,1.9531]
+		average acceptance rate = 0.3394 [0.2260,0.4400]
+		40 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.6499 [0.0000,55.5852]
+		average updating parameter = 3.8991 [1.2800,4.8828]
+		average acceptance rate = 0.3297 [0.1960,0.4700]
+		54 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #14: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6988 [0.0018,1.0000]
+		average updating parameter = 0.2009 [0.0172,0.2500]
+		average acceptance rate = 0.3136 [0.1220,0.5260]
+		227 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 17.2698 [12.2880,23.7224]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.2990 [0.2840,0.3140]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.2590
+		updating parameter = 0.0250
+		average acceptance rate = 0.2660
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0315
+		updating parameter = 0.1074
+		average acceptance rate = 0.2900
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7001 [0.0555,0.9870]
+		average updating parameter = 0.2459 [0.0819,0.3125]
+		average acceptance rate = 0.3254 [0.2220,0.4260]
+		34 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.2993
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.3057 [0.0003,9.3048]
+		average updating parameter = 1.6024 [1.0000,1.9531]
+		average acceptance rate = 0.3389 [0.2200,0.4260]
+		38 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.3185 [0.0000,51.9999]
+		average updating parameter = 3.9011 [1.2800,4.8828]
+		average acceptance rate = 0.3296 [0.2180,0.4540]
+		43 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Pilot run #15: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6995 [0.0011,1.0000]
+		average updating parameter = 0.2005 [0.0172,0.3125]
+		average acceptance rate = 0.3143 [0.0540,0.5060]
+		193 parameters have been scaled, out of 8996
+
+	Population parameters M_i's
+		average value = 17.5133 [12.0820,24.6324]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.2935 [0.2820,0.3080]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.1922
+		updating parameter = 0.0250
+		average acceptance rate = 0.2820
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.0042
+		updating parameter = 0.1074
+		average acceptance rate = 0.3040
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.7008 [0.0513,0.9900]
+		average updating parameter = 0.2460 [0.0819,0.3125]
+		average acceptance rate = 0.3230 [0.1540,0.4320]
+		38 parameters have been scaled, out of 2249
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.4618
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.4616 [0.0007,14.2572]
+		average updating parameter = 1.6050 [1.0000,1.9531]
+		average acceptance rate = 0.3386 [0.2300,0.4200]
+		37 parameters have been scaled, out of 2249
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.4514 [0.0000,46.2054]
+		average updating parameter = 3.9023 [1.2800,4.8828]
+		average acceptance rate = 0.3283 [0.2300,0.4360]
+		29 parameters have been scaled, out of 8996
+
+------------------------------------------------------------------------------------
+Computation of the effective sample size (ESS)
+
+	log posterior density                           = 22.001324
+	parameters M                                    = (122.850014,285.810562,397.228501,532.336038)
+	shape parameter (alpha) of the parameter pi     = 800.262771
+	shape parameter (beta) of the parameter pi      = 765.878490
+	(hyper-)parameter lambda                        = 22.083506
+
+ESS is a measure of how well a Markov chain is mixing. ESS represents the number
+of effectively independent draws from the posterior distribution that the Markov
+chain is equivalent to [ESS must be compared to the chain length = 1000].
+
+Warning! Low ESS (due to strong autocorrelation) indicates poor mixing of the
+Markov chain. The ESS of the (hyper-)parameter lambda is typically lower than that
+of the other parameters. You are strongly recommended to inspect the trace of the
+lambda parameter in the 'trace_lambda.out' file. The trace shall show relatively
+good mixing (low autocorrelation, AND no decreasing trend). Otherwise, you may want
+to increase the length of the burn-in period and/or the total length of the Markov
+chain.
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+Wed Sep  6 08:28:46 2017
+------------------------
+	Total computing time elapsed           = 3 mins. 10 secs.
+------------------------------------------------------------------------------------
+
+The program has successfully terminated.
+
+------------------------------------------------------------------------------------
+Wed Sep  6 08:31:02 2017
+------------------------------------------------------------------------------------
+
+./src/selestim -file data/data.dat -burnin 5000 -npilot 15 -lpilot 500 -length 25000 -thin 25 -outputs run-example/ -calibration_only -pod_nbr_loci 2000 
+
+This analysis was performed using selestim (version 1.1.7)
+
+------------------------------------------------------------------------------------
+Calibration of the Kullback-Leibler divergence using pseudo-observed data
+------------------------------------------------------------------------------------
+
+Generating file `run-example/calibration/pod_data.dat'... OK
+
+The pseudo-observed data consist in 2000 SNPs and 4 sampled populations
+
+------------------------------------------------------------------------------------
+Overall genetic differentiation (F_ST)                                = 0.0674
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+Prior distribution of lambda is inverse gamma (lambda_prior)
+    with shape parameter (invgam_shape)                               = 3.000000
+    and rate parameter (invgam_rate)                                  = 2.000000
+
+Number of threads used (threads)                                      = 8
+Random number generator's seed (seed)                                 = 1504679462
+
+Length of the burn-in period (burnin)                                 = 5000
+Run length of the Markov chain (length)                               = 25000
+Thinning interval (thin)                                              = 25
+Number of MCMC samples (length / thin)                                = 1000
+Number of pilot studies (npilot)                                      = 15
+Length of each pilot study (lpilot)                                   = 500
+
+Lower bound of the interval for M (min_M)                             = 0.001000
+Upper bound of the interval for M (max_M)                             = 10000.00
+Upper bound of the interval for sigma (max_sig)                       = 700.00
+Initial half window width for updates of allele counts (dlt_cnt)      = 5
+Initial half window width for updates of p (dlt_p)                    = 0.250000
+Initial SD of the lognormal for updates of M (dlt_M)                  = 0.100000
+Initial half window width for updates of pi (dlt_pi)                  = 0.250000
+Initial SD of the lognormal for updates of sigma (dlt_sig)            = 2.500000
+Initial SD of the lognormal for updates of delta (dlt_del)            = 0.800000
+Initial half window width for updates of mu (dlt_beta_mu)             = 0.025000
+Initial SD of the lognormal for updates of nu (dlt_beta_nu)           = 1.000000
+
+Calibration of the Kullback-Leibler divergence (calibration_only)
+Number of loci to be simulated for calibration (pod_nbr_loci)         = 2000
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+Pilot run #1: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6772 [0.0029,1.0000]
+		average updating parameter = 0.2343 [0.2000,0.2500]
+		average acceptance rate = 0.2575 [0.0060,0.3960]
+		2519 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.5322 [11.5835,19.4079]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3020 [0.2760,0.3300]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.6345
+		updating parameter = 0.0250
+		average acceptance rate = 0.2740
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2642
+		updating parameter = 0.8000
+		average acceptance rate = 0.0480
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6777 [0.0323,0.9930]
+		average updating parameter = 0.2492 [0.2000,0.3125]
+		average acceptance rate = 0.3301 [0.1080,0.4360]
+		165 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.3469
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2790 [0.0003,8.1988]
+		average updating parameter = 1.0000 [1.0000,1.0000]
+		average acceptance rate = 0.5486 [0.4160,0.6420]
+		2000 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.3101 [0.0000,41.1332]
+		average updating parameter = 3.1177 [2.0000,3.1250]
+		average acceptance rate = 0.4576 [0.2460,0.5560]
+		7908 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #2: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6759 [0.0006,1.0000]
+		average updating parameter = 0.2253 [0.1600,0.2500]
+		average acceptance rate = 0.2711 [0.0080,0.4160]
+		1595 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 16.0435 [11.1878,21.0312]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3250 [0.2960,0.3420]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.6442
+		updating parameter = 0.0250
+		average acceptance rate = 0.2880
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2783
+		updating parameter = 0.6400
+		average acceptance rate = 0.0560
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6778 [0.0273,0.9941]
+		average updating parameter = 0.2493 [0.1600,0.3125]
+		average acceptance rate = 0.3292 [0.1520,0.4340]
+		131 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.5195
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.5243 [0.0007,14.2755]
+		average updating parameter = 1.2490 [1.0000,1.2500]
+		average acceptance rate = 0.4787 [0.3380,0.5720]
+		1992 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.5312 [0.0001,38.5984]
+		average updating parameter = 3.3699 [1.6000,3.9062]
+		average acceptance rate = 0.3904 [0.2220,0.5360]
+		2601 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #3: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6767 [0.0024,1.0000]
+		average updating parameter = 0.2199 [0.1280,0.2500]
+		average acceptance rate = 0.2808 [0.0040,0.4500]
+		1112 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 14.4339 [11.0286,18.9400]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3250 [0.3040,0.3620]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.7235
+		updating parameter = 0.0250
+		average acceptance rate = 0.2800
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2937
+		updating parameter = 0.5120
+		average acceptance rate = 0.0500
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6776 [0.0507,0.9904]
+		average updating parameter = 0.2501 [0.1280,0.3125]
+		average acceptance rate = 0.3330 [0.1820,0.4580]
+		90 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.1145
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.0986 [0.0004,9.7296]
+		average updating parameter = 1.4438 [1.0000,1.5625]
+		average acceptance rate = 0.4087 [0.3200,0.5020]
+		1248 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.0750 [0.0000,32.3546]
+		average updating parameter = 3.5561 [1.6000,4.8828]
+		average acceptance rate = 0.3726 [0.2540,0.4780]
+		1907 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #4: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6765 [0.0000,1.0000]
+		average updating parameter = 0.2159 [0.1024,0.2500]
+		average acceptance rate = 0.2869 [0.0060,0.4240]
+		899 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.0393 [10.5351,19.9859]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3135 [0.2860,0.3280]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.6392
+		updating parameter = 0.0250
+		average acceptance rate = 0.2500
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2751
+		updating parameter = 0.4096
+		average acceptance rate = 0.0740
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6784 [0.0350,0.9933]
+		average updating parameter = 0.2514 [0.1024,0.3125]
+		average acceptance rate = 0.3327 [0.1520,0.4360]
+		95 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.2386
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2415 [0.0011,9.6155]
+		average updating parameter = 1.5193 [1.0000,1.9531]
+		average acceptance rate = 0.3686 [0.2640,0.4880]
+		478 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.2730 [0.0000,52.0605]
+		average updating parameter = 3.6728 [1.6000,4.8828]
+		average acceptance rate = 0.3563 [0.2480,0.4820]
+		1197 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #5: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6767 [0.0003,1.0000]
+		average updating parameter = 0.2128 [0.0819,0.3125]
+		average acceptance rate = 0.2923 [0.0180,0.4220]
+		765 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 14.2022 [10.0131,18.6854]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3315 [0.3120,0.3460]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.7533
+		updating parameter = 0.0250
+		average acceptance rate = 0.3040
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2884
+		updating parameter = 0.3277
+		average acceptance rate = 0.0920
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6766 [0.0307,0.9928]
+		average updating parameter = 0.2526 [0.1024,0.3125]
+		average acceptance rate = 0.3320 [0.1660,0.4340]
+		82 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.1732
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.1266 [0.0006,8.9392]
+		average updating parameter = 1.5507 [1.0000,1.9531]
+		average acceptance rate = 0.3530 [0.2580,0.4660]
+		195 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.0968 [0.0000,33.5531]
+		average updating parameter = 3.7515 [1.6000,4.8828]
+		average acceptance rate = 0.3478 [0.2260,0.4760]
+		807 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #6: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6769 [0.0002,1.0000]
+		average updating parameter = 0.2105 [0.0655,0.3125]
+		average acceptance rate = 0.2965 [0.0380,0.4300]
+		637 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.3077 [10.1179,21.5443]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3270 [0.3120,0.3420]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.4861
+		updating parameter = 0.0250
+		average acceptance rate = 0.2880
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2567
+		updating parameter = 0.2621
+		average acceptance rate = 0.1020
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6781 [0.0497,0.9908]
+		average updating parameter = 0.2532 [0.1024,0.3125]
+		average acceptance rate = 0.3284 [0.2060,0.4360]
+		52 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.4638
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.4352 [0.0008,10.0141]
+		average updating parameter = 1.5669 [1.0000,1.9531]
+		average acceptance rate = 0.3470 [0.2200,0.4760]
+		109 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.3864 [0.0000,41.7066]
+		average updating parameter = 3.8030 [1.6000,4.8828]
+		average acceptance rate = 0.3412 [0.2300,0.4700]
+		532 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #7: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6758 [0.0004,1.0000]
+		average updating parameter = 0.2087 [0.0524,0.3125]
+		average acceptance rate = 0.3001 [0.0120,0.4360]
+		568 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.2483 [11.2004,20.4989]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3285 [0.2940,0.3600]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.4717
+		updating parameter = 0.0250
+		average acceptance rate = 0.3080
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.1744
+		updating parameter = 0.2097
+		average acceptance rate = 0.1260
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6764 [0.0465,0.9911]
+		average updating parameter = 0.2545 [0.1024,0.3125]
+		average acceptance rate = 0.3318 [0.2020,0.4520]
+		69 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.3776
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.3692 [0.0001,12.2809]
+		average updating parameter = 1.5752 [1.0000,1.9531]
+		average acceptance rate = 0.3439 [0.2360,0.4660]
+		54 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.3608 [0.0000,40.6379]
+		average updating parameter = 3.8377 [1.6000,4.8828]
+		average acceptance rate = 0.3376 [0.2220,0.4820]
+		366 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #8: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6760 [0.0005,1.0000]
+		average updating parameter = 0.2071 [0.0419,0.3125]
+		average acceptance rate = 0.3024 [0.0400,0.4300]
+		480 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 14.5892 [10.3902,18.9968]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3215 [0.2740,0.3640]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.5598
+		updating parameter = 0.0250
+		average acceptance rate = 0.3160
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2740
+		updating parameter = 0.1678
+		average acceptance rate = 0.1600
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6762 [0.0690,0.9934]
+		average updating parameter = 0.2554 [0.1024,0.3125]
+		average acceptance rate = 0.3274 [0.1940,0.4260]
+		57 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.2327
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2507 [0.0014,9.8392]
+		average updating parameter = 1.5809 [1.0000,1.9531]
+		average acceptance rate = 0.3431 [0.2260,0.4620]
+		41 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.2420 [0.0001,42.5431]
+		average updating parameter = 3.8599 [1.6000,4.8828]
+		average acceptance rate = 0.3332 [0.2020,0.4560]
+		241 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #9: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6767 [0.0012,1.0000]
+		average updating parameter = 0.2059 [0.0336,0.3125]
+		average acceptance rate = 0.3060 [0.0320,0.4400]
+		377 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 14.4420 [11.5074,18.4364]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3405 [0.2960,0.3720]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.4810
+		updating parameter = 0.0250
+		average acceptance rate = 0.2700
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2239
+		updating parameter = 0.1342
+		average acceptance rate = 0.2240
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6764 [0.0345,0.9913]
+		average updating parameter = 0.2565 [0.1024,0.3125]
+		average acceptance rate = 0.3273 [0.1860,0.4540]
+		64 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.1371
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.1342 [0.0001,8.5417]
+		average updating parameter = 1.5852 [1.0000,1.9531]
+		average acceptance rate = 0.3416 [0.2280,0.4520]
+		33 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.1034 [0.0000,35.2611]
+		average updating parameter = 3.8771 [1.6000,4.8828]
+		average acceptance rate = 0.3333 [0.2160,0.4620]
+		181 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #10: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6761 [0.0002,1.0000]
+		average updating parameter = 0.2051 [0.0268,0.3125]
+		average acceptance rate = 0.3080 [0.0320,0.4280]
+		308 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.3835 [11.1694,21.5781]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3090 [0.2800,0.3300]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.3982
+		updating parameter = 0.0250
+		average acceptance rate = 0.3160
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.1528
+		updating parameter = 0.1342
+		average acceptance rate = 0.2500
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6768 [0.0412,0.9888]
+		average updating parameter = 0.2573 [0.1024,0.3906]
+		average acceptance rate = 0.3271 [0.2160,0.4540]
+		53 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.2539
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2716 [0.0001,9.7674]
+		average updating parameter = 1.5894 [1.0000,1.9531]
+		average acceptance rate = 0.3406 [0.2220,0.4420]
+		32 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.2631 [0.0000,41.5161]
+		average updating parameter = 3.8863 [1.6000,4.8828]
+		average acceptance rate = 0.3313 [0.2280,0.4560]
+		101 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #11: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6765 [0.0000,1.0000]
+		average updating parameter = 0.2042 [0.0215,0.3125]
+		average acceptance rate = 0.3093 [0.0300,0.4400]
+		303 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.9771 [11.0004,22.6133]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3135 [0.3000,0.3300]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.5744
+		updating parameter = 0.0250
+		average acceptance rate = 0.3180
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2621
+		updating parameter = 0.1342
+		average acceptance rate = 0.2540
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6777 [0.0578,0.9924]
+		average updating parameter = 0.2579 [0.0819,0.3906]
+		average acceptance rate = 0.3229 [0.2020,0.4380]
+		47 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.2836
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2627 [0.0002,9.4770]
+		average updating parameter = 1.5937 [1.0000,1.9531]
+		average acceptance rate = 0.3405 [0.2180,0.4420]
+		36 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.2612 [0.0000,41.4142]
+		average updating parameter = 3.8939 [1.6000,4.8828]
+		average acceptance rate = 0.3301 [0.2280,0.4500]
+		87 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #12: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6772 [0.0000,1.0000]
+		average updating parameter = 0.2033 [0.0172,0.2500]
+		average acceptance rate = 0.3104 [0.0240,0.4660]
+		280 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.3351 [10.4818,21.3759]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3235 [0.3020,0.3440]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.6057
+		updating parameter = 0.0250
+		average acceptance rate = 0.2520
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2556
+		updating parameter = 0.1342
+		average acceptance rate = 0.3000
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6761 [0.0563,0.9888]
+		average updating parameter = 0.2583 [0.0819,0.3906]
+		average acceptance rate = 0.3216 [0.2060,0.4360]
+		42 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.4222
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.4400 [0.0007,14.2594]
+		average updating parameter = 1.5968 [1.0000,1.9531]
+		average acceptance rate = 0.3397 [0.2040,0.4240]
+		24 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.4691 [0.0000,47.8558]
+		average updating parameter = 3.8970 [1.6000,4.8828]
+		average acceptance rate = 0.3289 [0.2260,0.4580]
+		50 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #13: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6765 [0.0027,1.0000]
+		average updating parameter = 0.2026 [0.0172,0.2500]
+		average acceptance rate = 0.3120 [0.0240,0.4840]
+		261 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.5549 [11.1699,21.7507]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3325 [0.3180,0.3420]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.6750
+		updating parameter = 0.0250
+		average acceptance rate = 0.2820
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2450
+		updating parameter = 0.1342
+		average acceptance rate = 0.2680
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6769 [0.0554,0.9924]
+		average updating parameter = 0.2584 [0.0819,0.3125]
+		average acceptance rate = 0.3215 [0.1960,0.4360]
+		44 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.6125
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.5616 [0.0000,13.9136]
+		average updating parameter = 1.5975 [1.2500,1.9531]
+		average acceptance rate = 0.3382 [0.2300,0.4300]
+		28 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.6008 [0.0000,50.8565]
+		average updating parameter = 3.8983 [1.6000,4.8828]
+		average acceptance rate = 0.3287 [0.2320,0.4340]
+		36 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #14: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6767 [0.0040,1.0000]
+		average updating parameter = 0.2021 [0.0137,0.2500]
+		average acceptance rate = 0.3134 [0.0860,0.4800]
+		216 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 15.0144 [10.9489,20.8547]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3250 [0.3100,0.3500]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.5271
+		updating parameter = 0.0250
+		average acceptance rate = 0.2560
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2749
+		updating parameter = 0.1342
+		average acceptance rate = 0.2860
+		0 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6772 [0.0745,0.9921]
+		average updating parameter = 0.2584 [0.0819,0.3125]
+		average acceptance rate = 0.3238 [0.1960,0.4160]
+		38 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.2821
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.2390 [0.0003,8.7631]
+		average updating parameter = 1.6009 [1.2500,1.9531]
+		average acceptance rate = 0.3378 [0.2320,0.4260]
+		35 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.2364 [0.0000,29.8849]
+		average updating parameter = 3.9009 [1.6000,4.8828]
+		average acceptance rate = 0.3291 [0.2040,0.4580]
+		44 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Pilot run #15: 
+------------------------------------------------------------------------------------
+
+	Allele frequencies p_ij's
+		average value = 0.6768 [0.0013,1.0000]
+		average updating parameter = 0.2016 [0.0137,0.2500]
+		average acceptance rate = 0.3141 [0.0700,0.4920]
+		235 parameters have been scaled, out of 8000
+
+	Population parameters M_i's
+		average value = 16.0824 [11.7584,22.4338]
+		average updating parameter = 0.1000 [0.1000,0.1000]
+		average acceptance rate = 0.3060 [0.2520,0.3360]
+		0 parameters have been scaled, out of 4
+
+	Shape parameter (a) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 2.5792
+		updating parameter = 0.0250
+		average acceptance rate = 0.2800
+		0 parameters have been scaled, out of 1
+
+	Shape parameter (b) of the prior distribution of migrant allele frequencies pi_j's
+		current value = 1.2520
+		updating parameter = 0.1074
+		average acceptance rate = 0.2360
+		1 parameters have been scaled, out of 1
+
+	Migrant allele frequencies pi_j's
+		average value = 0.6781 [0.0431,0.9941]
+		average updating parameter = 0.2583 [0.0819,0.3125]
+		average acceptance rate = 0.3198 [0.2080,0.4460]
+		43 parameters have been scaled, out of 2000
+
+	Genome-wide coefficient of selection lambda
+		current value = 1.8026
+
+	Locus-specific selection coefficient delta_j's
+		average value = 1.7369 [0.0015,13.8976]
+		average updating parameter = 1.6024 [1.2500,1.9531]
+		average acceptance rate = 0.3390 [0.2340,0.4340]
+		34 parameters have been scaled, out of 2000
+
+	Locus- population-specific selection coefficient sigma_ij's
+		average value = 1.7149 [0.0000,47.4835]
+		average updating parameter = 3.9018 [1.6000,4.8828]
+		average acceptance rate = 0.3275 [0.1720,0.4280]
+		29 parameters have been scaled, out of 8000
+
+------------------------------------------------------------------------------------
+Wed Sep  6 08:33:57 2017
+------------------------
+	Total computing time elapsed           = 2 mins. 55 secs.
+------------------------------------------------------------------------------------
+
+The program has successfully terminated.
+

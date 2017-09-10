@@ -1,0 +1,129 @@
+---
+title: "SelEstim worked example"
+output: html_document
+---
+
+### By [Renaud Vitalis](mailto:renaud.vitalis@inra.fr)
+
+>For this example to run, create a working directory (e.g., ```SelEstim example/```, or ```tmp/```)
+ in which you copy the present file (```SelEstim example.Rmd```)
+ 
+## How to install SelEstim
+
+>Download the archive from http://www1.montpellier.inra.fr/CBGP/software/selestim/, and copy the archive in the working directory you just created. On Linux, you may also use the following command line from a terminal:
+
+```
+wget http://www1.montpellier.inra.fr/CBGP/software/selestim/files/SelEstim_1.1.7.zip
+```
+
+>and on macOS, you may use instead:
+
+```
+curl http://www1.montpellier.inra.fr/CBGP/software/selestim/files/SelEstim_1.1.7.zip -o SelEstim_1.1.7.zip
+```
+
+>Extract the archive, e.g., from a terminal:
+
+```
+unzip SelEstim_1.1.7.zip
+```
+
+>The source files are to be found in the ```src/``` subdirectory of that archive. SelEstim is coded using C programming language and can therefore be compiled for any system supported by [gcc](http://gcc.gnu.org/). To do so, Windows users may need to get a [gcc](http://gcc.gnu.org/), e.g. by installing [MinGW](http://www.mingw.org/), [mingw-64](http://mingw-w64.org/doku.php), or [Cygwin](https://sourceware.org/cygwin/). To compile the code and get the selestim binary, use the provided Makefile in the src/ subdirectory:
+
+```
+cd src
+make clean all
+```
+
+Note: with Linux (or macOS), before the first use, make sure to give appropriate execution rights to the program. For instance you may run: ```chmod +x selestim```
+
+>SelEstim uses [OpenMP](href{http://openmp.org/) to implement multithreading, which allows parallel calculation on on computer systems that have multiple CPUs or CPUs with multiple cores. Make sure that the corresponding libraries are installed, which is typically the case on Linux, macOS and Windows (provided the above recommendations for installation of gcc have been followed). 
+
+Note: The [gcc](http://gcc.gnu.org/) version included with OS X may generate executable code that results in runtime error (Abort trap: 6) when more than one thread is used. In that case, you first need to install a recent version of [gcc](http://gcc.gnu.org/), following the instructions at http://hpc.sourceforge.net/. Then, you can recompile SelEstim using the following instruction: ```make clean all CC=/usr/local/bin/gcc``` (assuming gcc has been installed in the /usr/local/ subdirectory.)
+
+## Example analysis
+
+>In the following, I assume that the current (working) directory is the one you created above, that contained several files and subdirectories (```data/```, ```man/```,```R/```,```src/```):
+
+```{r}
+getwd()
+```
+
+### Running SelEstim on an example dataset
+
+>selestim is a command-line executable. The ASCII hyphen-minus ("-"") is used to specify options. As specified below, some options take integer or float values and some options do not. Here is an example call of the program, that you may launch from the working directory, in a terminal:
+
+```
+./src/selestim -file data/data.dat -burnin 5000 -npilot 15 -lpilot 500 -length 25000 -thin 25 -outputs run-example/
+```
+
+>In this example run, the data will be read from the file ```data/data.dat```, and the outputs would be printed out in the ```run-example/``` subdirectory. 25,000 updating steps will be completed after 15 short pilot runs of 500 iterations each and a burn-in of 5,000 steps. Samples will be collected from the Markov chain for all the model parameters every 25 steps (thinning), yielding 1,000 observations.
+
+>In practice, you may use the [R](http://www.r-project.org/) functions from the ```SelEstim.R``` file in the ```R/``` subdirectory of the archive:
+
+
+```{r}
+source("R/SelEstim.R")
+```
+
+>The function ```plot.delta()``` will plot the posterior mean of the selection parameter for each locus (\(\delta_j\)). You may use the option ```plot.delta(map = "data/data.map")``` to sort the markers according to their position. The file ```data/data.map``` contains two columns only: the SNP ID and its position (in bp). The results can be plotted using:
+
+```{r}
+plot.delta(file = "run-example/summary_delta.out",map = "data/data.map")
+```
+
+### Calibrating the Kullback-Leibler divergence (KLD)
+
+>In order to provide a decision criterion for discriminating between neutral and selected markers, the KLD is calibrated using simulations from a predictive distribution based on the observed data set. The motivation here is to generate a set of loci equivalent to those that are observed in their levels of diversity and genetic variation. The predictive distribution is parameterized using the estimated posterior means for the model parameters. In practice, for each dataset and each analysis, pseudo-observed data (pod) can be generated using either the ```-calibration``` or the ```-calibration_only``` option, e.g.:
+
+```
+./src/selestim -file data/data.dat -burnin 5000 -npilot 15 -lpilot 500 -length 25000 -thin 25 -outputs run-example/ -calibration_only -pod_nbr_loci 2000
+```
+
+>In that example, 2000 markers are simulated for the pod. The calibration could have been performed in a call of the program, using:
+
+```
+./src/selestim -file data/data.dat -burnin 5000 -npilot 15 -lpilot 500 -length 25000 -thin 25 -outputs run-example/ -calibration -pod_nbr_loci 2000
+```
+
+>The KLD values computed for the pod are combined to obtain an empirical distribution. The quantiles of this empirical distribution are computed, and are used to calibrate the KLD observed for each locus in the original data: e.g., the 99%-quantile of the KLD distribution from the pod analysis provides a 1%-threshold KLD value, which is then used as a decision criterion to discriminate between selection and neutrality. A summary of the quantiles is stored in the ```calibration/KLD_quantiles.out``` output file. The results can be plotted using:
+
+```{r}
+plot.kld(file = "run-example/summary_delta.out",map = "data/data.map",calibration_file = "run-example/calibration/summary_delta.out",limit = 0.001)
+```
+
+### Identifying the top SNP
+
+>The top SNP (the SNP with the largest KLD) can be identified using:
+
+```{r}
+rslt <- read.table("run-example/summary_delta.out",header = TRUE)
+top.snp <- which(rslt$KLD == max(rslt$KLD))
+top.snp
+```
+
+>On the preceding graph, since the dataset was simulated and we know the truth, one may superimpose the true location of the selected mutation:
+
+```{r}
+plot.kld(file = "run-example/summary_delta.out",map = "data/data.map",calibration_file = "run-example/calibration/summary_delta.out",limit = 0.001)
+abline(v = 4.867859,lty = 2)
+```
+
+### Getting estimates of the intensity of selection for the top SNP
+
+>One can also get the posterior mean of the (scaled) locus-specific selection parameter at that position:
+
+```{r}
+rslt$mean[top.snp]
+```
+
+### Identifying the populations where selection is acting
+
+>Last, the population-specific scaled coefficient of selection (\(\sigma_{ij}\)) at that postion can be obtained for each deme:
+
+```{r}
+sigma <- read.table("run-example/summary_sigma.out",header = TRUE)
+sigma$mean[which(sigma$locus == top.snp)]
+```
+
+>Here, we conclude that selection is acting in the first deme (which was, actually, the simulated scenario.)
