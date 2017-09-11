@@ -167,7 +167,31 @@ just type:
 ``` 
 SweeD -input input.VCF -grid 1000 -name MYRUN
 ```
+## Install OmegaPlus (NOT FOR THE CONTEST)
+OmegaPlus detects the LD patterns *around* the target of beneficial mutation. To install:
 
+```
+git clone https://github.com/alachins/omegaplus.git
+cd omegaplus
+make clean
+make
+```
+
+## Install RAiSD (NOT FOR THE CONTEST)
+In contrast to SweeD, RAiSD uses all 3 signatures of a selective sweep, namely the reduction of polymorphism levels, the shift of the SFS, and the special patterns of LD. Instead of the full information for SFS and LD, it uses approximations based on SNP vectors. 
+
+RAiSD is hosted by github at https://github.com/alachins/raisd
+
+The following commands can be used to download and compile the source code. 
+
+    $ mkdir RAiSD
+    $ cd RAiSD
+    $ wget https://github.com/alachins/raisd/archive/master.zip
+    $ unzip master.zip
+    $ cd raisd-master
+    $ make
+    
+The executable is placed in the path RAiSD/raisd-master/bin/release. A link to the executable is placed in the installation folder, i.e., raisd-master.
 
 ##  2. Download datasets
 
