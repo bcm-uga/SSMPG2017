@@ -1,0 +1,195 @@
+Latent Factor Mixed Models (LFMM)
+========================================================
+author: Olivier Francois
+date: SSMPG17, September 10, 2017
+autosize: true
+
+Outline
+========================================================
+
+
+- Very short introduction to LFMMs
+
+
+- R packages **lfmm** and **LEA**
+
+
+- Examples with one SSMPG17 data set
+
+
+Model definition
+========================================================
+
+- Latent factor mixed models (LFMMs) are statistical regression models.
+
+- LFMMs include unobserved variables, called **latent factors**, that correct the model for confounding effects.
+
+- LFMMs belong to a broad class of GWAS statistical models.
+
+
+
+Model Equation
+========================================================
+
+- LFMMs are defined by the following equation
+
+$$
+ Y = X B^T + U V^T + E
+$$
+
+- $Y$ is an $n \times p$ matrix of observations of $p$ variables (e.g., genotypes) on $n$ individuals
+
+- $X$ is an $n \times d$ matrix of explanatory variables (e.g., phenotypes) measured for the $n$ individuals, 
+
+- $B$ is a $p \times d$ matrix of effects for all explanatory variables, 
+
+- $U$ is an $n \times K$ matrix of latent variables (confounders),
+
+- $V$ is a $p \times d$ matrix of loadings for all latent variables.
+
+
+
+Model Fit
+========================================================
+
+- Model fit can be performed by using several (at least 7) distinct methods.
+
+- I'll present 3 algorithms
+
+   1. least-squares estimation with **ridge** penalty (**lfmm::lfmm_ridge**)
+
+   2. least-squares estimation with **lasso** penalty (**lfmm::lfmm_lasso**)
+   
+   3. Bayesian estimation with **sparse** priors (**LEA::lfmm**, slower)
+   
+
+- Other methods include **cate**, **sva** (2 methods), **famt**, etc.
+
+
+
+Determining the number of latent factors 
+========================================================
+
+```{r, echo=FALSE}
+sim1 <- readRDS("sim1a.rds")
+# extract scaled genotypes
+scaled.genotype <- scale(as.matrix(t(sim1$G)))
+# extract scaled phenotypes
+x <- scale(as.matrix(sim1$phenotype1))
+```
+
+
+Use principal component analysis of the genotype matrix to evaluate 'population structure' in the genotypic data. 
+
+```{r}
+pc <- prcomp(scaled.genotype)
+plot(pc$sdev[1:20]^2, pch = 19)
+points(5,pc$sdev[5]^2, type = "h", lwd = 3, col = "blue")
+```
+
+
+
+
+Model fit using ridge regression models 
+========================================================
+
+Model fit can be performed as follows
+
+
+```{r}
+lfmm.ridge <- lfmm::lfmm_ridge(Y = scaled.genotype, X = x, K = 5, lambda = 1e-5)
+```
+
+ - The **lfmm.ridge** object contains estimates for the 5 latent variables and for all effect sizes.
+ 
+ - These estimates can used to determine the candidate loci (association testing).
+
+
+
+
+Testing associations between genotypes (Y) and phenotypes (X)  
+========================================================
+
+We now apply the **lfmm_test** function
+
+
+```{r}
+lfmm.test <- lfmm::lfmm_test(Y = scaled.genotype, X = x, lfmm = lfmm.ridge, calibrate = "gif")
+p.values <- lfmm.test$calibrated.pvalue
+```
+
+
+```{r, echo = FALSE}
+plot(-log10(p.values), pch = 19, col = "blue")
+```
+
+
+
+
+Model fit using regression models with L1 penalty (lasso)
+========================================================
+
+Model fit can also be performed using a (sparse) penalty
+
+
+```{r}
+lfmm.lasso <- lfmm::lfmm_lasso(Y = scaled.genotype, X = x, K = 5, nozero.prop = 0.02)
+```
+
+ - The **lfmm.lasso** object contains new estimates for the 5 latent variables and for all effect sizes.
+ 
+ - The **nozero.prop** parameter is a sparsity parameter indicating how many significant tests we should consider. 
+
+
+
+
+
+Testing associations using the lasso estimates 
+========================================================
+
+We now apply the **lfmm_test** function to the **lfmm.lasso** object
+
+
+```{r}
+lfmm.test <- lfmm::lfmm_test(Y = scaled.genotype, X = x, lfmm = lfmm.lasso, calibrate = "gif")
+p.values <- lfmm.test$calibrated.pvalue
+```
+
+
+```{r, echo = FALSE}
+plot(-log10(p.values), cex = .5, pch = 19, col = "blue")
+```
+
+
+FDR control methods: **qvalue**
+========================================================
+
+
+```{r}
+qv <- qvalue::qvalue(p.values)
+plot(qv)
+```
+
+
+
+
+
+
+Final step: extracting candidates
+========================================================
+
+
+```{r}
+qval <- qvalue::qvalue(p.values, fdr.level = 0.025)
+candidates <- which(qval$significant)
+```
+
+```{r, echo = FALSE}
+plot(-log10(p.values), cex = .5, pch = 19, col = "grey")
+points(candidates, -log10(p.values[candidates]), pch = 19, col = "orange")
+```
+
+
+
+
+
