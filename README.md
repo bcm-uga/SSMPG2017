@@ -127,7 +127,7 @@ Download the [training](https://drive.google.com/open?id=0B2RlEpeOlBn_Rk52bEgwZm
 
 The second challenge is the **Cichlid** challenge. Teams are asked to analyze true data for the  Cichlid challenge.
 
-Data should be available soon for the **Cichlid** challenge.
+Download the [data](https://drive.google.com/open?id=0B2RlEpeOlBn_SC03ZVBVY1VCMW8) for the Cichlid challenge.
 
 ## 3. Form a team
 
@@ -138,7 +138,7 @@ To participate to the challenge, you should form teams. A team can be composed o
 
 The objective of the two data challenges is to find markers that are involved in adaptation.
 
-To submit a list of markers involved in adaptation, you should use the [submission website](http://176.31.253.205/shiny/SSMPG2017/). An example of submission file containing a list of markers involved in adaptation is contained in the file [mysubmission.txt](https://drive.google.com/uc?export=download&id=0B9o4VIJJSodfOGhYUkFlalJ4NXM).
+To submit a list of markers involved in adaptation, you should use the [submission website](http://176.31.253.205/shiny/SSMPG2017/). The submitted file should be a .txt file with one column containing the indices of the candidate SNPs. An example of submission file containing a list of markers involved in adaptation is contained in the file [mysubmission.txt](https://drive.google.com/uc?export=download&id=0B9o4VIJJSodfOGhYUkFlalJ4NXM). 
 
 ## 5. Evaluation
 
