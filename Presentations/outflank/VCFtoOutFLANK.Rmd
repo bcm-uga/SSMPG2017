@@ -1,0 +1,76 @@
+
+Note that this should only be performed on a filtered VCF file - low coverage and low quality variants are assumed to have been removed.
+
+In this example, we are loading variants from whole-genome data on a cichlid dataset on a single contig. To provide a better null distribution, we're also going to load 7000 random SNPs from across the genome.
+
+```{r install}
+if(!("vcfR" %in% installed.packages())){install.packages("vcfR")}
+library(vcfR)
+```
+
+```{r inputs}
+### Read in VCF file 
+
+  getwd()
+
+  file1 <- "~/Google Drive/SSMPG2017/cichlid_data/cichlid_data_Contig263_rb_phased.vcf.gz"
+  file2 <- "~/Google Drive/SSMPG2017/cichlid_data/cichlid_data_whole_genome_7k_random_SNPs.vcf.gz"
+  
+  vcf1 <- read.vcfR(file1)
+  vcf2 <- read.vcfR(file2)
+
+### Explore the data
+  head(vcf)
+  str(vcf)
+  vcf@meta
+  head(vcf@fix)
+  head(vcf@gt)
+  
+  my_gen1 <- extract.gt(vcf1)
+  my_gen2 <- extract.gt(vcf2)
+  
+  dim(my_gen1)
+  dim(my_gen2)
+  
+  my_gen <- rbind(my_gen1, my_gen2)
+  ### DO NOT USE GIVES WRONG ANSWER
+  ###  numeric_geno <- extract.gt(vcf, as.numeric = TRUE)
+  
+  ### Use this to calculate numeric genotypes
+  numeric_geno <- matrix(NA, nrow(my_gen), ncol(my_gen))
+    # Add info about individuals
+    colnames(numeric_geno) <- colnames(my_gen)
+  
+    # Add info about SNPs
+    rownames(numeric_geno) <- rownames(my_gen)
+  
+  
+  numeric_geno[my_gen %in% c("0/0", "0|0")] <- 0
+  numeric_geno[my_gen %in% c("0/1", "1/0", "1|0", "0|1")] <- 1
+  numeric_geno[my_gen %in% c("1/1", "1|1")] <- 2
+  
+  ### check the data matches
+    head(my_gen[1:10,1:10])
+    head(numeric_geno[1:10,1:10])
+  
+  
+  # Check for fixed alleles and remove them
+  # These sites are not variable and not informative to Fst
+  # This includes loci that are heterozygous in every indvidual
+  f <- which(apply(numeric_geno, 1, function(x) nlevels(factor(x))==1))
+    # takes a few seconds only
+  length(f)
+  gen_table2 <- numeric_geno[-f,]
+  
+  # For OutFLANK, replace NA with a 9
+  gen_table3 <- gen_table2
+  gen_table3[is.na(gen_table2)] <- 9
+
+
+  # Check your data
+  head(gen_table3[,1:10])  
+  
+  # Save data as R object for OutFLANK
+  saveRDS(gen_table3, file = "cichlid_OutFLANK.rds")
+
+``` 
