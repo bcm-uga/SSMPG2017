@@ -1,4 +1,14 @@
 userModal <- function(failed = 0) {
+  msg <- `if`(n.challenge() == 1, 
+              paste0("You are about to submit for the ",
+              challenge_names[n.challenge()],
+              " challenge (",
+              input$dataset,
+              "). If this is correct, please enter your team name and your password to validate your submission."),
+              paste0("You are about to submit for the ",
+              challenge_names[n.challenge()],
+              " challenge. If this is correct, please enter your team name and your password to validate your submission."))
+              
   modalDialog(
     tags$div(align = "left", 
              class = "multicol",
@@ -15,11 +25,7 @@ userModal <- function(failed = 0) {
                                             "Other" = "Other"),
                                 width = "100%")),
     
-    span("You are about to submit for challenge",
-         n.challenge(), 
-         "with respect to the",
-         paste0(input$dataset, "."),
-         "If this is correct, please enter your team name and your password to validate your submission."),
+    span(msg),
     
     textInput("username", "Team", width = NULL),
     passwordInput("password", "Password", width = NULL),
@@ -49,7 +55,7 @@ observeEvent(input$submit, {
 })
 
 observeEvent(input$ok, {
-  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = "db.sqlite3")
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db.file)
   user.df <- RSQLite::dbReadTable(db, "user")
   RSQLite::dbDisconnect(db)
   hash.pwd <- digest::digest(paste0("SSMPG2017", input$password), algo = "md5")
@@ -57,51 +63,62 @@ observeEvent(input$ok, {
     showModal(userModal(failed = 1))  
   } else if (input$username %in% user.df$name && hash.pwd != user.df$password[user.df$name == input$username]) {
     showModal(userModal(failed = 2))  
-  } else if (is.null(input$subm$datapath) && (n.challenge() == 1)) {
-    showModal(userModal(failed = 3))  
-  } else if (is.null(input$subm_2$datapath) && (n.challenge() == 2)) {
+  } else if (is.null(submission$x)) {
     showModal(userModal(failed = 3))  
   } else if (length(input$methods) == 0) {
     showModal(userModal(failed = 4))
   } else {
     removeModal()
     
-    submission <- scan(input$subm$datapath)
-    
-    if (input$dataset == "Training set") {
+    if (input$tab == "challenge" && input$dataset == "Training set") {
       fb <- all.gt.reg[[1]]$region.start
       fe <- all.gt.reg[[1]]$region.end
-      reg <- paste(unique(sapply(submission, 
+      reg <- paste(unique(sapply(submission$x, 
                                  FUN = function(X) {
                                    which(fb <= X & fe >= X)
                                  })), collapse = ", ")
-    } else if (input$dataset == "Evaluation set") {
+    } else if (input$tab == "challenge" && input$dataset == "Evaluation set") {
       fb <- all.gt.reg[[2]]$region.start
       fe <- all.gt.reg[[2]]$region.end
-      reg <- paste(unique(sapply(submission, 
+      reg <- paste(unique(sapply(submission$x, 
                                  FUN = function(X) {
                                    which(fb <= X & fe >= X)
                                  })), collapse = ", ")
-    } else {
+    } else if (input$tab == "challenge_2") {
       reg <- "None"
     }
     
     add_submission(user.name = input$username,
                    password = input$password,
                    challenge = as.character(n.challenge()),
-                   dataset = input$dataset,
+                   dataset = `if`(input$tab == "challenge", 
+                                  input$dataset,
+                                  "Real"),
                    methods = paste(input$methods, collapse = "; "),
-                   candidates = paste(submission, collapse = ", "),
+                   candidates = paste(submission$x, collapse = ", "),
                    regions = reg)
     
+    closing_msg <- `if`(n.challenge() == 1, 
+                        paste0("Your entry for the ",
+                               challenge_names[n.challenge()],
+                               " challenge (",
+                               input$dataset,
+                              ") has been successfully submitted."),
+                        paste0("Your entry for the ",
+                               challenge_names[n.challenge()],
+                               " challenge has been successfully submitted."))
+    
     showModal(modalDialog(
-      span(paste("Your entry for challenge", 
-                 n.challenge(), 
-                 "has been successfully submitted.")
-      ),
+      span(closing_msg),
       easyClose = TRUE,
       footer = NULL)
     )
+  
+    # Reset fileInput
+    submission$x <- NULL
+    reset("subm") 
+    reset("subm_2") 
+
   }
 })
 

@@ -1,10 +1,11 @@
 tabPanel("Challenge",
          fluidRow(
            valueBoxOutput("challengeBox"),
+           conditionalPanel(condition = "input.tab == 'challenge'", 
+                            valueBoxOutput("contestantBox")),
+           #conditionalPanel(condition = "input.tab == 'challenge'",
            conditionalPanel(condition = "input.tab == 'challenge' && input.dataset == 'Training set'",
-                            valueBoxOutput("contestantBox"),
-                            valueBoxOutput("leaderBox")
-           )
+                            valueBoxOutput("leaderBox"))
          ),
          fluidRow(
            box(title = strong("Submission"),
@@ -12,19 +13,37 @@ tabPanel("Challenge",
                width = 6, 
                status = "warning", 
                height = 250,
-               fileInput(
-                 "subm",
-                 div("Choose submission file",
-                     div(tags$a(href = "https://drive.google.com/uc?export=download&id=0B9o4VIJJSodfOTNOelRKNm9MQ2M",
-                                h6("download example file"),
-                                target = "_blank")
-                     )
-                 ),
-                 multiple = FALSE,
-                 accept = c(
-                   '.csv',
-                   '.txt'
-                 )
+               conditionalPanel(condition = "input.tab == 'challenge'",
+                                fileInput(
+                                  "subm",
+                                  div("Choose submission file",
+                                      div(tags$a(href = "https://drive.google.com/uc?export=download&id=0B9o4VIJJSodfOGhYUkFlalJ4NXM",
+                                                 h6("download example file"),
+                                                 target = "_blank")
+                                      )
+                                  ),
+                                  multiple = FALSE,
+                                  accept = c(
+                                    '.csv',
+                                    '.txt'
+                                  )
+                                )
+               ),
+               conditionalPanel(condition = "input.tab == 'challenge_2'",
+                                fileInput(
+                                  "subm_2",
+                                  div("Choose submission file",
+                                      div(tags$a(href = "https://drive.google.com/uc?export=download&id=0B9o4VIJJSodfOGhYUkFlalJ4NXM",
+                                                 h6("download example file"),
+                                                 target = "_blank")
+                                      )
+                                  ),
+                                  multiple = FALSE,
+                                  accept = c(
+                                    '.csv',
+                                    '.txt'
+                                  )
+                                )
                ),
                div(actionButton(inputId = "submit",
                                 label = "Submit", 
@@ -46,6 +65,7 @@ tabPanel("Challenge",
          ),
          fluidRow(
            conditionalPanel(condition = "(input.tab == 'challenge') && (input.dataset == 'Training set')",
+           #conditionalPanel(condition = "(input.tab == 'challenge')",
                             box(title = strong("Leaderboard"),
                                 solidHeader = TRUE,
                                 width = 12, 
@@ -54,22 +74,22 @@ tabPanel("Challenge",
                                   column(width = 4,
                                          conditionalPanel(
                                            condition = "input.switch == true",
-                                           h4(strong("Evaluation per SNP"))
+                                           h4(strong("Evaluation per region"))
                                          ),
                                          conditionalPanel(
                                            condition = "input.switch == false",
-                                           h4(strong("Evaluation per region"))
+                                           h4(strong("Evaluation per SNP"))
                                          )
                                   ),
                                   column(width = 8,
                                          style = "margin-top: 12px;",
                                          materialSwitch(inputId = "switch", 
-                                                        label = " ", 
+                                                        label = "Toggle between SNP-wise and region-wise evaluation", 
                                                         status = "primary", 
                                                         right = TRUE)
                                          
                                   )
- 
+                                  
                                 ),
                                 
                                 # Leaderboard panel
