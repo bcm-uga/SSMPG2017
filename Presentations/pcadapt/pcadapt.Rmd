@@ -106,12 +106,11 @@ library(bigsnpr)
 ```{r,results="hide",warning=FALSE,message=FALSE,echo=FALSE}
 library(bigstatsr)
 library(bigsnpr)
-rr<-readRDS("sim1a.rds")
-G<-add_code256(big_copy(t(rr$G),type="raw"),code=bigsnpr:::CODE_012)
+G<-add_code256(big_copy(t(training$G),type="raw"),code=bigsnpr:::CODE_012)
 ```
 
 ```{r,results="hide",warning=FALSE,message=FALSE,echo=FALSE,fig.height = 3, fig.width = 5}
-newpc<-snp_autoSVD(G=G,infos.chr =rr$chromosome,infos.pos = rr$position)
+newpc<-snp_autoSVD(G=G,infos.chr =training$chromosome,infos.pos = training$position)
 plot(newpc)
 ```
 
