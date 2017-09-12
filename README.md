@@ -116,8 +116,82 @@ SelEstim uses [OpenMP](href{http://openmp.org/wp/) to implement multithreading, 
 > (assuming gcc has been installed in the /usr/local/ subdirectory.)
 
 ### Install SweeD
+SweeD is hosted by the github of Nikolaos Alachiotis (https://github.com/alachins/sweed). It's a C software, so you need to download the source code and compile it in your machine. You need to:
 
-**TO COMPLETE** by P Pavlidis.
+- go to https://github.com/alachins/sweed
+
+- Click on the Green button "Clone or download". You will see a link "https://github.com/alachins/sweed.git". 
+
+- Copy that link (https://github.com/alachins/sweed.git)
+
+- Go to your terminal and your preferred folder (e.g. software), and type:
+``` 
+git clone https://github.com/alachins/sweed.git
+```
+
+This will download the sweed source code from the github repository, and it will create a folder called sweed
+
+- change directory within sweed
+
+``` 
+cd sweed
+```
+- There are several versions of the code. The simplest one uses only a single thread. To compile it you should type:
+```
+make -f Makefile.gcc
+```
+
+- If you want to compile the pthreads version, and be able to exploit multiple treads of your PC type:
+```
+make clean
+make -f ./Makefile.PTHREADS.gcc
+```
+**YOu need to remove the \*.o files before compiling. The reason is that it's possible that \*.o files are associated to another version and you will not be able to produce eventually the executable**
+
+Now, you should have a running version of SweeD within the sweed directory. 
+To be able to run SweeD in any folder of your PC, please (i) add the sweed directory in your path, or (ii) copy the SweeD executable in a folder within your path. **Don't do both, there is no need**
+For (i): open the .bashrc file with your favorite editor e.g. emacs, and add the line:
+```
+PATH=$PATH:<SWEED FOLDER>
+export PATH
+``` 
+**Don't forget the PATH variable, or your PATH will not be correct and you will not be able to run many commands in Linux**
+For (ii): assuming that $HOME/bin/ is in your PATH, simply:
+``` 
+cp SweeD $HOME/bin/
+```
+
+To run SweeD and assuming that the input file is called **input.vcf**: 
+
+just type:
+``` 
+SweeD -input input.VCF -grid 1000 -name MYRUN
+```
+### Install OmegaPlus (NOT FOR THE CONTEST)
+OmegaPlus detects the LD patterns *around* the target of beneficial mutation. To install:
+
+```
+git clone https://github.com/alachins/omegaplus.git
+cd omegaplus
+make clean
+make
+```
+
+### Install RAiSD (NOT FOR THE CONTEST)
+In contrast to SweeD, RAiSD uses all 3 signatures of a selective sweep, namely the reduction of polymorphism levels, the shift of the SFS, and the special patterns of LD. Instead of the full information for SFS and LD, it uses approximations based on SNP vectors. 
+
+RAiSD is hosted by github at https://github.com/alachins/raisd
+
+The following commands can be used to download and compile the source code. 
+
+    $ mkdir RAiSD
+    $ cd RAiSD
+    $ wget https://github.com/alachins/raisd/archive/master.zip
+    $ unzip master.zip
+    $ cd raisd-master
+    $ make
+    
+The executable is placed in the path RAiSD/raisd-master/bin/release. A link to the executable is placed in the installation folder, i.e., raisd-master.
 
 ##  2. Download datasets
 
