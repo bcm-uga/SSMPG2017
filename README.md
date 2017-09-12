@@ -208,6 +208,14 @@ The objective of the two data challenges is to find markers that are involved in
 
 To submit a list of markers involved in adaptation, you should use the [submission website](http://176.31.253.205/shiny/SSMPG2017/). The submitted file should be a .txt file with one column containing the indices of the candidate SNPs. An example of submission file containing a list of markers involved in adaptation is contained in the file [mysubmission.txt](https://drive.google.com/uc?export=download&id=0B9o4VIJJSodfOGhYUkFlalJ4NXM). 
 
+Here is a piece of R code that shows how to make a submission file
+
+```{r}
+training<-readRDS("Presentations/pcadapt/sim1a.rds")
+stat<-apply(training$G,FUN=mean,MARGIN=2)
+write(ou<-order(stat,decreasing = FALSE)[1:100],"ridicule_never_ _killed_anyone..txt",ncolumns=1)
+```
+
 ## 5. Evaluation
 
 ### Dahu challenge
