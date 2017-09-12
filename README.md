@@ -213,7 +213,7 @@ Here is a piece of R code that shows how to make a submission file
 ```{r}
 training<-readRDS("Presentations/pcadapt/sim1a.rds")
 stat<-apply(training$G,FUN=mean,MARGIN=2)
-write(ou<-order(stat,decreasing = FALSE)[1:100],"ridicule_never_ _killed_anyone..txt",ncolumns=1)
+write(ou<-order(stat,decreasing = FALSE)[1:100],"ridicule_never_killed_anyone.txt",ncolumns=1)
 ```
 
 ## 5. Evaluation
