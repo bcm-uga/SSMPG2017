@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ***
 ### Short introduction 
 
-Latent factor mixed models (LFMMs) are statistical regression models that can fit linear regression models to the data in order to test associations between a multidimensional set of response variables and a set of explanatory variables. The response variables can include multiple genotypes, and the explanatory variables can represent environmental measures or measures of phenotypic traits. LFMMs include unobserved variables, called latent factors, that correct the model for confounding effects due to population structure and other hidden causes. Yechnically, LFMMs are defined according to the following formula 
+Latent factor mixed models (LFMMs) are statistical regression models that can fit linear regression models to the data in order to test associations between a multidimensional set of response variables and a set of explanatory variables. The response variables can include multiple genotypes, and the explanatory variables can represent environmental measures or measures of phenotypic traits. LFMMs include unobserved variables, called latent factors, that correct the model for confounding effects due to population structure and other hidden causes. Technically, LFMMs are defined according to the following formula 
 $$
  Y = X B^T + U V^T + E
 $$
@@ -107,7 +107,7 @@ points(candidates, -log10(p.values[candidates]), cex = .5, pch = 19, col = "oran
 We write the corresponding genomic positions in a candidate list for submission to the ssmpg competition web-site.
 
 ```{r}
-write(file="mylist_lfmm_ridge.txt", sim1$position[candidates], ncol = 1)
+write(file="mylist_lfmm_ridge.txt", candidates, ncol = 1)
 ```
 
 
@@ -156,7 +156,7 @@ points(candidates, -log10(p.values[candidates]), cex = .5, pch = 19, col = "oran
 
 
 ```{r}
-write(file="mylist_lfmm_lasso.txt", sim1$position[candidates], ncol = 1)
+write(file="mylist_lfmm_lasso.txt", candidates, ncol = 1)
 ```
 
 ### Preprocessing the data 
@@ -179,7 +179,7 @@ We decide to filter out loci with MAF lower than 50 (five percent) and define a 
 
 ```{r}
 genotype.filtered <- genotype[,spectrum > 50]
-position.filtered <- sim1$position[spectrum > 50]
+index.filtered <- which(spectrum > 50)
 dim(genotype.filtered)
 ```
 
@@ -219,7 +219,7 @@ points(candidates, -log10(p.values[candidates]), cex = .5, pch = 19, col = "oran
 
 
 ```{r}
-write(file="mylist_lfmm_filter.txt", position.filtered[candidates], ncol = 1)
+write(file="mylist_lfmm_filter.txt", index.filtered[candidates], ncol = 1)
 ```
 
 ### Fitting LFMM with LEA 
@@ -237,7 +237,7 @@ Because **LEA::lfmm** is slower than **lfmm::lfmm** we use less individuals and 
 genotype <- genotype[seq(1,1000, by = 2),]
 spectrum <- apply(genotype, 2, sum)
 genotype.filtered <- genotype[,spectrum > 50]
-position.filtered <- sim1$position[spectrum > 50]
+index.filtered <- which(spectrum > 50)
 
 # creation of a genotype file: genotype.lfmm.
 LEA::write.lfmm(t(sim1$G), "genotype.lfmm")
@@ -262,7 +262,7 @@ project.lfmm = LEA::lfmm( "genotype.lfmm",
 pv = LEA::lfmm.pvalues(project.lfmm, K = 5)
 ```
 
-The file steps are common to all methods.
+The next steps are common to all methods.
 
 
 ```{r}
@@ -289,6 +289,6 @@ points(candidates, -log10(pv$pvalues[candidates]), cex = .5, pch = 19, col = "or
 
 
 ```{r}
-write(file="mylist_lfmm_LEA.txt", position.filtered[candidates], ncol = 1)
+write(file="mylist_lfmm_LEA.txt", index.filtered[candidates], ncol = 1)
 ```
 
