@@ -29,6 +29,14 @@ output:
 
 5. [Keurcien Luu](https://github.com/keurcien) is in the room, he develops the R package and can answer questions.
 
+## Some maths
+
+1. For each SNP, *pcadapt* computes a vector of z-scores $(z_1,\dots,z_K)$ that corresponds to the z-scores obtained when regressing a SNP by the $K$ PC.
+
+2. Robust [Mahalanobis distances](https://en.wikipedia.org/wiki/Mahalanobis_distance) are computed based on all vectors of z-scores.
+
+3. Mahalanobis distance can be approximated by a constant (genomic inflation factor) times a chi-square distribution with $K$ degrees of freedom.
+
 #Using pcadapt to look for local adaptation in populations of Dahu 
 
 
