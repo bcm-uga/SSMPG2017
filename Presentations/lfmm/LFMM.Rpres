@@ -1,4 +1,4 @@
-Latent Factor Mixed Models (LFMM)
+Latent Factor Mixed Models (LFMMs)
 ========================================================
 author: Olivier Francois
 date: SSMPG17, September 10, 2017
@@ -14,7 +14,20 @@ Outline
 - R packages **lfmm** and **LEA**
 
 
-- Examples with one SSMPG17 data set
+- Examples with the dahu SSMPG17 data set
+
+
+Basic principles
+========================================================
+
+- Natural selection can generate clinal variation in allele frequency across geographic space.
+
+- Selection can be detected by evaluating correlation between 
+allele frequency and ecological gradients (used as proxies for selection pressures).
+
+- Difficulty: Demography can also create similar variation, and correlation methods need to correct for demographic effects.
+
+
 
 
 Model definition
@@ -66,17 +79,38 @@ Model Fit
 - Other methods include **cate**, **sva** (2 methods), **famt**, etc.
 
 
+Association testing
+========================================================
+
+- LFMMs perform statistical test of the null-hypothesis $B=0$ 
+
+$$
+ Y = X B^T + U V^T + E
+$$
+
+
+- where $B$ is the $p \times d$ matrix of effects for the explanatory variables,
+
+- Null hypothesis testing: $B = 0$ (neutrality)
+
+
+
+Loading the data 
+========================================================
+
+```{r}
+dahu <- readRDS("sim1a.rds")
+# extract scaled genotypes
+scaled.genotype <- scale(as.matrix(t(dahu$G)))
+# extract scaled phenotypes
+x <- scale(as.matrix(dahu$phenotype1))
+```
+
+
+
 
 Determining the number of latent factors 
 ========================================================
-
-```{r, echo=FALSE}
-sim1 <- readRDS("sim1a.rds")
-# extract scaled genotypes
-scaled.genotype <- scale(as.matrix(t(sim1$G)))
-# extract scaled phenotypes
-x <- scale(as.matrix(sim1$phenotype1))
-```
 
 
 Use principal component analysis of the genotype matrix to evaluate 'population structure' in the genotypic data. 
@@ -115,12 +149,13 @@ We now apply the **lfmm_test** function
 
 ```{r}
 lfmm.test <- lfmm::lfmm_test(Y = scaled.genotype, X = x, lfmm = lfmm.ridge, calibrate = "gif")
-p.values <- lfmm.test$calibrated.pvalue
+
+pv.ridge <- lfmm.test$calibrated.pvalue
 ```
 
 
 ```{r, echo = FALSE}
-plot(-log10(p.values), pch = 19, col = "blue")
+plot(-log10(pv.ridge), pch = 19, col = "blue")
 ```
 
 
@@ -152,21 +187,21 @@ We now apply the **lfmm_test** function to the **lfmm.lasso** object
 
 ```{r}
 lfmm.test <- lfmm::lfmm_test(Y = scaled.genotype, X = x, lfmm = lfmm.lasso, calibrate = "gif")
-p.values <- lfmm.test$calibrated.pvalue
+pv.lasso <- lfmm.test$calibrated.pvalue
 ```
 
 
 ```{r, echo = FALSE}
-plot(-log10(p.values), cex = .5, pch = 19, col = "blue")
+plot(-log10(pv.lasso), pch = 19, col = "blue")
 ```
 
 
-FDR control methods: **qvalue**
+FDR control methods: qvalue
 ========================================================
 
 
 ```{r}
-qv <- qvalue::qvalue(p.values)
+qv <- qvalue::qvalue(pv.ridge)
 plot(qv)
 ```
 
@@ -180,16 +215,28 @@ Final step: extracting candidates
 
 
 ```{r}
-qval <- qvalue::qvalue(p.values, fdr.level = 0.025)
-candidates <- which(qval$significant)
+qv <- qvalue::qvalue(pv.ridge, fdr.level = 0.025)
+candidates <- which(qv$significant)
 ```
 
 ```{r, echo = FALSE}
-plot(-log10(p.values), cex = .5, pch = 19, col = "grey")
-points(candidates, -log10(p.values[candidates]), pch = 19, col = "orange")
+plot(-log10(pv.ridge), cex = .5, pch = 19, col = "grey")
+points(candidates, -log10(pv.ridge[candidates]), pch = 19, col = "orange")
 ```
 
 
 
 
+Additional comments:
+========================================================
+
+- **plink**-like preprocessing steps can improve signal detection: Filter out low frequency variants (MAF < 5-10%), use LD pruning when estimating latent factors
+
+- Consider **LEA::lfmm** MCMC, slower but it could lead to more  results.
+
+- See the markdown doc in the github repository
+
+
+Questions?
+========================================================
 
