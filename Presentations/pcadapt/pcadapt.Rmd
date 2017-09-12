@@ -23,7 +23,11 @@ output:
 
 2. By contrast to population-based approaches ($F_{ST}$), the package can handle admixed individuals and does not require to group individuals into predefined populations.
 
-3. When hierarchical population structure (e.g. population divergence with 3 or more pops, range expansion), it generates less false discoveries than $F_{ST}$ statistics.
+3. When hierarchical population structure (e.g. population divergence with 3 or more pops, range expansion), it generates less false discoveries than $F_{ST}$.
+
+4. There is a nice [vignette](https://cran.r-project.org/web/packages/pcadapt/vignettes/pcadapt.html) that explains how to use the software.
+
+5. [Keurcien Luu](https://github.com/keurcien) is in the room, he develops the R package and can answer questions.
 
 #Using pcadapt to look for local adaptation in populations of Dahu 
 
@@ -135,4 +139,9 @@ snp_manhattan(gwas , CHR, unlist(tapply(CHR, CHR, seq_along)),
               dist.sep.chrs = 100,ind.highlight = ou) 
 ```
 ```
+
+##Shitty weather
+<img src="Aussois.jpg" width="400"  />
+
+Light Rain in Wednesday and heavy Rain on Thursday.
 

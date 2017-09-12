@@ -5,7 +5,7 @@ Repository for the [Data challenge about Software and Statistical Methods for Po
 
 ##  1. Install software
 
-### Install R and R-studio
+### Install R and Rstudio
 To participate to the challenge, you need to install [R](https://cran.r-project.org/) on your computer. To make R easier to use, we suggest to install [RStudio](https://www.rstudio.com/), which is an integrated development environment (IDE) for R.
 
 ### Install R packages (LEA/LFMM, OutFLANK, pcadapt, rehh)
