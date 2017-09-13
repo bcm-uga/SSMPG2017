@@ -30,6 +30,9 @@ Coffee break
 * 12:00-13:30
 Lunch
 
+* 17:30-18:00
+Coffee break
+
 * 18:00-19:30 Presentations about the Cichlid challenge. Each presentation should contain 3 slides containing 
     1. Materials and Methods
     2. Results
@@ -237,7 +240,7 @@ Download the [training](https://drive.google.com/open?id=0B2RlEpeOlBn_VjF3ZnVocV
 
 The second challenge is the **Cichlid** challenge. Teams are asked to analyze true data for the  Cichlid challenge.
 
-Download the [data](https://drive.google.com/open?id=0B2RlEpeOlBn_SC03ZVBVY1VCMW8) for the Cichlid challenge.
+Download the [data](https://drive.google.com/open?id=0B2RlEpeOlBn_cFRsc1lJdEd0RHc) for the Cichlid challenge.
 
 ## 3. Form a team
 
