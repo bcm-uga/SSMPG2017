@@ -1,4 +1,44 @@
-#Validation and Training Data of the Dahu challenge have been updated at 17:03 on Tuesday (REHH format)
+**Warning** 
+Validation Data of the Dahu challenge have been updated at 17:03 on Tuesday
+
+**Updated program**
+
+Wednesday: Dahu challenge
+
+* 12:00-16:00
+Moutain walks
+
+* 19:00
+End of the Dahu challenge
+
+* 19:00-19:30
+Introduction about the Cichlid challenge
+
+* 19:30-20:30
+Dinner
+
+* 20:30-22:00 Presentations about the Dahu challenge. Each presentation should contain 3 slides containing 
+    1. Materials and Methods
+    2. Results
+    3. Discussion
+
+Thursday: Cichlid challenge
+
+* 10:00-10:30
+Coffee break
+
+* 12:00-13:30
+Lunch
+
+* 18:00:19:30 Presentations about the Cichlid challenge. Each presentation should contain 3 slides containing 
+    1. Materials and Methods
+    2. Results
+    3. Discussion
+
+
+* 20:00-21:30
+Gala Dinner with [pierrade](https://i.pinimg.com/736x/3c/f3/46/3cf346cb13e8d0df5190b406388a7f68--fondue-et-raclette-sauces.jpg)
+
 
 # SSMPG 2017
 Repository for the [Data challenge about Software and Statistical Methods for Population Genetics (SSMPG 2017)](https://data-institute.univ-grenoble-alpes.fr/data-institute/news-and-events/data-challenge-on-software-and-statistical-methods-for-population-genetics-ssmpg-2017--713800.htm) (Aussois, September 11-15 2017)
