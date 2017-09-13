@@ -30,7 +30,7 @@ Coffee break
 * 12:00-13:30
 Lunch
 
-* 18:00:19:30 Presentations about the Cichlid challenge. Each presentation should contain 3 slides containing 
+* 18:00-19:30 Presentations about the Cichlid challenge. Each presentation should contain 3 slides containing 
     1. Materials and Methods
     2. Results
     3. Discussion
