@@ -243,7 +243,7 @@ Download the [training](https://drive.google.com/open?id=0B2RlEpeOlBn_VjF3ZnVocV
 
 The second challenge is the **Cichlid** challenge. Teams are asked to analyze true data for the  Cichlid challenge.
 
-Download the [data](https://drive.google.com/open?id=0B2RlEpeOlBn_cFRsc1lJdEd0RHc) for the Cichlid challenge.
+Download the [data](https://drive.google.com/open?id=0B2RlEpeOlBn_VXh3Rl9BSng5czA) for the Cichlid challenge.
 
 ## 3. Form a team
 
