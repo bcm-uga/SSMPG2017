@@ -1,5 +1,5 @@
-**Warning** 
-Validation Data of the Dahu challenge have been updated at 17:03 on Tuesday
+**New on github** 
+Have a look to the [presentation](Presentations/Cichlid) that introduces the Cichlid challenge.
 
 **Updated program**
 
