@@ -1,5 +1,8 @@
 **New on github** 
+
 Have a look to the [presentation](Presentations/Cichlid) that introduces the Cichlid challenge.
+
+The final ranking (evaluation set) for the Dahu challenge is available [online](http://176.31.253.205/shiny/SSMPG2017/). **Congrats to all participants**
 
 **Updated program**
 
