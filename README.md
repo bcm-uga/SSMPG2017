@@ -293,5 +293,6 @@ Submissions will be evaluated based on subjective evaluations by instructors bas
 During the SSMPG prize ceremony, each team will be asked to present 2-3 slides for each challenge.
 
 ## 6. Simulation results
-A comparison of results for the first QTL region. Vertical lines indicate quatitative trait nucleotides that have an effect on the trait under selection.
-https://docs.google.com/document/d/1HTLXB-I4qWI6yp0u-ysqXq4224EWfJiVdT5bGayI63s/edit
+A comparison of results for the first QTL region. Vertical lines indicate quatitative trait nucleotides that have an effect on the trait under selection.[Quick look google doc](https://docs.google.com/document/d/1HTLXB-I4qWI6yp0u-ysqXq4224EWfJiVdT5bGayI63s/edit)
+
+[A full Markdown document](http://rpubs.com/lotterhos/SSMPG2017_Results)
