@@ -1,0 +1,113 @@
+---
+title: "myanalysis_cichlid"
+author: "Mike B"
+date: "12 septembre 2017"
+output: html_document
+---
+
+#pcadapt when not accounting for LD
+
+```{r,message=FALSE,echo=FALSE,,results="hide"}
+require(pcadapt)
+require(qvalue)
+
+cichlid<-readRDS("/Users/mblum/home/mblum/Courant/fonctions_R/SSMPG2017/mysubmission /cichlid/cichlid.rds")
+pop<-cichlid$fishing_pressure
+aux<-pcadapt(cichlid$G,K=30)
+```
+
+```{r,warning=FALSE,message=FALSE,fig.height = 2.5, fig.width = 4.5}
+plot(aux,option="screeplot")
+plot(aux,option="scores",pop=pop,i=1,j=2)
+
+```
+I will consider 2 PCs only. The other PCs are due to LD.
+
+
+```{r,results="hide",warning=FALSE,message=FALSE,echo=FALSE}
+aux<-pcadapt(cichlid$G,K=2)
+plot(qvalue(aux$pvalues))
+write(ou<-order(aux$pvalues)[1:1000],"submission_cichlid.txt",ncolumns=1)
+nbsnp<-dim(cichlid$G)[1]
+  plot((1:nbsnp),-log10(aux$pvalues),col=as.factor(cichlid$chr),pch=19,cex=.2)
+  points((1:nbsnp)[ou],(-log10(aux$pvalues))[ou],col=4,pch=19,cex=.2)
+
+```
+
+##Accounting for LD
+
+```{r,results="hide",warning=FALSE,message=FALSE,echo=FALSE}
+library(bigstatsr)
+library(bigsnpr)
+G<-add_code256(big_copy(t(cichlid$G),type="raw"),code=bigsnpr:::CODE_012)
+```
+
+```{r,results="hide",warning=FALSE,message=FALSE,echo=FALSE,fig.height = 3, fig.width = 5}
+maf<-snp_MAF(G)
+keep<-which(maf>=0.05)
+chr<-readr::parse_number(cichlid$chromosome)[keep]
+pos<-cichlid$position[keep]
+Gp<-big_copy(G,ind.col = keep)
+newpc<-snp_autoSVD(G=Gp,infos.chr =chr,infos.pos = pos)
+plot(newpc)
+```
+
+##Score plot
+```{r,fig.height = 3, fig.width = 5}
+
+  plot(newpc$u[,1],newpc$u[,2],type="n")
+  text(newpc$u[,1],newpc$u[,2],labels=pop)
+```
+
+##Remove 2 individuals
+```{r,fig.height = 3, fig.width = 5}
+indiv<-which(newpc$u[,1]<0.3)
+Gp2<-big_copy(Gp,ind.row  = indiv)
+pop2<-pop[indiv]
+newpc<-snp_autoSVD(G=Gp2,infos.chr =chr,infos.pos = pos,k=5)
+plot(newpc)
+plot(newpc$u[,1],newpc$u[,2],type="n")
+  text(newpc$u[,1],newpc$u[,2],labels=pop2)
+```
+
+##Calibration of p-values 
+
+```{r,fig.height = 3, fig.width = 5}
+  gwas<-snp_gc(snp_pcadapt(Gp2,U.row = newpc$u[,1:2]))
+pval<-predict(gwas,log10=F)
+hist(pval,breaks=50)
+```
+
+The distribution is uniform excess for an excess of small P-values (outliers).
+
+##Choice of threshold for outlier detection
+
+```{r,fig.height = 2.5, fig.width = 4.5}
+require(qvalue)
+plot(qvalue(pval))
+```
+-> Keep around 500 SNPs.
+
+```{r}
+write(ou<-order(pval)[1:500],"submission_cichlid_LD.txt",ncolumns=1)
+```
+
+##Manhattan plot
+```{r,fig.height = 3, fig.width = 5}
+snp_manhattan(gwas , chr, pos, 
+              dist.sep.chrs = 1e5,ind.highlight = ou) 
+```
+
+##Let us have a look to the top hit
+```{r,fig.height = 3, fig.width = 5}
+top<-which(pval==min(pval))
+boxplot(Gp2[,top[1]]~as.factor(pop2))
+```
+The differences are almost fixed for the top hit between Lake Malumbe pop and others.
+
+##Let us have a look to the top hit in the 2nd contig
+```{r,fig.height = 3, fig.width = 5}
+bool<-(chr==262) & (pval==min(pval[chr==262]))
+top<-which(bool)
+boxplot(Gp2[,top[1]]~as.factor(pop2))
+```

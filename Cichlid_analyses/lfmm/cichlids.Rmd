@@ -1,0 +1,93 @@
+---
+title: "cichlids"
+author: "Olivier Francois"
+date: "14/9/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Reading the cichlids data
+
+I started with reading the rds binary file, and stored it in an R object.
+
+```{r}
+cichlids <- readRDS("cichlid_data/cichlid.rds")
+genotype <- t(cichlids$G)
+x.env  <- cichlids$fishing_pressure
+```
+
+The *Malumbe* region experimented stronger fishing pressure. I modified the **fishing_pressure** variable to put more weights on the southern region.
+
+```{r}
+x.env[x.env == "1"] <- 1
+x.env[x.env == "2"] <- 4
+x.env[x.env == "4"] <- 20
+x <- as.matrix(as.numeric(x.env))
+```
+
+
+## MAF filtering and scaling
+
+I filtered out for MAF lower than 5 percent. The filtered response matrix is **y**.
+
+```{r}
+spectrum <- apply(genotype, 2, sum)
+plot(table(spectrum))
+filtering <- spectrum > 6 & spectrum < 143
+y <- genotype[,filtering]
+```
+
+I defined scaled variables.
+
+```{r}
+y.sc <- scale(as.matrix(y))
+x.sc <- scale(x)
+```
+
+
+## Analysing population structure
+
+```{r}
+pc.c <- prcomp(y.sc)
+plot(pc.c$x, col = as.numeric(cichlids$fishing_pressure) , pch = 19 ) 
+```
+
+
+I retained 3 clusters.
+
+
+## Performing LFMM tests
+
+I ran LFMM ridge with 5 factors (structure + other factors). 
+
+```{r}
+lfmm.res <- lfmm::lfmm_ridge(Y = y.sc, X = x.sc, K = 5, lambda = 1e-5)
+p <-  lfmm::lfmm_test(Y = y.sc, X = x.sc, lfmm = lfmm.res, calibrate = "gif")
+```
+
+```{r}
+contigs <- as.numeric(as.factor(cichlids$chromosome))
+plot(-log10(p$pvalue), cex = .2, pch = 19, col = contigs[filtering])
+```
+
+## Positions
+
+
+```{r}
+cbind(cichlids$chromosome[filtering][-log10(p$pvalue) > 8],
+cichlids$position[filtering][-log10(p$pvalue) > 8] )
+```
+
+
+## Qqplot
+
+```{r}
+qqplot(-log10(runif(sum(filtering))) , -log10(p$pvalue) , cex = .3)
+abline(0, 2, col = 2)
+```
+
+
+
