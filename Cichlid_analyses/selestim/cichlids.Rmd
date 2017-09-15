@@ -1,0 +1,80 @@
+---
+title: "Cichlid example"
+output: html_document
+---
+
+### By [Renaud Vitalis](mailto:renaud.vitalis@inra.fr)
+
+### Running SelEstim on the cichlid example
+
+>I have used the following command line to analyse the dataset filtered with 1% maf:
+
+```
+./src/selestim -file /home/rvitalis/work/SSMPG-2017/data/cichlid-filtmaf1p.selestim -outputs cichlid-filtmaf1p/ -npilot 25 -lpilot 500 -burnin 50000 -length 100000 -thin 25 -threads 16 -calibration -pod_nbr_loci 6000 
+```
+
+>In this run, the data were read from the file ```cichlid-filtmaf1p.selestim```, and the outputs would be printed out in the ```cichlid-filtmaf1p/``` subdirectory. 100,000 updating steps were completed after 25 short pilot runs of 500 iterations each and a burn-in of 50,000 steps. Samples were collected from the Markov chain for all the model parameters every 25 steps (thinning), yielding 4,000 observations. In this run, pseudo-observed data (pod) were generated using either the ```-calibration``` option, with 6,000 simulated SNPs.
+
+>Then I used the [R](http://www.r-project.org/) functions from the ```SelEstim.R``` file in the ```R/``` subdirectory of the archive:
+
+```{r}
+source("selestim/R/SelEstim.R")
+```
+
+>The function ```plot.delta()``` plots the posterior mean of the selection parameter for each locus (\(\delta_j\)). Here, the markers are just ordered as in the datafile.
+
+```{r}
+plot.delta(file = 'analyses/cichlid-filtmaf1p/summary_delta.out')
+```
+
+>The KLD values computed for the pod are then combined to obtain an empirical distribution. The quantiles of this empirical distribution are computed, and are used to calibrate the KLD observed for each locus in the original data: e.g., the 99%-quantile of the KLD distribution from the pod analysis provides a 1%-threshold KLD value, which is then used as a decision criterion to discriminate between selection and neutrality. A summary of the quantiles is stored in the ```calibration/KLD_quantiles.out``` output file. The results can be plotted using:
+
+```{r}
+plot.kld(file = 'analyses/cichlid-filtmaf1p/summary_delta.out',calibration_file = 'analyses/cichlid-filtmaf1p/calibration/summary_delta.out',limit = 0.01)
+```
+
+### Let's go a step further
+
+>First, let's read the output files of interest:
+
+```{r}
+delta <- read.table('analyses/cichlid-filtmaf1p/summary_delta.out',header = TRUE)
+sigma <- read.table('analyses/cichlid-filtmaf1p/summary_sigma.out',header = TRUE)
+kappa <- read.table('analyses/cichlid-filtmaf1p/summary_kappa.out',header = TRUE)
+```
+
+>Then, plot the KLD using RGB channels corresponding to the (\(\kappa_{ij}\)) for each population:
+
+```{r}
+calibration <- read.table('analyses/cichlid-filtmaf1p/calibration/summary_delta.out',h = T)
+threshold <- quantile(calibration$KLD,(1 - 0.01))
+outliers <- which(delta$KLD >= threshold)
+non.outliers <- which(delta$KLD < threshold)
+
+plot(delta$KLD,cex = 0.25,xlab = "Position (Mb)",ylab = "Kullback-Leibler divergence (KLD)",pch = 16,col = "grey",type = "n")
+points(seq(1,length(delta$KLD))[non.outliers],delta$KLD[non.outliers],cex = 0.25,xlab = "Position (Mb)",ylab = "Kullback-Leibler divergence (KLD)",pch = 16,col = "grey")
+points(seq(1,length(delta$KLD))[outliers],delta$KLD[outliers],cex = 0.25,xlab = "Position (Mb)",ylab = "Kullback-Leibler divergence (KLD)",pch = 8,col = rgb(kappa[outliers,2:4]))
+```
+
+>Using the RGB channels enables us to appreciate the contrasts between populations. The color key is as follows:
+
+```{r}
+library(scatterplot3d)
+dummy <- read.table("dummy.txt")
+s3d <- scatterplot3d(dummy,color = rgb(dummy),pch = 16,xlab = "South West",ylab = "Malombe",zlab = "South East",cex.lab = 1.125,cex.main = 2.5,cex.symbol = 2.5)
+s3d.coords <- s3d$xyz.convert(dummy)
+labels <- c("(0,0,0)","(0,0,1)","(0,1,0)","(1,0,0)","(1,0,1)","(0,1,1)","(1,1,0)","(1,1,1)")
+text(s3d.coords$x,s3d.coords$y,labels = labels,pos = 3,cex = .75)
+```
+
+>Now, we can try and interpret how selection is presumably acting contrastingly between populations, for the different outlier regions in the cichlid data:
+
+```{r}
+plot(delta$KLD,cex = 0.25,xlab = "Position (Mb)",ylab = "Kullback-Leibler divergence (KLD)",pch = 16,col = "grey",type = "n")
+points(seq(1,length(delta$KLD))[non.outliers],delta$KLD[non.outliers],cex = 0.25,xlab = "Position (Mb)",ylab = "Kullback-Leibler divergence (KLD)",pch = 16,col = "grey")
+points(seq(1,length(delta$KLD))[outliers],delta$KLD[outliers],cex = 0.25,xlab = "Position (Mb)",ylab = "Kullback-Leibler divergence (KLD)",pch = 8,col = rgb(kappa[outliers,2:4]))
+
+text(8892,3,"Malombe vs. others",pos = 2,cex = 0.5,col = "black")
+text(20055,3,"South West vs. others",pos = 2,cex = 0.5,col = "black")
+text(24902,2.5,"Malombe vs. South East",pos = 3,cex = 0.5,col = "black")
+```

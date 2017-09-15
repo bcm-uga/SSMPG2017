@@ -1,0 +1,17 @@
+##3 independant analyses under the core model (with estimation of BF using Imp. Sampling)
+i_baypass -npop 3 -gfile cichlid.genobaypass.filtmaf1p -efile cichlid.trait -pilotlength 500 -burnin 2500 -outprefix anacovis1 -nthreads 4
+i_baypass -npop 3 -gfile cichlid.genobaypass.filtmaf1p -efile cichlid.trait -pilotlength 500 -burnin 2500 -outprefix anacovis2 -seed 6001 -nthreads 4
+i_baypass -npop 3 -gfile cichlid.genobaypass.filtmaf1p -efile cichlid.trait -pilotlength 500 -burnin 2500 -outprefix anacovis3 -seed 7001 -nthreads 4
+
+##Auxiliary variable model (computation of BFmc)
+i_baypass -npop 3 -gfile cichlid.genobaypass.filtmaf1p -efile cichlid.trait -omegafile anacovis1_mat_omega.out -auxmodel -pilotlength 500 -burnin 2500 -outprefix anaaux -nthreads 4
+
+#Auxiliary variable model with Ising model to account for spatial dependancy of SNPs
+i_baypass -npop 3 -gfile cichlid.genobaypass.filtmaf1p -efile cichlid.trait -omegafile anacovis1_mat_omega.out -auxmodel -isingbeta 1.0 -pilotlength 500 -burnin 2500 -outprefix anaauxisb1 -nthreads 4
+
+#######################################
+###COMPUTING CONTRASTS WITH THE LATEST VERSION OF BAYPASS (NOT YET RELEASED)
+#######################################
+~/Bureau/CODES/baypass/sources/i_baypass -npop 3 -gfile cichlid.genobaypass.filtmaf1p -contrastfile cichlid.contrasts -pilotlength 500 -burnin 2500 -outprefix anacontrasts -nthreads 4
+
+~/Bureau/CODES/baypass/sources/i_baypass -npop 3 -gfile G.cichlid.pods -efile cichlid.trait -contrastfile cichlid.contrasts -outprefix anapod -nthreads 4 -pilotlength 500 -burnin 2500
