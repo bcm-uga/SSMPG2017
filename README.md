@@ -1,54 +1,16 @@
-**New on github** 
-Cichlid data: new files for REHH at 11:46
 
-Have a look to the [presentation](Presentations/Cichlid) that introduces the Cichlid challenge.
-
-The final ranking (evaluation set) for the Dahu challenge is available [online](http://176.31.253.205/shiny/SSMPG2017/). **Congrats to all participants**
-
-**Updated program**
-
-Wednesday: Dahu challenge
-
-* 12:00-16:00
-Moutain walks
-
-* 19:00
-End of the Dahu challenge
-
-* 19:00-19:30
-Introduction about the Cichlid challenge
-
-* 19:30-20:30
-Dinner
-
-* 20:30-22:00 Presentations about the Dahu challenge. Each presentation should contain 3 slides containing 
-    1. Materials and Methods
-    2. Results
-    3. Discussion
-
-Thursday: Cichlid challenge
-
-* 10:00-10:30
-Coffee break
-
-* 12:00-13:30
-Lunch
-
-* 17:30-18:00
-Coffee break
-
-* 18:00-19:30 Presentations about the Cichlid challenge. Each presentation should contain 3 slides containing 
-    1. Materials and Methods
-    2. Results
-    3. Discussion
-
-
-* 20:00-21:30
-Gala Dinner with [pierrade](https://i.pinimg.com/736x/3c/f3/46/3cf346cb13e8d0df5190b406388a7f68--fondue-et-raclette-sauces.jpg)
 
 
 # SSMPG 2017
 Repository for the [Data challenge about Software and Statistical Methods for Population Genetics (SSMPG 2017)](https://data-institute.univ-grenoble-alpes.fr/data-institute/news-and-events/data-challenge-on-software-and-statistical-methods-for-population-genetics-ssmpg-2017--713800.htm) (Aussois, September 11-15 2017)
+
+
+**Thanks to all participants for coming, see you at SSMPG 2019.**
+
+![Participants to SSMPG 2017](participants_ssmpg2017.jpg?raw=true)
+
+The final ranking (evaluation set) for the Dahu challenge is available [online](http://176.31.253.205/shiny/SSMPG2017/). 
+
 
 [Introductory lecture about Genome Scans](https://docs.google.com/document/d/1wQjVDZ2ZTPZoGVjSvLdqv-IMfpuunxYKHysAop27Mlo/edit#)
 
