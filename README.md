@@ -5,7 +5,7 @@
 Repository for the [Data challenge about Software and Statistical Methods for Population Genetics (SSMPG 2017)](https://data-institute.univ-grenoble-alpes.fr/data-institute/news-and-events/data-challenge-on-software-and-statistical-methods-for-population-genetics-ssmpg-2017--713800.htm) (Aussois, September 11-15 2017)
 
 
-**Thanks to all participants for coming, see you at SSMPG 2019.**
+**Thanks to all participants for attending to SSMPG 2017, see you at SSMPG 2019.**
 
 ![Participants to SSMPG 2017](participants_ssmpg2017.jpg?raw=true)
 
