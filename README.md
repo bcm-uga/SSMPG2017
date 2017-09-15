@@ -9,10 +9,10 @@ Repository for the [Data challenge about Software and Statistical Methods for Po
 
 ![Participants to SSMPG 2017](participants_ssmpg2017.jpg?raw=true)
 
-The final ranking (evaluation set) for the Dahu challenge is available [online](http://176.31.253.205/shiny/SSMPG2017/). 
+If you want to train, you can continue to submit lists of candidates SNPs [online](http://176.31.253.205/shiny/SSMPG2017/). 
 
 
-[Introductory lecture about Genome Scans](https://docs.google.com/document/d/1wQjVDZ2ZTPZoGVjSvLdqv-IMfpuunxYKHysAop27Mlo/edit#)
+[Introductory lecture about Genome Scans and about the Data Challenges](https://docs.google.com/document/d/1wQjVDZ2ZTPZoGVjSvLdqv-IMfpuunxYKHysAop27Mlo/edit#)
 
 ##  1. Install software
 
